@@ -9,8 +9,7 @@
 #include <QAudioBuffer>
 #include <QTextStream>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
@@ -23,7 +22,7 @@ int main(int argc, char *argv[])
     int lecture = 0 ;
     // lecture clavier
     while(lecture==0){
-        lecture = son->partition->lectureClavier() ; */
+        lecture = son->partition->lectureClavier() ;
     }
 /*    son->lecturePartition(son->partition) ;*/
 

@@ -44,20 +44,20 @@ void Partition::ajoutNote(char c, int t){
 
 /* cette fonction lit ce que l'utilisateur tape au clavier et le
  * sauvegarde dans listeNotes et listeTemps */
-int Partition::lectureClavier(QTextStream notestapees){
+int Partition::lectureClavier(/*QTextStream notestapees*/){
 
  //   QObject* parent ;
  //   QProcess *process = new QProcess(parent) ;
    // QTextStream stream(stdin) ;
 
     clock_t start = clock(), diff;
-    char caractere = stream.padChar().toLatin1() ;
+    //char caractere = stream.padChar().toLatin1() ;
 
   //  char caractere = getch() ;
 
 
 
-    if (caractere!='!'){
+    /*if (caractere!='!'){
 
         if(caractere!=' '){
             std::cout << caractere ; // inutile, sert juste à vérifier que le programme tourne
@@ -67,9 +67,9 @@ int Partition::lectureClavier(QTextStream notestapees){
             return 0 ;
         }
     }
-    else{
+    else{ */
         return 1 ;
-    }
+ //   }
 }
 
 Partition::~Partition()
