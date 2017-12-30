@@ -33,7 +33,8 @@ SOURCES += \
 HEADERS += \
         mainwindow.h \
     partition.h \
-    son.h
+    son.h \
+    consolereader.h
 
 FORMS += \
         mainwindow.ui

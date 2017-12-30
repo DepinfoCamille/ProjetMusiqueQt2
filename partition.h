@@ -16,7 +16,9 @@ class Partition
 {
     public:
         Partition();
-        void ajoutNote(char c,int t) ;
+        void ajoutNote(char c/*,int t*/) ;
+        void ajoutTemps(int t) ;
+
         virtual ~Partition();
         int lectureClavier() ;  // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé '\n'
                                 // c'est la fin de la partition

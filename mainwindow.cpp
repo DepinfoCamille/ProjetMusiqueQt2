@@ -4,21 +4,40 @@
 #include <QString>
 #include <QPixmap>
 #include <QLabel>
+#include <vector>
+
+#include <QApplication>
+#include <QTranslator>
+#include <QLocale>
+#include <QLibraryInfo>
+
+#include <time.h>
+#include <conio.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
+    this->p = new Partition() ;
+    this->dialogue = new BoitedeDialogue() ;
+
     ui->setupUi(this);
     QWidget *pic = new QWidget(this);
     pic->setStyleSheet("background-image: url(C:/Users/User/Desktop/2A/C++/5lignes.png)");
     pic->setGeometry(QRect(30,30,300,370));
-    ui->CLE->addItem("Cle de Sol");
-    ui->CLE->addItem("Cle de Fa");
+    ui->CLE->addItem("Clé de Sol");
+    ui->CLE->addItem("Clé de Fa");
+
+    ui->textEdit->hide() ;
+
+
     QObject::connect(ui->CLE, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(affichecle()));
-
-
+    QObject::connect(ui->boutonEcrirePartition, SIGNAL(clicked()), this,
+                     SLOT(afficherTexte()));
+    QObject::connect(ui->textEdit, SIGNAL(textChanged()), this,
+                     SLOT(ecrirePartition()));
 }
 
 void MainWindow::affichecle()
@@ -44,12 +63,40 @@ void MainWindow::affichecle()
 /*
     void MainWindow::affichedo(position, ligne, octave){
         if (octave == 3){
-
-
         }
     }
     */
 
+}
+
+void MainWindow::ecrirePartition() {
+
+ /*   std::cout << "Ecrivez votre partition ici : " << std::endl ;
+    QTextStream stream(stdin) ;
+
+    clock_t start = clock(), diff;
+    char caractere = stream.padChar().toLatin1() ;
+    std::cout << caractere << std::endl ;*/
+
+    QString notes = ui->textEdit->toPlainText() ;
+    char note = notes[notes.size()-1].toLatin1() ;
+    clock_t temps = clock() ;
+
+    if(note!='\n'){
+        this->p->ajoutNote(note) ;
+        std::cout <<"note : " << note << std::endl ;
+        std::cout <<"temps : " << temps << std::endl ;
+
+        this->p->ajoutTemps(temps) ;
+    }
+    else{
+        this->p->ajoutTemps(temps) ;
+    }
+    //ui->textEdit->clear() ;
+}
+
+void MainWindow::afficherTexte(){
+    ui->textEdit->show() ;
 }
 
 MainWindow::~MainWindow()
