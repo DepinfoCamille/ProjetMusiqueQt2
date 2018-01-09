@@ -27,14 +27,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
+    son.cpp \
     partition.cpp \
-    son.cpp
+    audiooutputstreamer.cpp \
+    affichernotes.cpp
 
 HEADERS += \
         mainwindow.h \
     partition.h \
     son.h \
-    consolereader.h
+    audiooutputstreamer.h \
+    affichernotes.h
 
 FORMS += \
         mainwindow.ui

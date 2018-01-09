@@ -2,10 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStackedWidget>
+#include <QSound>
 #include "partition.h"
 #include <time.h>
-
-#include "boitededialogue.h"
+#include <math.h>
 
 namespace Ui {
 class MainWindow;
@@ -19,11 +20,25 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     Partition* p ;
-    BoitedeDialogue* dialogue ;
+    QSound* lecture ;
+
 public slots:
+
+    /* Slots d'affichage*/
     void affichecle();
+    void afficherTempo() ;
+    void afficherCreationPartition() ;
+    void afficherEcouterPartition() ;
+
+    /* Slots agissant sur la partition */
+    void choisirTempo() ;
     void ecrirePartition() ;
-    void afficherTexte() ;
+    void ecouterPartition() ;
+
+
+signals:
+    void tempoDefini() ;
+    void partitionEcrite() ;
 
 private:
     Ui::MainWindow *ui;
