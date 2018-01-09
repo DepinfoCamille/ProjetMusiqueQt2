@@ -27,7 +27,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    son.cpp \
     partition.cpp \
     audiooutputstreamer.cpp \
     affichernotes.cpp
@@ -35,7 +34,6 @@ SOURCES += \
 HEADERS += \
         mainwindow.h \
     partition.h \
-    son.h \
     audiooutputstreamer.h \
     affichernotes.h
 
