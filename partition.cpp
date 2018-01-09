@@ -1,6 +1,5 @@
 #include "Partition.h"
 #include <iostream>
-#include <time.h>
 #include <conio.h>
 #include <math.h>
 #include <fstream>
@@ -88,12 +87,12 @@ void Partition::ajoutNote(char c){
  * Dans ce das, ajoutTemps renvoie 1
  * Sinon, elle renvoie 0
  */
-float Partition::ajoutTemps(float t){
+float Partition::ajoutTemps(clock_t t){
 
     if(!this->listeTemps.empty() /*&& !this->premiereValeur*/){
         float start = this->listeTemps.back() ;
 
-        if(nombredeDoublesCroches(t-start, this->tempo)==0.0){
+        if(nombredeDoublesCroches((float)t/CLOCKS_PER_SEC-start, this->tempo)==0.0){
             t+=listeTemps.back() ;
             this->listeTemps.pop_back() ;
             this->listeTemps.push_back(t) ;
@@ -101,18 +100,18 @@ float Partition::ajoutTemps(float t){
         }
 
         else{
-            this->listeTemps.push_back(t) ;
+            this->listeTemps.push_back((float)t/CLOCKS_PER_SEC) ;
             return 0.0 ;
         }
     }
 
     else{
-        this->listeTemps.push_back(t) ;
+        this->listeTemps.push_back((float)t/CLOCKS_PER_SEC) ;
         return 0.0 ;
     }
 }
 
-/** Cette fonction calcule la durée de chaque note à partir de listeTemps
+/** @brief Cette fonction calcule la durée de chaque note à partir de listeTemps
  * et la stocke dans listeDuree
  * listeTemps contient en effet seulement les temps où l'utilisateur appuie sur la touche
  */
@@ -125,7 +124,7 @@ void Partition::calculDuree(){
     }
 }
 
-/** Stocke le rythme de la partition (ex : "NOIRE", "NOIRE", "CROCHE" "CROCHE" "NOIRE")
+/** @brief Stocke le rythme de la partition (ex : "NOIRE", "NOIRE", "CROCHE" "CROCHE" "NOIRE")
  * dans listeRythme
  */
 void Partition::creeRythme(){ // Pour l'instant, on se limite aux croches
@@ -153,13 +152,12 @@ void Partition::creeRythme(){ // Pour l'instant, on se limite aux croches
 
 }
 
-/** Joue la partition
- * i.e émet un son à la durée et à la fréquence correspondant à chaques notes
+/** @brief Joue la partition
+ * i.e émet un son à la durée (en ms) et à la fréquence correspondant à chaques notes
  * de la partition
  */
 void Partition::jouer(){
 
-    //   vector<std::string>::iterator it;
        int entierFrequence ;
        QThread thread ;
 
@@ -167,18 +165,18 @@ void Partition::jouer(){
            entierFrequence = this->Partition::frequence(i) ;
            if(entierFrequence!=-1){
                std::cout << "on joue la note de numéro " <<entierFrequence <<std::endl ;
-               AudioOutputStreamer* pAudioOutputStreamer = new AudioOutputStreamer();
-               pAudioOutputStreamer->setFrequency(entierFrequence);
-               pAudioOutputStreamer->setLenght(1/((this->listeTemps[i]/CLOCKS_PER_SEC)) /*100000*CLOCKS_PER_SEC/(this->listeTemps[i])*//*/100*/);
+               AudioOutputStreamer* pAudioOutputStreamer = new AudioOutputStreamer(entierFrequence,(this->listeTemps[i]/CLOCKS_PER_SEC)/1000);
+          //     pAudioOutputStreamer->setFrequency(entierFrequence);
+            //   pAudioOutputStreamer->setLenght(1/((this->listeTemps[i]/CLOCKS_PER_SEC)) /*100000*CLOCKS_PER_SEC/(this->listeTemps[i])*//*/100*/);
                std::cout << "On joue la fréquence" << entierFrequence << std::endl ;
-               std::cout << "On attend " <<(100000*CLOCKS_PER_SEC/(this->listeTemps[i])) /*100000*CLOCKS_PER_SEC/(this->listeTemps[i])*//*/100*/ << "ms/µs" << std::endl ;
+               std::cout << "On attend " <<(this->listeTemps[i]) /*100000*CLOCKS_PER_SEC/(this->listeTemps[i])*//*/100*/ << "ms/µs" << std::endl ;
                pAudioOutputStreamer->start();
-               thread.msleep ((this->listeTemps[i]/CLOCKS_PER_SEC)/100) ;
+               thread.sleep ((this->listeTemps[i])) ;
            }
        }
    }
 
-/** Cette fonction associe une note de listeNotes à la fréquence correspondante
+/** @brief Cette fonction associe une note de listeNotes à la fréquence correspondante
  */
 int Partition::frequence(int n){
     int i = 0 ;

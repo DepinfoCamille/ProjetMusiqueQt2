@@ -73,12 +73,12 @@ void Afichernotes::paintEvent(QPaintEvent *)
            positionx = positionx + i*35;
            positiony = positiony - 26 ;
         }
-        if ((listeTemps[i] == "NOIRE") || (listeTemps[i] == "CORCHE"))  {
+        if ((listeTemps[i] == "NOIRE") || (listeTemps[i] == "CROCHE"))  {
             painter.setBrush(QBrush(Qt::black, Qt::SolidPattern));
         }
-        if (listeTemps[i] == "CORCHE"){
+        if (listeTemps[i] == "CROCHE"){
             int j = 0;
-            while (listeTemps[i+j] == "CORCHE"){
+            while (listeTemps[i+j] == "CROCHE"){
                 j = j + 1;
             }
             if ((j == 1)) //|| (j==2 && listeOctaves[i] != listeOctaves[i+1]))     // la corche est toute seule ou ils appartiennent à des octaves différents (plus facile à coder)

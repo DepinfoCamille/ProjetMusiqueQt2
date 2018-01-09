@@ -19,7 +19,7 @@ class AudioOutputStreamer : public QObject
     Q_OBJECT
 
     public:
-        AudioOutputStreamer();
+        AudioOutputStreamer(int duree, int frequence);
         ~AudioOutputStreamer();
         void setNotes(Partition* p);
         void setFrequency(int f) ;
