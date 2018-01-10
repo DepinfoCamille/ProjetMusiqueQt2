@@ -12,7 +12,7 @@ void Afichernotes::paintEvent(QPaintEvent *)
 {
     //MainWindow w; //lerreur vient dici, ca se réinitialise
 
-    std::unordered_map<std::string, int> valeursnotes = {{"NOIRE", 1}, {"BLANCHE", 2}, {"RONDE",4}, {"CORCHE", 0.5}};
+    std::unordered_map<std::string, int> valeursnotes = {{"NOIRE", 1}, {"BLANCHE", 2}, {"RONDE",4}, {"CROCHE", 0.5}};
 
   //  if (mesure != 0){
         //std::cout <<mesure<<"hey";

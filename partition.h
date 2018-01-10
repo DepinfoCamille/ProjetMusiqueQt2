@@ -45,10 +45,10 @@ class Partition
         float tempo ;
         std::vector<char> listeClavier ; // stocke toutes les notes tapées au clavier sous forme de caractères 'q', 's'...
         std::vector<std::string> listeNotes ; // stocke toutes les notes tapées au clavier sous forme de notes "DO", "RE"...
-        std::vector<float> listeTemps ; // stocke le temps que cette note est jouée
+        std::vector<float> listeTemps ; // stocke le temps en ms que cette note est jouée
         std::vector<int> listeDuree ;
         std::vector<int> listeOctave ;
-        std::vector<std::string> listeRythme ;
+        std::vector<std::string> listeRythme ; // stocke le rythme d'une note sous la forme "NOIRE", "BLANCHE"...
 
     protected:
 
