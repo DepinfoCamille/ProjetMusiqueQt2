@@ -27,6 +27,7 @@ class Partition
         void creeRythme() ;
         void jouer() ;
 
+
         virtual ~Partition();
         int lectureClavier() ;  // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé '\n'
                                 // c'est la fin de la partition

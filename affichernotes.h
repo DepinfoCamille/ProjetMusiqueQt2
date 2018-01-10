@@ -1,14 +1,28 @@
-#ifndef AFICHERNOTES_H
-#define AFICHERNOTES_H
+#ifndef AFFICHERNOTES_H
+#define AFFICHERNOTES_H
 
 #include <unordered_map>
 #include <QWidget>
+#include <QPainter>
 
-class Afichernotes : public QWidget
+class Affichernotes : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Afichernotes(QWidget *parent = nullptr);
+    //Partition *p
+    explicit Affichernotes(QWidget *parent = nullptr);
+    void paint(QPainter *painter, QPaintEvent *event, int a);
+
+    std::vector<std::string> listeNotes ;
+    std::vector<std::string> listeTemps ;
+    std::vector<int> listeOctaves ;
+
+   /* QVector<int> listeOctaves;
+    QVector<QString>listeNotes;
+
+
+    QVector<QString> listeTemps;*/
+
 
 
 signals:
@@ -20,4 +34,4 @@ protected:
 public slots:
 };
 
-#endif // AFICHERNOTES_H
+#endif // AFFICHERNOTES_H

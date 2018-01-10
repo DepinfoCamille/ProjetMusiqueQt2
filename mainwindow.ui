@@ -6,7 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
+<<<<<<< HEAD
+    <width>1061</width>
+=======
     <width>1149</width>
+>>>>>>> 1b21ff0bc52b5205fe5f26585d048f78207bf4d2
     <height>848</height>
    </rect>
   </property>
@@ -14,6 +18,8 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+<<<<<<< HEAD
+=======
    <widget class="QPushButton" name="boutonEcrirePartition">
     <property name="geometry">
      <rect>
@@ -37,13 +43,14 @@
      </rect>
     </property>
    </widget>
+>>>>>>> 1b21ff0bc52b5205fe5f26585d048f78207bf4d2
    <widget class="QFrame" name="frame">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>0</x>
       <y>0</y>
       <width>741</width>
       <height>631</height>
@@ -876,39 +883,108 @@
       <string/>
      </property>
     </widget>
-    <widget class="Afichernotes" name="affichernotes" native="true">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
+    <widget class="QLabel" name="mesure1_2">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>741</width>
-       <height>631</height>
+       <x>90</x>
+       <y>40</y>
+       <width>47</width>
+       <height>51</height>
       </rect>
      </property>
-     <widget class="QLabel" name="mesure1_2">
-      <property name="geometry">
-       <rect>
-        <x>80</x>
-        <y>40</y>
-        <width>47</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Source Code Pro</family>
-        <pointsize>14</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
+     <property name="font">
+      <font>
+       <family>Source Code Pro</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QStackedWidget" name="dialogue">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>440</y>
+       <width>621</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="page">
+      <widget class="QGroupBox" name="boxTempo">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>30</y>
+         <width>491</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Veuillez taper quatre fois sur le bouton &quot;Tempo&quot; à la pulsation souhaitée </string>
+       </property>
+       <widget class="QPushButton" name="boutonTempo">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>20</y>
+          <width>93</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Tempo</string>
+        </property>
+       </widget>
+      </widget>
      </widget>
+     <widget class="QWidget" name="page_2">
+      <widget class="QGroupBox" name="boxEcrirePartition">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>0</y>
+         <width>511</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Veuillez écrire votre partition dans le cadre blanc ci-dessous : </string>
+       </property>
+       <widget class="QTextEdit" name="textEdit">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>40</y>
+          <width>481</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>20</y>
+          <width>271</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Tapez sur Enter lorsque vous avez fini</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+<<<<<<< HEAD
+     <widget class="QWidget" name="page_3"/>
+=======
      <widget class="QStackedWidget" name="dialogue">
       <property name="geometry">
        <rect>
@@ -1047,17 +1123,80 @@
        </widget>
       </widget>
      </widget>
+>>>>>>> 1b21ff0bc52b5205fe5f26585d048f78207bf4d2
     </widget>
+   </widget>
+   <widget class="QComboBox" name="MESURE">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>80</y>
+      <width>171</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="boutonEcrirePartition">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>130</y>
+      <width>131</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ecrire une partition</string>
+    </property>
    </widget>
    <widget class="QComboBox" name="CLE">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>760</x>
       <y>40</y>
       <width>171</width>
       <height>31</height>
      </rect>
     </property>
+   </widget>
+   <widget class="QGroupBox" name="boxPartitionEcrite">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>230</y>
+      <width>211</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Votre partition a été écrite ! </string>
+    </property>
+    <widget class="QPushButton" name="boutonEcouter">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>30</y>
+       <width>151</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Ecouter le morceau</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="boutonvoirpartition">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>70</y>
+       <width>151</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Voir la partition</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -1065,8 +1204,13 @@
     <rect>
      <x>0</x>
      <y>0</y>
+<<<<<<< HEAD
+     <width>1061</width>
+     <height>21</height>
+=======
      <width>1149</width>
      <height>26</height>
+>>>>>>> 1b21ff0bc52b5205fe5f26585d048f78207bf4d2
     </rect>
    </property>
   </widget>
@@ -1081,14 +1225,6 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>Afichernotes</class>
-   <extends>QWidget</extends>
-   <header location="global">afichernotes.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
