@@ -3,6 +3,8 @@
 #include <unordered_map>
 #include <QChar>
 #include <QTextStream>
+#include <time.h>
+
 
 
 using std::vector ;
@@ -20,7 +22,7 @@ class Partition
     public:
         Partition();
         void ajoutNote(char c/*,int t*/) ;
-        float ajoutTemps(float t) ;
+        float ajoutTemps(clock_t t) ;
         void calculDuree() ;
         void creeRythme() ;
         void jouer() ;

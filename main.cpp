@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "partition.h"
-#include "son.h"
 #include "audiooutputstreamer.h"
 
 #include <windows.h>
@@ -25,21 +24,21 @@ int main(int argc, char *argv[]){
     frequences.push_back(600) ;
 
     std::vector<int> longueurs ;
-    longueurs.push_back(80000) ;
-    longueurs.push_back(180000) ;
-    longueurs.push_back(40000) ;
+    longueurs.push_back(8000) ; // en ms
+    longueurs.push_back(1800) ;
+    longueurs.push_back(4000) ;
 
     QThread thread ;
 
     for(int i = 0 ; i < 3 ; i++){
 
-       AudioOutputStreamer* pAudioOutputStreamer = new AudioOutputStreamer();
-        pAudioOutputStreamer->setFrequency(frequences[i]);
-        pAudioOutputStreamer->setLenght(longueurs[i]);
+       AudioOutputStreamer* pAudioOutputStreamer = new AudioOutputStreamer(longueurs[i],frequences[i]);
+  //      pAudioOutputStreamer->setFrequency(frequences[i]);
+  //      pAudioOutputStreamer->setLenght(longueurs[i]);
         pAudioOutputStreamer->start();
-        thread.msleep (longueurs[i]/100) ;
+        thread.msleep (longueurs[i]/*/100*/) ;
         std::cout << "On joue la fréquence" << frequences[i] << std::endl ;
-        std::cout << "On attend " << longueurs[i]/100/*/100*/ << "ms/µs" << std::endl ;
+        std::cout << "On attend " << longueurs[i]/*/100*/ << "ms/µs" << std::endl ;
 
     }
 

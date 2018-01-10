@@ -28,7 +28,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-
  /*   char buffer[200];
     GetCurrentDir(buffer, sizeof(buffer) );*/
 
@@ -43,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->page->hide() ;
     ui->boxEcrirePartition->hide() ;
     ui->boxPartitionEcrite->hide() ;
+    ui->frameEcrirePartition->hide() ;
 
     // Affichage du choix de la clé et de la taille de la mesure
     ui->setupUi(this);
@@ -68,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(affichemesure()));
+
    // QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
    //                  SLOT(mesurepartition()));
 
