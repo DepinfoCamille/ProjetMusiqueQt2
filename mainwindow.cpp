@@ -94,7 +94,9 @@ void MainWindow::afficherCreationPartition(){
 }
 
 void MainWindow::afficherEcouterPartition(){
+    std::cout << " \n On est dans calculDuree \n" << std::endl ;
     this->p->calculDuree() ;
+    std::cout << " \n On est dans creerRythme \n" << std::endl ;
     this->p->creeRythme() ;
     ui->dialogue->setCurrentIndex(2) ;
     ui->boxPartitionEcrite->show() ;
@@ -110,12 +112,12 @@ void MainWindow::choisirTempo(){
         i++;
     }
     if(i<4){
-        this->p->listePulsations[i] = start ;
+        this->p->listePulsations[i] = 1000*start/(float)CLOCKS_PER_SEC ;
     }
     if(i==3){
 
         for(int j = 0 ; j < 4 ; j++){
-            std::cout << "tempo n°" << j << " : " << this->p->listePulsations[j] << std::endl ;
+            std::cout << "tempo numéro " << j << " : " << this->p->listePulsations[j] << std::endl ;
         }
 
         this->p->tempo = (this->p->listePulsations[3]-this->p->listePulsations[0])/3 ;
@@ -179,7 +181,7 @@ void MainWindow::ecrirePartition() {
 
 void MainWindow::ecouterPartition(){
     int i = 0 ;
-    std::cout << " On est à l'affichage des fréquences" << std::endl ;
+    std::cout << " \n On est à l'affichage des fréquences" << std::endl ;
 
     for(auto it = this->p->dicco_frequence.begin() ; it!=this->p->dicco_frequence.end() ; it++){
         std::cout << this->p->dicco_frequence[i++] << " " ;

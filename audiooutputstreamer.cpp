@@ -1,33 +1,42 @@
 #include "audiooutputstreamer.h"
 #include <QThread>
 
-AudioOutputStreamer::AudioOutputStreamer()
+/**
+ * @brief AudioOutputStreamer::AudioOutputStreamer
+ * @param duree est la longueur de la note en ms
+ * @param frequence est la fréquence à laquelle la note sera jouée
+ */
+AudioOutputStreamer::AudioOutputStreamer(int duree, int frequence)
 {
-    _samplingRate = 80100;
+    /* Mise en place du format */
 
-    // set up the format you want, eg.
-    format.setSampleRate(_samplingRate);
- //   format.setChannels(1);
-    format.setSampleSize(8);
-    format.setCodec("audio/pcm");
-    format.setByteOrder(QAudioFormat::LittleEndian);
-    format.setSampleType(QAudioFormat::SignedInt);
+    this->_samplingRate = 44100;
+    this->format.setSampleRate(_samplingRate);
+    this->format.setCodec("audio/pcm");
+    this->format.setByteOrder(QAudioFormat::LittleEndian);
+    this->format.setSampleType(QAudioFormat::SignedInt);
+    this->format.setSampleSize(8) ;
 
     QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
+    std::cout << "setSampleSize ok : " << std::endl ;
+
     if (!info.isFormatSupported(format)) {
     qWarning()<<"default format not supported try to use nearest";
-    format = info.nearestFormat(format);
+    this->format = info.nearestFormat(format);
     }
     if (!info.isFormatSupported(format)) {
         qWarning()<<"nearest format not supported try to use something else";
-
     }
 
-    _audio = new QAudioOutput(format, this);
-    _audio->setNotifyInterval(50);
-    _audio->setBufferSize(32768);//in bytes
+    /* Mise en place du fichier audio */
 
-    _omega = 2*M_PI*400;
+    _audio = new QAudioOutput(format, this);
+    std::cout << "new audio ok : "  << std::endl ;
+    _audio->setBufferSize(this->format.bytesForDuration(duree));// en bytes
+    _audio->setNotifyInterval(duree);
+
+    /* Choix du son */
+    _omega = 2*M_PI*frequence;
     _amplitude = 10.;
     _delta_t = 1/_samplingRate;
 
@@ -45,52 +54,47 @@ void AudioOutputStreamer::setFrequency(int f){
 }
 
 void AudioOutputStreamer::setLenght(int l){
+
     // NOUVEAU TEST
     /*  _delta_t = l ;
       _samplingRate = 1/_delta_t ;*/
-
-    _samplingRate = l;
-//   _delta_t = 1/l ;
-    this->format.setSampleRate(_samplingRate);
-
-    _audio->setNotifyInterval(l);
+ //   _audio->setNotifyInterval(l);
 }
 
 void AudioOutputStreamer::start()
 {
     QThread thread ;
-
     QObject::connect(_audio, SIGNAL(notify()), this, SLOT(slot_writeMoreData()));
 
     _pAudioIOBuffer = _audio->start();
 
-    unsigned int periodSize = _audio->periodSize();
-    _sizeNolBuffer = periodSize;
-    _buffer = (signed char*) calloc(_sizeNolBuffer, sizeof(signed char));
+    unsigned int periodSize = this->_audio->periodSize();
+    this->_sizeNolBuffer = periodSize;
+    this->_buffer = (signed char*) calloc(_sizeNolBuffer, sizeof(signed char));
 
     emit _audio->notify() ;
-
 }
 
 
 void AudioOutputStreamer::slot_writeMoreData()
 {
-    int nbBytes = _audio->bytesFree();
+    int nbBytes = this->_audio->bytesFree();
 
     if (nbBytes>0) {
 
-        if (_sizeNolBuffer<nbBytes) {
-            delete[] _buffer;
-            _sizeNolBuffer = nbBytes;
+        if (this->_sizeNolBuffer<nbBytes) {
+            delete[] this->_buffer;
+            this->_sizeNolBuffer = nbBytes;
             _buffer = (signed char*) calloc(_sizeNolBuffer, sizeof(signed char));
         }
 
         short int value = 0;
         for (unsigned int IDSample=0; IDSample<nbBytes; ++IDSample) {
-            float time = (float)_IDWrittenSample * _delta_t;
+
+            float time = (float)this->_IDWrittenSample * _delta_t;
             value = (signed char) (_amplitude*(float)(sin(_omega*time)));
-            _buffer[IDSample] = value;
-            ++_IDWrittenSample;
+            this->_buffer[IDSample] = value;
+            ++this->_IDWrittenSample;
         }
 
         int nbWrittenBytes = _pAudioIOBuffer->write((const char*) _buffer, nbBytes);

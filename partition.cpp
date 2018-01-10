@@ -9,13 +9,13 @@
 
 #include <QChar>
 
-static float nombredeDoublesCroches(int t, float tempo){
-    float temps = static_cast<float>(t) ;
-    std::cout << "temps " <<t << "tempo " <<tempo << std::endl ;
+static float nombredeDoublesCroches(float t, float tempo){
+  //  float temps = static_cast<float>(t) ;
+    std::cout << "temps " << t << " tempo " <<tempo << std::endl ;
 
-    std::cout << "nombre croches " << ceil(4.0*temps/tempo) << std::endl ;
+    std::cout << "nombre croches " << ceil(2.0*/*temps*/t/tempo) << std::endl ;
 
-    return ceil(2.0*temps/tempo) ; // En fait on est en croches
+    return ceil(2.0*/*temps*/t/tempo) ; // En fait on est en croches
 
 }
 
@@ -81,7 +81,7 @@ void Partition::ajoutNote(char c){
         this->listeOctave.push_back(octave) ;
 }
 
-/** Ajoute le temps qu'a duré la note tapée à la partition
+/** Ajoute le temps (en ms) qu'a duré la note tapée à la partition
  * Si on joue une note longue, alors nous écrivons plusieurs fois la même note
  * alors que nous ne tapons qu'une seule fois sur le clavier
  * Dans ce das, ajoutTemps renvoie 1
@@ -89,24 +89,32 @@ void Partition::ajoutNote(char c){
  */
 float Partition::ajoutTemps(clock_t t){
 
+    float floatT = t/(float)CLOCKS_PER_SEC ;
+
     if(!this->listeTemps.empty() /*&& !this->premiereValeur*/){
         float start = this->listeTemps.back() ;
 
-        if(nombredeDoublesCroches((float)t/CLOCKS_PER_SEC-start, this->tempo)==0.0){
-            t+=listeTemps.back() ;
+   // ATTENTION J'ENLEVE LES TEMPS LONGS, ET JE VAIS ESSAYER DE FAIRE UNE NOUVELLE CLASSE QUI ENLEVE
+   // L'ECRITURE DE PLEINS DE LETTRES A LA SUITE LORSQU'ON RESTE APPUYE
+   /*     if(nombredeDoublesCroches(floatT-start, this->tempo)==0.0){
+
+            std::cout << "On considère qu'on a un temps long" << std::endl ;
+
+            floatT+=listeTemps.back() ;
             this->listeTemps.pop_back() ;
-            this->listeTemps.push_back(t) ;
+            this->listeTemps.push_back(floatT) ;
             return 1 ;
         }
 
-        else{
-            this->listeTemps.push_back((float)t/CLOCKS_PER_SEC) ;
+        else{ */
+            this->listeTemps.push_back(floatT) ;
+            std::cout << "Temps entré dans ajoutTemps : " << floatT << std::endl ;
             return 0.0 ;
-        }
+  //      }
     }
 
     else{
-        this->listeTemps.push_back((float)t/CLOCKS_PER_SEC) ;
+        this->listeTemps.push_back(floatT) ;
         return 0.0 ;
     }
 }
@@ -119,8 +127,8 @@ void Partition::calculDuree(){
 
     for(std::vector<float>::iterator it = this->listeTemps.begin() ;
         it != this->listeTemps.end()-1 ; it++){
-        this->listeDuree.push_back(*(it+1)-*it) ;
-        std::cout << *(it+1)+*it ;
+        this->listeDuree.push_back(1000*(*(it+1)-*it)) ;
+        std::cout << " Durée calculée dans calculDuree : " << 1000*(*(it+1)-*it) << std::endl ;
     }
 }
 
@@ -129,18 +137,18 @@ void Partition::calculDuree(){
  */
 void Partition::creeRythme(){ // Pour l'instant, on se limite aux croches
 
-    float tempo = static_cast<float>(this->tempo) ; // temps d'une noire
+ //   float tempo = static_cast<float>(this->tempo) ; // temps d'une noire
     std::cout << "On a " << this->listeDuree.size() << " éléments dans notre liste temps" << std::endl ;
     float fRythme ; // contient le nombre de croches dans une note
 
     for(std::vector<int>::iterator it = this->listeDuree.begin() ;
         it != this->listeDuree.end() ; it++){
 
-        fRythme = nombredeDoublesCroches(*it, tempo) ;
+        fRythme = nombredeDoublesCroches(*it, this->tempo) ;
         std::cout <<"fRyhtme " <<fRythme << std::endl ;
 
         // on stocke le rythme sous la forme "NOIRE", "CROCHE"... dans listeRythme
-        std::string sRythme = this->dicco_rythme[nombredeDoublesCroches(*it, tempo)] ;
+        std::string sRythme = this->dicco_rythme[nombredeDoublesCroches(*it, this->tempo)] ;
         std::cout << sRythme << std::endl ;
         this->listeRythme.push_back(sRythme) ;
     }
@@ -162,16 +170,18 @@ void Partition::jouer(){
        QThread thread ;
 
        for(int i = 0 ; i < this->listeNotes.size() ; i++){
+
            entierFrequence = this->Partition::frequence(i) ;
+
            if(entierFrequence!=-1){
                std::cout << "on joue la note de numéro " <<entierFrequence <<std::endl ;
-               AudioOutputStreamer* pAudioOutputStreamer = new AudioOutputStreamer(entierFrequence,(this->listeTemps[i]/CLOCKS_PER_SEC)/1000);
+               AudioOutputStreamer* pAudioOutputStreamer = new AudioOutputStreamer(entierFrequence, this->listeDuree[i]);
           //     pAudioOutputStreamer->setFrequency(entierFrequence);
             //   pAudioOutputStreamer->setLenght(1/((this->listeTemps[i]/CLOCKS_PER_SEC)) /*100000*CLOCKS_PER_SEC/(this->listeTemps[i])*//*/100*/);
-               std::cout << "On joue la fréquence" << entierFrequence << std::endl ;
-               std::cout << "On attend " <<(this->listeTemps[i]) /*100000*CLOCKS_PER_SEC/(this->listeTemps[i])*//*/100*/ << "ms/µs" << std::endl ;
+               std::cout << "On joue la fréquence " << entierFrequence << std::endl ;
+               std::cout << "On attend " <<(this->listeDuree[i]) << "ms" << std::endl ;
                pAudioOutputStreamer->start();
-               thread.sleep ((this->listeTemps[i])) ;
+               thread.msleep (this->listeDuree[i]) ;
            }
        }
    }

@@ -9,7 +9,7 @@
 
 using std::vector ;
 
-static float nombredeDoublesCroches(int t, float tempo) ;
+static float nombredeDoublesCroches(float t, float tempo) ;
 static bool estTriolet(int t, float tempo) ;
 
 /* Cette classe transforme la lecture clavier de l'utilisateur en partition
@@ -41,8 +41,8 @@ class Partition
         std::vector<int> dicco_frequence ;
 
 
-        int listePulsations[4] = {0} ;
-        int tempo ;
+        float listePulsations[4] = {0} ;
+        float tempo ;
         std::vector<char> listeClavier ; // stocke toutes les notes tapées au clavier sous forme de caractères 'q', 's'...
         std::vector<std::string> listeNotes ; // stocke toutes les notes tapées au clavier sous forme de notes "DO", "RE"...
         std::vector<float> listeTemps ; // stocke le temps que cette note est jouée

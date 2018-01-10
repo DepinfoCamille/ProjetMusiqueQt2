@@ -28,17 +28,17 @@ int main(int argc, char *argv[]){
 
     QThread thread ;
 
-    for(int i = 0 ; i < 3 ; i++){
+ /*   for(int i = 0 ; i < 3 ; i++){
 
        AudioOutputStreamer* pAudioOutputStreamer = new AudioOutputStreamer(longueurs[i],frequences[i]);
   //      pAudioOutputStreamer->setFrequency(frequences[i]);
   //      pAudioOutputStreamer->setLenght(longueurs[i]);
         pAudioOutputStreamer->start();
-        thread.msleep (longueurs[i]/*/100*/) ;
-        std::cout << "On joue la fréquence" << frequences[i] << std::endl ;
-        std::cout << "On attend " << longueurs[i]/*/100*/ << "ms/µs" << std::endl ;
+ *///       thread.msleep (longueurs[i]/*/100*/) ;
+  /*      std::cout << "On joue la fréquence" << frequences[i] << std::endl ;
+  *///      std::cout << "On attend " << longueurs[i]/*/100*/ << "ms/µs" << std::endl ;
 
-    }
+ //   }
 
  //   pAudioOutputStreamer->setFrequency(500);
   //  pAudioOutputStreamer->setLenght(111100);
