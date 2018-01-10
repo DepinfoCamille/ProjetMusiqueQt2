@@ -44,3 +44,6 @@ FORMS += \
 
 #INCLUDEPATH += D:\ProjetMusique\testMidiQt\QMidi-master\src # chemin des .h
 #LIBS += -LD:\ProjetMusique\testMidiQt\QMidi-master\src #chemin de la librairie
+
+DISTFILES += \
+    partition.pro.user
