@@ -6,11 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-<<<<<<< HEAD
     <width>1061</width>
-=======
-    <width>1149</width>
->>>>>>> 1b21ff0bc52b5205fe5f26585d048f78207bf4d2
+
     <height>848</height>
    </rect>
   </property>
@@ -18,8 +15,8 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-<<<<<<< HEAD
-=======
+
+
    <widget class="QPushButton" name="boutonEcrirePartition">
     <property name="geometry">
      <rect>
@@ -43,7 +40,7 @@
      </rect>
     </property>
    </widget>
->>>>>>> 1b21ff0bc52b5205fe5f26585d048f78207bf4d2
+
    <widget class="QFrame" name="frame">
     <property name="enabled">
      <bool>true</bool>
@@ -982,9 +979,7 @@
        </widget>
       </widget>
      </widget>
-<<<<<<< HEAD
-     <widget class="QWidget" name="page_3"/>
-=======
+
      <widget class="QStackedWidget" name="dialogue">
       <property name="geometry">
        <rect>
@@ -1123,7 +1118,7 @@
        </widget>
       </widget>
      </widget>
->>>>>>> 1b21ff0bc52b5205fe5f26585d048f78207bf4d2
+
     </widget>
    </widget>
    <widget class="QComboBox" name="MESURE">
@@ -1204,13 +1199,10 @@
     <rect>
      <x>0</x>
      <y>0</y>
-<<<<<<< HEAD
+
      <width>1061</width>
      <height>21</height>
-=======
-     <width>1149</width>
-     <height>26</height>
->>>>>>> 1b21ff0bc52b5205fe5f26585d048f78207bf4d2
+
     </rect>
    </property>
   </widget>
