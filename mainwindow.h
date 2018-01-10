@@ -5,6 +5,7 @@
 #include <QStackedWidget>
 #include <QSound>
 #include "partition.h"
+#include "affichernotes.h"
 #include <time.h>
 #include <math.h>
 
@@ -21,14 +22,17 @@ public:
     ~MainWindow();
     Partition* p ;
     QSound* lecture ;
+    Affichernotes* an;
 
 public slots:
 
     /* Slots d'affichage*/
     void affichecle();
     void afficherTempo() ;
+    int affichemesure();
     void afficherCreationPartition() ;
     void afficherEcouterPartition() ;
+    void voirPartition();
 
     /* Slots agissant sur la partition */
     void choisirTempo() ;

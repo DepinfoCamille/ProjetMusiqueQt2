@@ -15,6 +15,7 @@
 #include <time.h>
 #include <conio.h>
 
+
 #ifdef WINDOWS
     #include <direct.h>
     #define GetCurrentDir _getcwd
@@ -60,6 +61,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui -> MESURE ->addItem(" 3 / 4 ");
     ui -> MESURE ->addItem(" 4 / 4 ");
 
+    // Initialisation du Widget permettant de dessiner les notes
+        this -> an = new Affichernotes();
+         this->an->setParent(ui->frame);
+
+
     QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(affichemesure()));
    // QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
@@ -81,6 +87,8 @@ MainWindow::MainWindow(QWidget *parent) :
                      SLOT(afficherEcouterPartition()));
     QObject::connect(ui->boutonEcouter, SIGNAL(clicked()), this,
                      SLOT(ecouterPartition()));
+    QObject::connect(ui->boutonvoirpartition, SIGNAL(clicked()), this,
+                     SLOT(voirPartition()));
 }
 
 
@@ -129,21 +137,20 @@ void MainWindow::affichecle()
 {
     int cle = ui->CLE->currentIndex();
     if (cle == 0 ){
-        //Il manque une commande pour effacer l'existant
-        QLabel *picture = new QLabel( this );
-        picture -> setGeometry(25,35,55,65);
-        picture ->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledesol.png" ) );
-        picture ->setScaledContents(true);
-        picture -> show();
+
+        ui->cledeSol_2 -> setGeometry(27,38,55,65);
+        ui->cledeSol_2->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledesol.png" ) );
+        ui->cledeSol_2->setScaledContents(true);
+        ui->cledeSol_2-> show();
+
     }
     if (cle == 1){
-        //Il manque une commande pour effacer la clé existante
-        QLabel *picture = new QLabel( this );
-        picture -> setGeometry(40,40,40,44);
-        picture ->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledefa.png" ) );
-        picture ->setScaledContents(true);
-        picture -> show();
 
+       // QLabel *picture = new QLabel( this );
+        ui->cledeSol_2 -> setGeometry(27,43,40,44);
+        ui->cledeSol_2 ->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledefa.png" ) );
+        ui->cledeSol_2 ->setScaledContents(true);
+        ui->cledeSol_2 -> show();
     }
 }
 
@@ -151,6 +158,7 @@ void MainWindow::affichecle()
  * Elle ajoute la note correspondant à la touche tapée à la partition
  * Lorsque l'utilisateur tape sur entrée, la partition est considérée comme finie
  */
+
 void MainWindow::ecrirePartition() {
 
     // On lit la note tapée au clavier
@@ -187,6 +195,41 @@ void MainWindow::ecouterPartition(){
     std::cout << " \n On a passé l'affichage des fréquences" << std::endl ;
     this->p->jouer() ;
 }
+
+int MainWindow::affichemesure()
+{
+    int mesure = ui->MESURE->currentIndex();
+    if (mesure == 1){
+        ui->mesure1_2 -> setText("2\n4");
+            return mesure;
+    }
+    if (mesure == 2){
+        ui->mesure1_2 -> setText("3\n4");
+            return mesure;
+    }
+    if (mesure == 3){
+        ui->mesure1_2 -> setText("4\n4");
+            return mesure;
+    }
+
+}
+void MainWindow::voirPartition(){
+
+   /*for (int i=0; i<this->p->listeNotes.size(); i++){
+        this->an->listeNotes.push_back(this->p->listeNotes[i]);
+       this->an->listeTemps.push_back(this->p->listeDuree[i]);
+       this->an->listeOctaves.push_back(this->p->listeOctave[i]);
+   }*/
+
+    this->an->update();
+
+    this->an->listeNotes =this->p->listeNotes ;
+    this->an->listeTemps = this->p->listeRythme;
+    this->an->listeOctaves=this->p->listeOctave;
+
+}
+
+
 
 MainWindow::~MainWindow()
 {

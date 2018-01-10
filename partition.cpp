@@ -80,6 +80,7 @@ void Partition::ajoutNote(char c){
         // on ajoute la note à la partition
         this->listeNotes.push_back(note) ;
         this->listeOctave.push_back(octave) ;
+
 }
 
 /** Ajoute le temps qu'a duré la note tapée à la partition
@@ -192,6 +193,7 @@ int Partition::frequence(int n){
     }
     return -1 ; // on est sur une faute de frappe, remplacée par un silence
 }
+
 
 Partition::~Partition()
 {

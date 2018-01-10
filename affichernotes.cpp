@@ -4,28 +4,24 @@
 #include <iostream>
 #include "mainwindow.h"
 
-Afichernotes::Afichernotes(QWidget *parent) : QWidget(parent)
+Affichernotes::Affichernotes( QWidget *parent) : QWidget(parent)
 {
+
+    /*listeNotes = p->listeNotes;
+    listeOctaves = p->listeOctave;
+    listeTemps = p->listeDuree;*/
+
+   /* listeNotes << "RE#" << "RE" << "DO" << "RE#" <<"DO" << "MI" << "MI";
+
+    listeOctaves << 3 << 4 << 3 <<3<< 3 << 3 << 4 ;
+    listeTemps << "BLANCHE" <<"CORCHE" << "BLANCHE"  << "NOIRE"  << "CORCHE"  << "RONDE"  << "BLANCHE" ;*/
+
 }
 
-void Afichernotes::paintEvent(QPaintEvent *)
+void Affichernotes::paintEvent (QPaintEvent *event)
 {
-    //MainWindow w; //lerreur vient dici, ca se réinitialise
 
     std::unordered_map<std::string, int> valeursnotes = {{"NOIRE", 1}, {"BLANCHE", 2}, {"RONDE",4}, {"CORCHE", 0.5}};
-
-  //  if (mesure != 0){
-        //std::cout <<mesure<<"hey";
-    //}
-
-    QVector<QString> listeNotes;
-    listeNotes << "RE#" << "RE" << "DO" << "RE#" <<"DO" << "MI" << "MI";
-
-    QVector<int> listeOctaves;
-    listeOctaves << 3 << 4 << 3 <<3<< 3 << 3 << 4 ;
-
-    QVector<QString> listeTemps;
-    listeTemps << "BLANCHE" <<"CORCHE" << "BLANCHE"  << "NOIRE"  << "CORCHE"  << "RONDE"  << "BLANCHE" ;
 
     QPainter painter(this);
     QPen myPen(Qt::black, 2, Qt::SolidLine);
@@ -33,8 +29,8 @@ void Afichernotes::paintEvent(QPaintEvent *)
 
     for (int i=0; i<listeNotes.size(); i++){
         painter.setBrush(QBrush(Qt::NoBrush )); // pas de fond
-        const char* notei= listeNotes[i].toStdString().data(); //transorme le QString en char*
-
+        const char* notei= listeNotes[i].c_str();
+        const char* tempsi = listeTemps[i].c_str();//transorme les std::str en char*
         int positionx = 130; //position de départ
         int positiony = 90;
 
@@ -73,16 +69,16 @@ void Afichernotes::paintEvent(QPaintEvent *)
            positionx = positionx + i*35;
            positiony = positiony - 26 ;
         }
-        if ((listeTemps[i] == "NOIRE") || (listeTemps[i] == "CORCHE"))  {
+        if ((strstr(tempsi,"NOIRE")) || (strstr(tempsi, "CROCHE")))  {
             painter.setBrush(QBrush(Qt::black, Qt::SolidPattern));
         }
-        if (listeTemps[i] == "CORCHE"){
-            int j = 0;
+        if (strstr(tempsi, "CROCHE")){
+            /*int j = 0;
             while (listeTemps[i+j] == "CORCHE"){
                 j = j + 1;
             }
             if ((j == 1)) //|| (j==2 && listeOctaves[i] != listeOctaves[i+1]))     // la corche est toute seule ou ils appartiennent à des octaves différents (plus facile à coder)
-                {
+                {*/
                     if (listeOctaves[i] == 3) {
                     painter.drawLine(QPoint(positionx +9 ,positiony - 25 ),QPoint(positionx + 16 ,positiony - 20));
                 }
@@ -100,8 +96,8 @@ void Afichernotes::paintEvent(QPaintEvent *)
             //    }
             //}
 
-        }
-        if (listeTemps[i] != "RONDE"){
+
+        if (tempsi != "RONDE"){
             if (listeOctaves[i] == 3) {
                 painter.drawLine(QPoint(positionx +9 ,positiony ),QPoint(positionx + 9,positiony - 25));
             }
@@ -118,4 +114,13 @@ void Afichernotes::paintEvent(QPaintEvent *)
        // if (strstr(notei, "_POINTEE"))
          painter.drawEllipse(QRectF (positionx ,positiony,9,9));
     }
-}
+    painter.end();
+
+        }
+
+
+
+
+
+
+
