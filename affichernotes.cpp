@@ -7,18 +7,12 @@
 Affichernotes::Affichernotes( QWidget *parent) : QWidget(parent)
 {
 
-    /*listeNotes = p->listeNotes;
-    listeOctaves = p->listeOctave;
-    listeTemps = p->listeDuree;*/
-
-    std::unordered_map<std::string, int> valeursnotes = {{"NOIRE", 1}, {"BLANCHE", 2}, {"RONDE",4}, {"CROCHE", 0.5}};
-
 }
 
 void Affichernotes::paintEvent (QPaintEvent *event)
 {
 
-    std::unordered_map<std::string, int> valeursnotes = {{"NOIRE", 1}, {"BLANCHE", 2}, {"RONDE",4}, {"CORCHE", 0.5}};
+
 
     QPainter painter(this);
     QPen myPen(Qt::black, 2, Qt::SolidLine);
@@ -30,6 +24,14 @@ void Affichernotes::paintEvent (QPaintEvent *event)
         const char* tempsi = listeTemps[i].c_str();//transorme les std::str en char*
         int positionx = 130; //position de départ
         int positiony = 90;
+
+        compteur +=  valeursnotes[tempsi];
+        std::cout << "  la note est "<< tempsi << "et vaut "<< valeursnotes[tempsi];
+        std::cout<< " le compteur est à"<<compteur<<"\n";
+        if (compteur == mesure) {
+            compteur = 0;
+            painter.drawLine (QPoint(positionx +i*35 + 25, positiony -2 ),QPoint(positionx + i*35 + 25, positiony -42));
+        }
 
         if (listeOctaves[i] == 4){
             positiony = positiony - 35 ;
@@ -110,8 +112,12 @@ void Affichernotes::paintEvent (QPaintEvent *event)
             painter.drawLine(QPoint(positionx - 14 ,positiony+1),QPoint(positionx - 3 ,positiony+1));
             painter.drawLine(QPoint(positionx - 17 ,positiony+6),QPoint(positionx - 6 ,positiony+6));
         }
-       // if (strstr(notei, "_POINTEE"))
+        if (strstr(tempsi,"POINTEE")){
+            painter.drawEllipse(QRectF (positionx + 15 ,positiony,2,2));
+
+        }
          painter.drawEllipse(QRectF (positionx ,positiony,9,9));
+
     }
     painter.end();
 

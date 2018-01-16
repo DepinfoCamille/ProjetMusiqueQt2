@@ -29,7 +29,7 @@ public slots:
     /* Slots d'affichage*/
     void affichecle();
     void afficherTempo() ;
-    int affichemesure();
+    void affichemesure();
     void afficherCreationPartition() ;
     void afficherEcouterPartition() ;
     void voirPartition();
