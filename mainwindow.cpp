@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // Préparation de l'affichage
     ui->setupUi(this);
     ui->page->hide() ;
+ //   ui->label->hide() ;
+  //  ui->textEdit->hide() ;
     ui->boxEcrirePartition->hide() ;
     ui->boxPartitionEcrite->hide() ;
 

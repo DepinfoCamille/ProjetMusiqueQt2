@@ -40,10 +40,33 @@ HEADERS += \
 FORMS += \
         mainwindow.ui
 
-# Ajout de la librairie QMidi
+# Ajout de la librairie OpenAL
 
 #INCLUDEPATH += D:\ProjetMusique\testMidiQt\QMidi-master\src # chemin des .h
 #LIBS += -LD:\ProjetMusique\testMidiQt\QMidi-master\src #chemin de la librairie
 
+
 DISTFILES += \
     partition.pro.user
+
+
+#INCLUDEPATH += "C:\Program Files (x86)\OpenAL 1.1 SDK\include" # chemin des .h
+#LIBS += -L"$$_PRO_FILE_PWD_C:\Program Files (x86)\OpenAL 1.1 SDK\libs\Win32" -lOpenAL32
+
+
+win32:CONFIG(release, debug|release): LIBS += -L'C:/Program Files (x86)/OpenAL 1.1 SDK/libs/Win64/' -lOpenAL32
+else:win32:CONFIG(debug, debug|release): LIBS += -L'C:/Program Files (x86)/OpenAL 1.1 SDK/libs/Win64/' -lOpenAL32
+else:unix: LIBS += -L'C:/Program Files (x86)/OpenAL 1.1 SDK/libs/Win64/' -lOpenAL32
+
+INCLUDEPATH += 'C:/Program Files (x86)/OpenAL 1.1 SDK/include'
+DEPENDPATH += 'C:/Program Files (x86)/OpenAL 1.1 SDK/include'
+
+INCLUDEPATH += "D:\ProjetMusique\portaudio\include"
+LIBS += -L"D:\ProjetMusique\portaudio\src"
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../portaudio/build/release/ -lportaudio_x86
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../portaudio/build/debug/ -lportaudio_x86
+else:unix: LIBS += -L$$PWD/../../portaudio/build/ -lportaudio_x86
+
+INCLUDEPATH += $$PWD/../../portaudio/build/Debug
+DEPENDPATH += $$PWD/../../portaudio/build/Debug

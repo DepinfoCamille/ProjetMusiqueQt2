@@ -9,6 +9,102 @@
 
 #include <QChar>
 
+//data.sine[i] = SILENCE + (char) (127.0 * sin( frequence*((double)i/(double)TABLE_SIZE) * M_PI * 2. ));
+static int paCallback( const void *inputBuffer,
+             void *outputBuffer, unsigned long framesPerBuffer,
+             const PaStreamCallbackTimeInfo* timeInfo,
+             PaStreamCallbackFlags statusFlags, void *userData )
+{
+  TestData *data = (TestData*) userData;
+  float *out = (float*) outputBuffer;
+  float sample;
+  int i;
+
+  for (i = 0; i < framesPerBuffer; i++) {
+    sample = data->sine[data->phase++];
+    *out++ = sample; /* left */
+    *out++ = sample; /* right */
+    if (data->phase >= TABLE_SIZE)
+      data->phase -= TABLE_SIZE;
+  }
+  return paContinue;
+}
+
+
+/** Joue une sinusoïde
+ * @param frequence
+ * @param temps en ms */
+static void joueSinusoide(int frequence, float temps){
+    TestData data;
+    PaStream *stream;
+    PaStreamParameters outputParameters;
+    PaError err;
+
+    int i;
+    double t;
+
+    /* Generate table with sine values at given frequency */
+    for (i = 0; i < TABLE_SIZE; i++) {
+      t = (double)i/(double)SAMPLE_RATE;
+      data.sine[i] = sin(2 * M_PI * frequence * t);
+    }
+
+    /* Initialize user data */
+    data.phase = 0;
+
+    /* Initialize PortAudio */
+    Pa_Initialize();
+
+    /* Set output stream parameters */
+    outputParameters.device = Pa_GetDefaultOutputDevice();
+    outputParameters.channelCount = 2;
+    outputParameters.sampleFormat = paFloat32;
+    outputParameters.suggestedLatency =
+      Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
+    outputParameters.hostApiSpecificStreamInfo = NULL;
+
+    /* Open audio stream */
+    err = Pa_OpenStream( &stream, NULL /* no input */,
+                 &outputParameters,
+                 SAMPLE_RATE, FRAMES_PER_BUFFER, paNoFlag,
+                 paCallback, &data );
+
+    if (err != paNoError) {
+      printf("PortAudio error: open stream: %s\n", Pa_GetErrorText(err));
+    }
+
+    /* Start audio stream */
+    err = Pa_StartStream( stream );
+    if (err != paNoError) {
+      printf(  "PortAudio error: start stream: %s\n", Pa_GetErrorText(err));
+    }
+
+    /* Play sine wav */
+    printf("Play for %d seconds.\n", temps/1000 );
+    sleep(temps/1000);
+    err = Pa_StopStream( stream );
+
+
+    /* Stop audio stream */
+    if (err != paNoError) {
+      printf(  "PortAudio error: stop stream: %s\n", Pa_GetErrorText(err));
+    }
+    /* Close audio stream */
+    err = Pa_CloseStream(stream);
+    if (err != paNoError) {
+      printf("PortAudio error: close stream: %s\n", Pa_GetErrorText(err));
+    }
+    /* Terminate audio stream */
+    err = Pa_Terminate();
+    if (err != paNoError) {
+      printf("PortAudio error: terminate: %s\n", Pa_GetErrorText(err));
+    }
+}
+
+/** @param t le temps qu'est joué la note en ms
+ *  @param tempo le temps que dure une pulsation en ms
+ *  @return le nombre de croches contenues dans la note
+ */
 static float nombredeDoublesCroches(float t, float tempo){
   //  float temps = static_cast<float>(t) ;
     std::cout << "temps " << t << " tempo " <<tempo << std::endl ;
@@ -26,6 +122,15 @@ static bool estTriolet(int t, float tempo){
 }
 
 Partition::Partition(){
+
+/*    joueSinusoide(262, 2000) ; // DO
+    joueSinusoide(294 ,1000) ; // RE
+    joueSinusoide(330 ,1000) ; // MI
+    joueSinusoide(349 ,1000) ; // FA
+
+ //   joueSinusoide(300,1) ;
+    joueSinusoide(650,1000) ;*/
+
 //    this->listeNotes = new std::vector<char*>() ;
  //   this->listeTemps = new std::vector<int>() ;
     this->dicco_notes = {
@@ -52,8 +157,9 @@ Partition::Partition(){
         this->dicco_notes2.push_back(std::make_tuple("LA#",3))  ;this->dicco_notes2.push_back(std::make_tuple("SI",3)) ;
         this->dicco_notes2.push_back(std::make_tuple("DO",4)) ; this->dicco_notes2.push_back(std::make_tuple("DO#",4))  ;
         this->dicco_notes2.push_back(std::make_tuple("RE",4)) ;
-    this->dicco_frequence.push_back(26) ; this->dicco_frequence.push_back(277 ) ;
+    this->dicco_frequence.push_back(264) ; this->dicco_frequence.push_back(277 ) ;
     this->dicco_frequence.push_back(294 ) ; this->dicco_frequence.push_back(311) ;
+    this->dicco_frequence.push_back(330) ; this->dicco_frequence.push_back(349) ;
     this->dicco_frequence.push_back(370) ; this->dicco_frequence.push_back(392) ;
     this->dicco_frequence.push_back(415) ; this->dicco_frequence.push_back(440) ;
     this->dicco_frequence.push_back(466) ; this->dicco_frequence.push_back(494) ;
@@ -62,7 +168,9 @@ Partition::Partition(){
     this->dicco_frequence.push_back(659) ; this->dicco_frequence.push_back(698) ;
 }
 
-/* cette fonction ajoute une note qui dure t ms à la partition */
+/** cette fonction ajoute une note qui dure t ms à la partition
+ * @param c le caractère entré au clavier par l'utiliateur
+ */
 void Partition::ajoutNote(char c){
         std::string note ;
         int octave = -1 ;
@@ -176,12 +284,9 @@ void Partition::jouer(){
 
            if(entierFrequence!=-1){
                std::cout << "on joue la note de numéro " <<entierFrequence <<std::endl ;
-               AudioOutputStreamer* pAudioOutputStreamer = new AudioOutputStreamer(entierFrequence, this->listeDuree[i]);
-          //     pAudioOutputStreamer->setFrequency(entierFrequence);
-            //   pAudioOutputStreamer->setLenght(1/((this->listeTemps[i]/CLOCKS_PER_SEC)) /*100000*CLOCKS_PER_SEC/(this->listeTemps[i])*//*/100*/);
                std::cout << "On joue la fréquence " << entierFrequence << std::endl ;
                std::cout << "On attend " <<(this->listeDuree[i]) << "ms" << std::endl ;
-               pAudioOutputStreamer->start();
+               joueSinusoide(entierFrequence, this->listeDuree[i]) ;
                thread.msleep (this->listeDuree[i]) ;
            }
        }

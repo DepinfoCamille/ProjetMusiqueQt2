@@ -4,7 +4,34 @@
 #include <QChar>
 #include <QTextStream>
 #include <time.h>
+#include "portaudio.h"
+#include <stdio.h>
+#include <math.h>
+#include "portaudio.h"
+#define FREQUENCY 440
+#define SAMPLE_RATE 44100
+#define TABLE_SIZE SAMPLE_RATE
+#define NUM_SECONDS 3
+#define FRAMES_PER_BUFFER 256
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h> /* for sleep() */
+#include <portaudio.h>
+#include <math.h>
+
+typedef struct _testData {
+  float sine[TABLE_SIZE];
+  int phase;
+} TestData;
+
+/* callback function prototype */
+static int paCallback( const void *inputBuffer,
+             void *outputBuffer, unsigned long framesPerBuffer,
+             const PaStreamCallbackTimeInfo* timeInfo,
+             PaStreamCallbackFlags statusFlags, void *userData );
+
+static void joueSinusoide(int frequence, float temps) ;
 
 
 using std::vector ;
