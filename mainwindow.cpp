@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // Préparation de l'affichage
     ui->setupUi(this);
     ui->page->hide() ;
+    ui->page_2->hide() ;
+    ui->page_3->hide() ;
     ui->boxEcrirePartition->hide() ;
     ui->boxPartitionEcrite->hide() ;
     ui->boxEcrirePartition->hide() ;
@@ -103,9 +105,7 @@ void MainWindow::afficherCreationPartition(){
 }
 
 void MainWindow::afficherEcouterPartition(){
-    std::cout << " \n On est dans calculDuree \n" << std::endl ;
     this->p->calculDuree() ;
-    std::cout << " \n On est dans creerRythme \n" << std::endl ;
     this->p->creeRythme() ;
     ui->dialogue->setCurrentIndex(2) ;
     ui->boxPartitionEcrite->show() ;
@@ -157,11 +157,10 @@ void MainWindow::affichecle()
     }
 }
 
-/** Cette fonction est appelée quand l'utilisateur tape sur une touche de son clavier
+/** @brief Cette fonction est appelée quand l'utilisateur tape sur une touche de son clavier
  * Elle ajoute la note correspondant à la touche tapée à la partition
  * Lorsque l'utilisateur tape sur entrée, la partition est considérée comme finie
  */
-
 void MainWindow::ecrirePartition() {
 
     // On lit la note tapée au clavier
