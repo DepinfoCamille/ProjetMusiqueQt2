@@ -8,68 +8,29 @@
 #include <stdio.h>
 #include <math.h>
 #include "portaudio.h"
+#define PI 3.14159265358979323846264338327950288
+#define FREQUENCY 440
+#define SAMPLE_RATE 44100
+#define TABLE_SIZE SAMPLE_RATE
+#define NUM_SECONDS 3
+#define FRAMES_PER_BUFFER 256
 
-#define OUTPUT_DEVICE       (Pa_GetDefaultOutputDevice())
-#define SAMPLE_RATE         (44100)
-#define FRAMES_PER_BUFFER   (64)
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h> /* for sleep() */
+#include <portaudio.h>
+#include <math.h>
 
-#define MIN_FREQ            (100.0f)
-#define CalcPhaseIncrement(freq)  ((freq)/SAMPLE_RATE)
-#ifndef M_PI
-#define M_PI  (3.14159265)
-#endif
-#define TABLE_SIZE   (400)
+typedef struct _testData {
+  float sine[TABLE_SIZE];
+  int phase;
+} TestData;
 
-typedef struct
-{
-    float sine[TABLE_SIZE + 1]; /* add one for guard point for interpolation */
-    float phase_increment;
-    float left_phase;
-    float right_phase;
-}
-paTestData;
-
-/* Convert phase between and 1.0 to sine value
- * using linear interpolation.
- */
-float LookupSine(paTestData *data, float phase ){
-    float fIndex = phase*TABLE_SIZE;
-    int   index = (int) fIndex;
-    float fract = fIndex - index;
-    float lo = data->sine[index];
-    float hi = data->sine[index+1];
-    float val = lo + fract*(hi-lo);
-    return val;
-}
-
-/* This routine will be called by the PortAudio engine when audio is needed.
-** It may called at interrupt level on some machines so don't do anything
-** that could mess up the system like calling malloc() or free().
-*/
-static int patestCallback( const void *inputBuffer, void *outputBuffer,
-                           unsigned long framesPerBuffer,
-                           const PaStreamCallbackTimeInfo* timeInfo,
-                           PaStreamCallbackFlags statusFlags,
-                           void *userData )
-{
-    paTestData *data = (paTestData*)userData;
-    float *out = (float*)outputBuffer;
-    int i;
-
-    (void) inputBuffer; /* Prevent unused variable warning. */
-
-    for( i=0; i<framesPerBuffer; i++ )
-    {
-        *out++ = LookupSine(data, data->left_phase);  /* left */
-        *out++ = LookupSine(data, data->right_phase);  /* right */
-        data->left_phase += data->phase_increment;
-        if( data->left_phase >= 1.0f ) data->left_phase -= 1.0f;
-        data->right_phase += (data->phase_increment * 1.5f); /* fifth above */
-        if( data->right_phase >= 1.0f ) data->right_phase -= 1.0f;
-    }
-    return 0;
-}
-
+/* callback function prototype */
+static int paCallback( const void *inputBuffer,
+             void *outputBuffer, unsigned long framesPerBuffer,
+             const PaStreamCallbackTimeInfo* timeInfo,
+             PaStreamCallbackFlags statusFlags, void *userData );
 
 static void joueSinusoide(int frequence, float temps) ;
 
