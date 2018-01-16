@@ -35,8 +35,8 @@ static int paCallback( const void *inputBuffer,
  * @param frequence
  * @param temps en ms */
 static void joueSinusoide(int frequence, float temps){
-    TestData data;
 
+    TestData data;
     PaStream *stream;
     PaStreamParameters outputParameters;
     PaError err;
@@ -46,8 +46,9 @@ static void joueSinusoide(int frequence, float temps){
 
     /* Generate table with sine values at given frequency */
     for (i = 0; i < TABLE_SIZE; i++) {
+    //    std::cout << "on est dans le for qui écrit la note " << i << std::endl ;
       t = (double)i/(double)SAMPLE_RATE;
-      data.sine[i] = sin(2 * PI * frequence * t);
+      data.sine[i] = sin(2 * M_PI * frequence * t);
     }
 
     /* Initialize user data */
@@ -81,8 +82,8 @@ static void joueSinusoide(int frequence, float temps){
     }
 
     /* Play sine wav */
-    printf("Play for %d seconds.\n", NUM_SECONDS );
-    sleep(NUM_SECONDS);
+    printf("Play for %d seconds.\n", temps/1000 );
+    sleep(temps/1000);
     err = Pa_StopStream( stream );
 
 
@@ -125,9 +126,9 @@ static bool estTriolet(int t, float tempo){
 Partition::Partition(){
 
     joueSinusoide(262, 2000) ; // DO
-    joueSinusoide(294 ,1000) ; // RE
+/*    joueSinusoide(294 ,1000) ; // RE
     joueSinusoide(330 ,1000) ; // MI
-    joueSinusoide(349 ,1000) ; // FA
+    joueSinusoide(349 ,1000) ; // FA*/
 
  //   joueSinusoide(300,1) ;
     joueSinusoide(650,1000) ;
@@ -284,12 +285,13 @@ void Partition::jouer(){
 
            if(entierFrequence!=-1){
                std::cout << "on joue la note de numéro " <<entierFrequence <<std::endl ;
-               AudioOutputStreamer* pAudioOutputStreamer = new AudioOutputStreamer(entierFrequence, this->listeDuree[i]);
+         //      AudioOutputStreamer* pAudioOutputStreamer = new AudioOutputStreamer(entierFrequence, this->listeDuree[i]);
           //     pAudioOutputStreamer->setFrequency(entierFrequence);
             //   pAudioOutputStreamer->setLenght(1/((this->listeTemps[i]/CLOCKS_PER_SEC)) /*100000*CLOCKS_PER_SEC/(this->listeTemps[i])*//*/100*/);
                std::cout << "On joue la fréquence " << entierFrequence << std::endl ;
                std::cout << "On attend " <<(this->listeDuree[i]) << "ms" << std::endl ;
-               pAudioOutputStreamer->start();
+               joueSinusoide(entierFrequence, this->listeDuree[i]) ;
+        //       pAudioOutputStreamer->start();
                thread.msleep (this->listeDuree[i]) ;
            }
        }
