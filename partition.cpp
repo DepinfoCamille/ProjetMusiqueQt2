@@ -10,114 +10,96 @@
 #include <QChar>
 
 //data.sine[i] = SILENCE + (char) (127.0 * sin( frequence*((double)i/(double)TABLE_SIZE) * M_PI * 2. ));
+static int paCallback( const void *inputBuffer,
+             void *outputBuffer, unsigned long framesPerBuffer,
+             const PaStreamCallbackTimeInfo* timeInfo,
+             PaStreamCallbackFlags statusFlags, void *userData )
+{
+  TestData *data = (TestData*) userData;
+  float *out = (float*) outputBuffer;
+  float sample;
+  int i;
+
+  for (i = 0; i < framesPerBuffer; i++) {
+    sample = data->sine[data->phase++];
+    *out++ = sample; /* left */
+    *out++ = sample; /* right */
+    if (data->phase >= TABLE_SIZE)
+      data->phase -= TABLE_SIZE;
+  }
+  return paContinue;
+}
 
 
 /** Joue une sinusoïde
  * @param frequence
  * @param temps en ms */
 static void joueSinusoide(int frequence, float temps){
-    PaStreamParameters  outputParameters;
-    PaStream*           stream;
-    PaError             err;
-    paTestData          data;
-    PaTime              streamOpened;
-    int                 /*i,*/ totalSamps;
+    TestData data;
+    PaStream *stream;
+    PaStreamParameters outputParameters;
+    PaError err;
 
-    int longueurTable = (int)(temps/ 1000 * SAMPLE_RATE) ;
+    int i;
+    double t;
 
-#if TEST_UNSIGNED
-    printf("PortAudio Test: output unsigned 8 bit sine wave.\n");
-#else
-    printf("PortAudio Test: output signed 8 bit sine wave.\n");
-#endif
-    /* initialise sinusoidal wavetable */
-    for(int i=0; i</*longueurTable*/ TABLE_SIZE; i++ )
-    {
-       std::cout << i << std::endl ;
-     //   data.sine[i] = /*SILENCE + */(char) (127.0 * sin((double)frequence*(double)i/(double)TABLE_SIZE * M_PI * 2.0));
-        data.sine[i] = SILENCE + (float) (127.0 * sin((double)frequence*(double)i/(double)longueurTable/*TABLE_SIZE)*/ * M_PI * 2.0));
-    //    std::cout << (char) (127.0 * sin((double)frequence*(double)i/(double)longueurTable/*TABLE_SIZE)*/ * M_PI * 2.0)) << std::endl ;
+    /* Generate table with sine values at given frequency */
+    for (i = 0; i < TABLE_SIZE; i++) {
+    //    std::cout << "on est dans le for qui écrit la note " << i << std::endl ;
+      t = (double)i/(double)SAMPLE_RATE;
+      data.sine[i] = sin(2 * M_PI * frequence * t);
     }
-    data.left_phase = data.right_phase = 0;
-    data.framesToGo = totalSamps =  NUM_SECONDS * SAMPLE_RATE; /* Play for a few seconds. */
 
-    err = Pa_Initialize();
-  //  if( err != paNoError )
-    //    goto error;
+    /* Initialize user data */
+    data.phase = 0;
 
-    outputParameters.device = Pa_GetDefaultOutputDevice(); /* Default output device. */
-    if (outputParameters.device == paNoDevice) {
-      fprintf(stderr,"Error: No default output device.\n");
-     // goto error;
-    }
-    outputParameters.channelCount = 2;                     /* Stereo output. */
-    outputParameters.sampleFormat = TEST_FORMAT;
-    outputParameters.suggestedLatency = Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
+    /* Initialize PortAudio */
+    Pa_Initialize();
+
+    /* Set output stream parameters */
+    outputParameters.device = Pa_GetDefaultOutputDevice();
+    outputParameters.channelCount = 2;
+    outputParameters.sampleFormat = paFloat32;
+    outputParameters.suggestedLatency =
+      Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
     outputParameters.hostApiSpecificStreamInfo = NULL;
-    err = Pa_OpenStream( &stream,
-                         NULL,      /* No input. */
-                         &outputParameters,
-                         SAMPLE_RATE,
-                         256,       /* Frames per buffer. */
-                         paClipOff, /* We won't output out of range samples so don't bother clipping them. */
-                         patestCallback,
-                         &data );
- //   if( err != paNoError )
-   //     goto error;
 
-    streamOpened = Pa_GetStreamTime( stream ); /* Time in seconds when stream was opened (approx). */
+    /* Open audio stream */
+    err = Pa_OpenStream( &stream, NULL /* no input */,
+                 &outputParameters,
+                 SAMPLE_RATE, FRAMES_PER_BUFFER, paNoFlag,
+                 paCallback, &data );
 
-    clock_t start = clock() ;
-    err = Pa_StartStream( stream );
- //   if( err != paNoError )
-   //     goto error;
-
-    /* Watch until sound is halfway finished. */
-    /* (Was ( Pa_StreamTime( stream ) < (totalSamps/2) ) in V18. */
-  //  while( (Pa_GetStreamTime( stream ) - streamOpened) < (PaTime)NUM_SECONDS / 2.0 )
-    //    Pa_Sleep(10);
-
-    /* Stop sound. */
-/*    printf("Stopping Stream.\n");
-    err = Pa_StopStream( stream );
-    if( err != paNoError )
-        goto error;
-
-    printf("Pause for 2 seconds.\n");
- //   Pa_Sleep( 2000 );
-
-    printf("Starting again.\n");
-    err = Pa_StartStream( stream );
-    if( err != paNoError )
-        goto error;
-
-    printf("Waiting for sound to finish.\n");
-
-    while( ( err = Pa_IsStreamActive( stream ) ) == 1 )
-        Pa_Sleep(100);
-    if( err < 0 )
-        goto error;*/
-
-    while(1){
-
-        if ((clock()-start)/(float)CLOCKS_PER_SEC==temps/1000){
-            std::cout << "arret" << std::endl ;
-            err = Pa_CloseStream( stream );
-            Pa_Terminate();
-            printf("Test finished.\n");
-            return ;
-          //  if( err != paNoError )
-            //    goto error;
-        }
+    if (err != paNoError) {
+      printf("PortAudio error: open stream: %s\n", Pa_GetErrorText(err));
     }
 
+    /* Start audio stream */
+    err = Pa_StartStream( stream );
+    if (err != paNoError) {
+      printf(  "PortAudio error: start stream: %s\n", Pa_GetErrorText(err));
+    }
+
+    /* Play sine wav */
+    printf("Play for %d seconds.\n", temps/1000 );
+    sleep(temps/1000);
+    err = Pa_StopStream( stream );
 
 
-/*error:
-    Pa_Terminate();
-    fprintf( stderr, "An error occured while using the portaudio stream\n" );
-    fprintf( stderr, "Error number: %d\n", err );
-    fprintf( stderr, "Error message: %s\n", Pa_GetErrorText( err ) );*/
+    /* Stop audio stream */
+    if (err != paNoError) {
+      printf(  "PortAudio error: stop stream: %s\n", Pa_GetErrorText(err));
+    }
+    /* Close audio stream */
+    err = Pa_CloseStream(stream);
+    if (err != paNoError) {
+      printf("PortAudio error: close stream: %s\n", Pa_GetErrorText(err));
+    }
+    /* Terminate audio stream */
+    err = Pa_Terminate();
+    if (err != paNoError) {
+      printf("PortAudio error: terminate: %s\n", Pa_GetErrorText(err));
+    }
 }
 
 /** @param t le temps qu'est joué la note en ms
@@ -143,9 +125,9 @@ static bool estTriolet(int t, float tempo){
 Partition::Partition(){
 
     joueSinusoide(262, 2000) ; // DO
-    joueSinusoide(294 ,1000) ; // RE
+/*    joueSinusoide(294 ,1000) ; // RE
     joueSinusoide(330 ,1000) ; // MI
-    joueSinusoide(349 ,1000) ; // FA
+    joueSinusoide(349 ,1000) ; // FA*/
 
  //   joueSinusoide(300,1) ;
     joueSinusoide(650,1000) ;
@@ -302,12 +284,13 @@ void Partition::jouer(){
 
            if(entierFrequence!=-1){
                std::cout << "on joue la note de numéro " <<entierFrequence <<std::endl ;
-               AudioOutputStreamer* pAudioOutputStreamer = new AudioOutputStreamer(entierFrequence, this->listeDuree[i]);
+         //      AudioOutputStreamer* pAudioOutputStreamer = new AudioOutputStreamer(entierFrequence, this->listeDuree[i]);
           //     pAudioOutputStreamer->setFrequency(entierFrequence);
             //   pAudioOutputStreamer->setLenght(1/((this->listeTemps[i]/CLOCKS_PER_SEC)) /*100000*CLOCKS_PER_SEC/(this->listeTemps[i])*//*/100*/);
                std::cout << "On joue la fréquence " << entierFrequence << std::endl ;
                std::cout << "On attend " <<(this->listeDuree[i]) << "ms" << std::endl ;
-               pAudioOutputStreamer->start();
+               joueSinusoide(entierFrequence, this->listeDuree[i]) ;
+        //       pAudioOutputStreamer->start();
                thread.msleep (this->listeDuree[i]) ;
            }
        }
