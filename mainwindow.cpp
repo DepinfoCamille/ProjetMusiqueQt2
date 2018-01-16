@@ -40,11 +40,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // Préparation de l'affichage
     ui->setupUi(this);
     ui->page->hide() ;
-    ui->page_2->label->hide() ;
-    ui->textEdit->hide() ;
+ //   ui->label->hide() ;
+  //  ui->textEdit->hide() ;
     ui->boxEcrirePartition->hide() ;
     ui->boxPartitionEcrite->hide() ;
-    ui->boxEcrirePartition->hide() ;
 
     // Affichage du choix de la clé et de la taille de la mesure
     ui->setupUi(this);
