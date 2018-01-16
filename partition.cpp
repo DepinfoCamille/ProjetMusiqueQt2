@@ -45,7 +45,6 @@ static void joueSinusoide(int frequence, float temps){
 
     /* Generate table with sine values at given frequency */
     for (i = 0; i < TABLE_SIZE; i++) {
-    //    std::cout << "on est dans le for qui écrit la note " << i << std::endl ;
       t = (double)i/(double)SAMPLE_RATE;
       data.sine[i] = sin(2 * M_PI * frequence * t);
     }
@@ -160,6 +159,7 @@ Partition::Partition(){
         this->dicco_notes2.push_back(std::make_tuple("RE",4)) ;
     this->dicco_frequence.push_back(264) ; this->dicco_frequence.push_back(277 ) ;
     this->dicco_frequence.push_back(294 ) ; this->dicco_frequence.push_back(311) ;
+    this->dicco_frequence.push_back(330) ; this->dicco_frequence.push_back(349) ;
     this->dicco_frequence.push_back(370) ; this->dicco_frequence.push_back(392) ;
     this->dicco_frequence.push_back(415) ; this->dicco_frequence.push_back(440) ;
     this->dicco_frequence.push_back(466) ; this->dicco_frequence.push_back(494) ;
