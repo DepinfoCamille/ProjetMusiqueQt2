@@ -5,34 +5,42 @@
 #include <QTextStream>
 #include <time.h>
 #include "portaudio.h"
+#include <stdio.h>
+#include <math.h>
+#include "portaudio.h"
 
+#define OUTPUT_DEVICE       (Pa_GetDefaultOutputDevice())
+#define SAMPLE_RATE         (44100)
+#define FRAMES_PER_BUFFER   (64)
 
-
-#define NUM_SECONDS   (8)
-#define SAMPLE_RATE   (44100)
-#define TABLE_SIZE    (200)
-#define TEST_UNSIGNED (0)
-#if TEST_UNSIGNED
-#define TEST_FORMAT   paUInt8
-typedef unsigned char sample_t;
-#define SILENCE       ((sample_t)0x80)
-#else
-#define TEST_FORMAT   paInt8
-typedef char          sample_t;
-#define SILENCE       ((sample_t)0x00)
+#define MIN_FREQ            (100.0f)
+#define CalcPhaseIncrement(freq)  ((freq)/SAMPLE_RATE)
+#ifndef M_PI
+#define M_PI  (3.14159265)
 #endif
-
+#define TABLE_SIZE   (400)
 
 typedef struct
 {
-    int  longueurTable ;
- //   char sine[longueurTable];
-    char sine[TABLE_SIZE];
-    int left_phase;
-    int right_phase;
-    unsigned int framesToGo;
+    float sine[TABLE_SIZE + 1]; /* add one for guard point for interpolation */
+    float phase_increment;
+    float left_phase;
+    float right_phase;
 }
 paTestData;
+
+/* Convert phase between and 1.0 to sine value
+ * using linear interpolation.
+ */
+float LookupSine(paTestData *data, float phase ){
+    float fIndex = phase*TABLE_SIZE;
+    int   index = (int) fIndex;
+    float fract = fIndex - index;
+    float lo = data->sine[index];
+    float hi = data->sine[index+1];
+    float val = lo + fract*(hi-lo);
+    return val;
+}
 
 /* This routine will be called by the PortAudio engine when audio is needed.
 ** It may called at interrupt level on some machines so don't do anything
@@ -45,41 +53,23 @@ static int patestCallback( const void *inputBuffer, void *outputBuffer,
                            void *userData )
 {
     paTestData *data = (paTestData*)userData;
-    char *out = (char*)outputBuffer;
+    float *out = (float*)outputBuffer;
     int i;
-    int framesToCalc;
-    int finished = 0;
-    (void) inputBuffer; /* Prevent unused variable warnings. */
 
-    if( data->framesToGo < framesPerBuffer )
-    {
-        framesToCalc = data->framesToGo;
-        data->framesToGo = 0;
-        finished = 1;
-    }
-    else
-    {
-        framesToCalc = framesPerBuffer;
-        data->framesToGo -= framesPerBuffer;
-    }
+    (void) inputBuffer; /* Prevent unused variable warning. */
 
-    for( i=0; i<framesToCalc; i++ )
+    for( i=0; i<framesPerBuffer; i++ )
     {
-        *out++ = data->sine[data->left_phase];  /* left */
-        *out++ = data->sine[data->right_phase];  /* right */
-        data->left_phase += 1;
-        if( data->left_phase >= TABLE_SIZE ) data->left_phase -= TABLE_SIZE;
-        data->right_phase += 3; /* higher pitch so we can distinguish left and right. */
-        if( data->right_phase >= TABLE_SIZE ) data->right_phase -= TABLE_SIZE;
+        *out++ = LookupSine(data, data->left_phase);  /* left */
+        *out++ = LookupSine(data, data->right_phase);  /* right */
+        data->left_phase += data->phase_increment;
+        if( data->left_phase >= 1.0f ) data->left_phase -= 1.0f;
+        data->right_phase += (data->phase_increment * 1.5f); /* fifth above */
+        if( data->right_phase >= 1.0f ) data->right_phase -= 1.0f;
     }
-    /* zero remainder of final buffer */
-    for( ; i<(int)framesPerBuffer; i++ )
-    {
-        *out++ = SILENCE; /* left */
-        *out++ = SILENCE; /* right */
-    }
-    return finished;
+    return 0;
 }
+
 
 static void joueSinusoide(int frequence, float temps) ;
 
