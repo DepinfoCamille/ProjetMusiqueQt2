@@ -21,22 +21,22 @@ static void joueSinusoide(int frequence, float temps){
     PaError             err;
     paTestData          data;
     PaTime              streamOpened;
-    int                 i, totalSamps;
+    int                 /*i,*/ totalSamps;
 
-    int longueurTable = temps * 1000 * SAMPLE_RATE ;
+    int longueurTable = (int)(temps/ 1000 * SAMPLE_RATE) ;
 
 #if TEST_UNSIGNED
-    printf("PortAudio Test: output UNsigned 8 bit sine wave.\n");
+    printf("PortAudio Test: output unsigned 8 bit sine wave.\n");
 #else
     printf("PortAudio Test: output signed 8 bit sine wave.\n");
 #endif
     /* initialise sinusoidal wavetable */
-    for( i=0; i<longueurTable /*TABLE_SIZE*/; i++ )
+    for(int i=0; i</*longueurTable*/ TABLE_SIZE; i++ )
     {
-    //   std::cout << i << std::endl ;
-       // data.sine[i] = /*SILENCE + */(char) (127.0 * sin((double)frequence*(double)i/(double)TABLE_SIZE * M_PI * 2.0));
-        data.sine[i] = /*SILENCE + */(char) (127.0 * sin((double)frequence*(double)i/(double)longueurTable/*TABLE_SIZE)*/ * M_PI * 2.0));
-   //     data.sine[i] = SILENCE + (char) (127.0 * sin((double)i/(double)TABLE_SIZE * M_PI * 2.0));
+       std::cout << i << std::endl ;
+     //   data.sine[i] = /*SILENCE + */(char) (127.0 * sin((double)frequence*(double)i/(double)TABLE_SIZE * M_PI * 2.0));
+        data.sine[i] = SILENCE + (float) (127.0 * sin((double)frequence*(double)i/(double)longueurTable/*TABLE_SIZE)*/ * M_PI * 2.0));
+    //    std::cout << (char) (127.0 * sin((double)frequence*(double)i/(double)longueurTable/*TABLE_SIZE)*/ * M_PI * 2.0)) << std::endl ;
     }
     data.left_phase = data.right_phase = 0;
     data.framesToGo = totalSamps =  NUM_SECONDS * SAMPLE_RATE; /* Play for a few seconds. */
