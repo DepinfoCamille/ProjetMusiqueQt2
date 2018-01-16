@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <math.h>
 #include "portaudio.h"
-#define PI 3.14159265358979323846264338327950288
 #define FREQUENCY 440
 #define SAMPLE_RATE 44100
 #define TABLE_SIZE SAMPLE_RATE

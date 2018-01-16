@@ -123,13 +123,13 @@ static bool estTriolet(int t, float tempo){
 
 Partition::Partition(){
 
-    joueSinusoide(262, 2000) ; // DO
-/*    joueSinusoide(294 ,1000) ; // RE
+/*    joueSinusoide(262, 2000) ; // DO
+    joueSinusoide(294 ,1000) ; // RE
     joueSinusoide(330 ,1000) ; // MI
-    joueSinusoide(349 ,1000) ; // FA*/
+    joueSinusoide(349 ,1000) ; // FA
 
  //   joueSinusoide(300,1) ;
-    joueSinusoide(650,1000) ;
+    joueSinusoide(650,1000) ;*/
 
 //    this->listeNotes = new std::vector<char*>() ;
  //   this->listeTemps = new std::vector<int>() ;
@@ -284,13 +284,9 @@ void Partition::jouer(){
 
            if(entierFrequence!=-1){
                std::cout << "on joue la note de numéro " <<entierFrequence <<std::endl ;
-         //      AudioOutputStreamer* pAudioOutputStreamer = new AudioOutputStreamer(entierFrequence, this->listeDuree[i]);
-          //     pAudioOutputStreamer->setFrequency(entierFrequence);
-            //   pAudioOutputStreamer->setLenght(1/((this->listeTemps[i]/CLOCKS_PER_SEC)) /*100000*CLOCKS_PER_SEC/(this->listeTemps[i])*//*/100*/);
                std::cout << "On joue la fréquence " << entierFrequence << std::endl ;
                std::cout << "On attend " <<(this->listeDuree[i]) << "ms" << std::endl ;
                joueSinusoide(entierFrequence, this->listeDuree[i]) ;
-        //       pAudioOutputStreamer->start();
                thread.msleep (this->listeDuree[i]) ;
            }
        }
