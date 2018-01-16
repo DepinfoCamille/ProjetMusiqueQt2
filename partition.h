@@ -4,7 +4,84 @@
 #include <QChar>
 #include <QTextStream>
 #include <time.h>
+#include "portaudio.h"
 
+
+
+#define NUM_SECONDS   (8)
+#define SAMPLE_RATE   (44100)
+#define TABLE_SIZE    (200)
+#define TEST_UNSIGNED (0)
+#if TEST_UNSIGNED
+#define TEST_FORMAT   paUInt8
+typedef unsigned char sample_t;
+#define SILENCE       ((sample_t)0x80)
+#else
+#define TEST_FORMAT   paInt8
+typedef char          sample_t;
+#define SILENCE       ((sample_t)0x00)
+#endif
+
+
+typedef struct
+{
+    int  longueurTable ;
+ //   char sine[longueurTable];
+    char sine[TABLE_SIZE];
+    int left_phase;
+    int right_phase;
+    unsigned int framesToGo;
+}
+paTestData;
+
+/* This routine will be called by the PortAudio engine when audio is needed.
+** It may called at interrupt level on some machines so don't do anything
+** that could mess up the system like calling malloc() or free().
+*/
+static int patestCallback( const void *inputBuffer, void *outputBuffer,
+                           unsigned long framesPerBuffer,
+                           const PaStreamCallbackTimeInfo* timeInfo,
+                           PaStreamCallbackFlags statusFlags,
+                           void *userData )
+{
+    paTestData *data = (paTestData*)userData;
+    char *out = (char*)outputBuffer;
+    int i;
+    int framesToCalc;
+    int finished = 0;
+    (void) inputBuffer; /* Prevent unused variable warnings. */
+
+    if( data->framesToGo < framesPerBuffer )
+    {
+        framesToCalc = data->framesToGo;
+        data->framesToGo = 0;
+        finished = 1;
+    }
+    else
+    {
+        framesToCalc = framesPerBuffer;
+        data->framesToGo -= framesPerBuffer;
+    }
+
+    for( i=0; i<framesToCalc; i++ )
+    {
+        *out++ = data->sine[data->left_phase];  /* left */
+        *out++ = data->sine[data->right_phase];  /* right */
+        data->left_phase += 1;
+        if( data->left_phase >= TABLE_SIZE ) data->left_phase -= TABLE_SIZE;
+        data->right_phase += 3; /* higher pitch so we can distinguish left and right. */
+        if( data->right_phase >= TABLE_SIZE ) data->right_phase -= TABLE_SIZE;
+    }
+    /* zero remainder of final buffer */
+    for( ; i<(int)framesPerBuffer; i++ )
+    {
+        *out++ = SILENCE; /* left */
+        *out++ = SILENCE; /* right */
+    }
+    return finished;
+}
+
+static void joueSinusoide(int frequence, float temps) ;
 
 
 using std::vector ;

@@ -10,13 +10,17 @@
 #include <QTextStream>
 #include <QThread>
 
+//#include <al.h>
+//#include <alc.h>
+
+#include "portaudio.h"
+
 int main(int argc, char *argv[]){
 
     QApplication a(argc, argv);
     MainWindow w;
 
     w.show();
-
 
     std::vector<int> frequences ;
     frequences.push_back(800) ;

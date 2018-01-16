@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->page->hide() ;
     ui->boxEcrirePartition->hide() ;
     ui->boxPartitionEcrite->hide() ;
-    ui->frameEcrirePartition->hide() ;
+    ui->boxEcrirePartition->hide() ;
 
     // Affichage du choix de la clé et de la taille de la mesure
     ui->setupUi(this);
