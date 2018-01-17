@@ -123,8 +123,8 @@ static bool estTriolet(int t, float tempo){
 
 Partition::Partition(){
 
-/*    joueSinusoide(262, 2000) ; // DO
-    joueSinusoide(294 ,1000) ; // RE
+    joueSinusoide(262, 2000) ; // DO
+/*    joueSinusoide(294 ,1000) ; // RE
     joueSinusoide(330 ,1000) ; // MI
     joueSinusoide(349 ,1000) ; // FA
 
@@ -230,7 +230,8 @@ float Partition::ajoutTemps(clock_t t){
 
 /** @brief Cette fonction calcule la durée de chaque note à partir de listeTemps
  * et la stocke dans listeDuree
- * listeTemps contient en effet seulement les temps où l'utilisateur appuie sur la touche
+ * listeTemps contient les temps où l'utilisateur appuie sur chaque touche
+ * listeDuree utilise listeTemps pour calculer la durée de la note
  */
 void Partition::calculDuree(){
 
@@ -304,7 +305,7 @@ int Partition::frequence(int n){
         }
         i++;
     }
-    return -1 ; // on est sur une faute de frappe, remplacée par un silence
+    return -1 ; // on est sur une faute de frappe, qui sera ignorée
 }
 
 
