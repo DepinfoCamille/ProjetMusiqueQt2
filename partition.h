@@ -48,12 +48,15 @@ class Partition
 {
     public:
         Partition();
-        void ajoutNote(char c/*,int t*/) ;
+
+        int setTempo( float val) ;
+        void ajoutNote(char c) ;
         float ajoutTemps(clock_t t) ;
         void calculDuree() ;
         void creeRythme() ;
         void jouer() ;
         std::vector<TestData> creeDataSinusoide() ;
+        void initPartition() ;
 
         virtual ~Partition();
         int lectureClavier() ;  // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé '\n'

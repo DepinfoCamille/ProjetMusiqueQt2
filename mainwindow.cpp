@@ -65,7 +65,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
    // QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
    //                  SLOT(mesurepartition()));
-
+    // Etape 0 : On initialise tout
+  /*  QObject::connect(this, SIGNAL(initFaite()), this,
+                     SLOT(initialiser()));    */
     // Première étape : l'utilisateur détermine le tempo
     QObject::connect(ui->boutonEcrirePartition, SIGNAL(clicked()), this,
                      SLOT(afficherTempo()));
@@ -88,6 +90,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 void MainWindow::afficherTempo(){
+
+    this->p->initPartition();
     ui->dialogue->setCurrentIndex(0);
 }
 
@@ -108,13 +112,15 @@ void MainWindow::afficherEcouterPartition(){
  */
 void MainWindow::choisirTempo(){
     clock_t start = clock() ;
-    int i = 0 ;
+/*    int i = 0 ;
     while(this->p->listePulsations[i]!=0){
         i++;
     }
     if(i<4){
         this->p->listePulsations[i] = 1000*start/(float)CLOCKS_PER_SEC ;
-    }
+    }*/
+    int i = this->p->setTempo(1000*start/(float)CLOCKS_PER_SEC);
+
     if(i==3){
 
         for(int j = 0 ; j < 4 ; j++){
@@ -168,7 +174,7 @@ void MainWindow::ecrirePartition() {
 
         if(!noteLongue){
             this->p->ajoutNote(note) ;
-            std::cout <<"note : " << note << std::endl ;
+      //      std::cout <<"note : " << note << std::endl ;
      //       std::cout <<"temps : " << temps << std::endl ;
         }
 
