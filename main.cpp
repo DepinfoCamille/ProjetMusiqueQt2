@@ -13,7 +13,7 @@
 //#include <al.h>
 //#include <alc.h>
 
-#include "portaudio.h"
+//#include "portaudio.h"
 
 int main(int argc, char *argv[]){
 

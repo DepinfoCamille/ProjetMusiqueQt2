@@ -39,14 +39,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Préparation de l'affichage
     ui->setupUi(this);
-    ui->page->hide() ;
- //   ui->label->hide() ;
+    //ui-> dialogue -> setVisible(FALSE);
+ //   ui->page->hide() ;
+  //  ui->label->hide() ;
   //  ui->textEdit->hide() ;
-    ui->boxEcrirePartition->hide() ;
-    ui->boxPartitionEcrite->hide() ;
+   // ui->boxEcrirePartition->hide() ;
+   // ui->boxPartitionEcrite->hide() ;
 
     // Affichage du choix de la clé et de la taille de la mesure
-    ui->setupUi(this);
+
     ui->CLE->addItem("Cle de Sol");
     ui->CLE->addItem("Cle de Fa");
     QObject::connect(ui->CLE, SIGNAL(currentIndexChanged(int)), this,
@@ -95,9 +96,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 void MainWindow::afficherTempo(){
+    ui->dialogue->setVisible(TRUE);
     ui->dialogue->setCurrentIndex(0);
+    ui->dialogue->show();
+    ui->boxTempo->show();
 }
-
 void MainWindow::afficherCreationPartition(){
     ui->dialogue->setCurrentIndex(1) ;
     ui->boxEcrirePartition->show() ;
@@ -116,6 +119,7 @@ void MainWindow::afficherEcouterPartition(){
  * Elle remplit une liste contenant le moment où l'utilisateur appuie sur le bouton
  */
 void MainWindow::choisirTempo(){
+    std::cout << "icii";
     clock_t start = clock() ;
     int i = 0 ;
     while(this->p->listePulsations[i]!=0){

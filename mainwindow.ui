@@ -877,8 +877,8 @@
     <widget class="QStackedWidget" name="dialogue">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>420</y>
+       <x>60</x>
+       <y>340</y>
        <width>601</width>
        <height>131</height>
       </rect>
@@ -1035,7 +1035,7 @@
      <x>0</x>
      <y>0</y>
      <width>1061</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
