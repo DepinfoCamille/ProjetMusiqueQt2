@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "portaudio.h"
+
 #define SAMPLE_RATE 44100
 #define TABLE_SIZE SAMPLE_RATE
 #define FRAMES_PER_BUFFER 256

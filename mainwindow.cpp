@@ -15,15 +15,6 @@
 #include <time.h>
 #include <conio.h>
 
-
-#ifdef WINDOWS
-    #include <direct.h>
-    #define GetCurrentDir _getcwd
-#else
-    #include <unistd.h>
-    #define GetCurrentDir getcwd
- #endif
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -39,12 +30,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Préparation de l'affichage
     ui->setupUi(this);
-    ui->page->hide() ;
+    ui->page->hide()
     ui->page_2->hide() ;
     ui->page_3->hide() ;
+ //   ui->label->hide() ;
+  //  ui->textEdit->hide() ;
     ui->boxEcrirePartition->hide() ;
     ui->boxPartitionEcrite->hide() ;
-    ui->boxEcrirePartition->hide() ;
 
     // Affichage du choix de la clé et de la taille de la mesure
     ui->setupUi(this);
@@ -54,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
                      SLOT(affichecle()));
 
     ui->cledeSol_2 -> setGeometry(27,38,55,65);
-    ui->cledeSol_2->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledeSol_2.png" ) );
+    ui->cledeSol_2->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledeSol.png" ) );
     ui->cledeSol_2->setScaledContents(true);
     ui->cledeSol_2-> show();
 
@@ -198,33 +190,26 @@ void MainWindow::ecouterPartition(){
     this->p->jouer() ;
 }
 
-int MainWindow::affichemesure()
+void MainWindow::affichemesure()
 {
     int mesure = ui->MESURE->currentIndex();
     if (mesure == 1){
         ui->mesure1_2 -> setText("2\n4");
-            return mesure;
+        this->an->mesure = 2;
     }
     if (mesure == 2){
         ui->mesure1_2 -> setText("3\n4");
-            return mesure;
+        this->an->mesure = 3;
     }
     if (mesure == 3){
         ui->mesure1_2 -> setText("4\n4");
-            return mesure;
+        this->an->mesure = 4;
     }
 
 }
 void MainWindow::voirPartition(){
 
-   /*for (int i=0; i<this->p->listeNotes.size(); i++){
-        this->an->listeNotes.push_back(this->p->listeNotes[i]);
-       this->an->listeTemps.push_back(this->p->listeDuree[i]);
-       this->an->listeOctaves.push_back(this->p->listeOctave[i]);
-   }*/
-
     this->an->update();
-
     this->an->listeNotes =this->p->listeNotes ;
     this->an->listeTemps = this->p->listeRythme;
     this->an->listeOctaves=this->p->listeOctave;

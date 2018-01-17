@@ -34,15 +34,17 @@ static int paCallback( const void *inputBuffer,
 /** Joue une sinusoïde
  * @param frequence
  * @param temps en ms */
-static void joueSinusoide(int frequence, float temps,
-                          TestData* data, PaStream **stream, PaStreamParameters *outputParameters, PaError *err){
+static void joueSinusoide(int frequence, float temps){
+    TestData data;
+    PaStream *stream;
+    PaStreamParameters outputParameters;
+    PaError err;
 
     int i;
     double t;
     std::cout << " on entre dans la fonction joueSinusoide" << std::endl ;
     /* Generate table with sine values at given frequency */
     for (i = 0; i < TABLE_SIZE; i++) {
-    //    std::cout << "on est dans le for qui écrit la note " << i << std::endl ;
       t = (double)i/(double)SAMPLE_RATE;
       data->sine[i] = sin(2 * M_PI * frequence * t);
     }
@@ -132,6 +134,7 @@ Partition::Partition(){
         this->dicco_notes2.push_back(std::make_tuple("RE",4)) ;
     this->dicco_frequence.push_back(264) ; this->dicco_frequence.push_back(277 ) ;
     this->dicco_frequence.push_back(294 ) ; this->dicco_frequence.push_back(311) ;
+    this->dicco_frequence.push_back(330) ; this->dicco_frequence.push_back(349) ;
     this->dicco_frequence.push_back(370) ; this->dicco_frequence.push_back(392) ;
     this->dicco_frequence.push_back(415) ; this->dicco_frequence.push_back(440) ;
     this->dicco_frequence.push_back(466) ; this->dicco_frequence.push_back(494) ;
@@ -202,7 +205,8 @@ float Partition::ajoutTemps(clock_t t){
 
 /** @brief Cette fonction calcule la durée de chaque note à partir de listeTemps
  * et la stocke dans listeDuree
- * listeTemps contient en effet seulement les temps où l'utilisateur appuie sur la touche
+ * listeTemps contient les temps où l'utilisateur appuie sur chaque touche
+ * listeDuree utilise listeTemps pour calculer la durée de la note
  */
 void Partition::calculDuree(){
 
@@ -292,9 +296,9 @@ void Partition::jouer(){
                std::cout << "on joue la note de numéro " <<entierFrequence <<std::endl ;
                std::cout << "On joue la fréquence " << entierFrequence << std::endl ;
                std::cout << "On attend " <<(this->listeDuree[i]) << "ms" << std::endl ;
-         //      joueSinusoide(entierFrequence, this->listeDuree[i],
-          //                   &data, &stream, &outputParameters, &err) ;
-               Sleep (this->listeDuree[i]/1000) ;
+
+               joueSinusoide(entierFrequence, this->listeDuree[i]) ;
+               thread.msleep (this->listeDuree[i]) ;
            }
        }
 
@@ -322,7 +326,7 @@ int Partition::frequence(int n){
         }
         i++;
     }
-    return -1 ; // on est sur une faute de frappe, remplacée par un silence
+    return -1 ; // on est sur une faute de frappe, qui sera ignorée
 }
 
 

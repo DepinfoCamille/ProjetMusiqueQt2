@@ -10,14 +10,23 @@
 #include <QTextStream>
 #include <QThread>
 
-//#include <al.h>
-//#include <alc.h>
+#ifdef WINDOWS
+    #include <direct.h>
+    #define GetCurrentDir _getcwd
+#else
+    #include <unistd.h>
+    #define GetCurrentDir getcwd
+ #endif
 
 #include "portaudio.h"
-
+#include <unistd.h>
 int main(int argc, char *argv[]){
 
     QApplication a(argc, argv);
+    char* cd = nullptr ;
+ /*   cd = malloc(sizeof(char*)) ;
+    GetCurrentDir(cd,sizeof(char*));
+    std::cout << cd << std::endl ;*/
     MainWindow w;
 
     w.show();
