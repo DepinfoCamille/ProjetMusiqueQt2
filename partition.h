@@ -53,7 +53,7 @@ class Partition
         void calculDuree() ;
         void creeRythme() ;
         void jouer() ;
-
+        std::vector<TestData> creeDataSinusoide() ;
 
         virtual ~Partition();
         int lectureClavier() ;  // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé '\n'

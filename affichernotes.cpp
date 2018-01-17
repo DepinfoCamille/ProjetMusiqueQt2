@@ -26,8 +26,8 @@ void Affichernotes::paintEvent (QPaintEvent *event)
         int positiony = 90;
 
         compteur +=  valeursnotes[tempsi];
-        std::cout << "  la note est "<< tempsi << "et vaut "<< valeursnotes[tempsi];
-        std::cout<< " le compteur est à"<<compteur<<"\n";
+ //       std::cout << "  la note est "<< tempsi << "et vaut "<< valeursnotes[tempsi];
+ //       std::cout<< " le compteur est à"<<compteur<<"\n";
         if (compteur == mesure) {
             compteur = 0;
             painter.drawLine (QPoint(positionx +i*35 + 25, positiony -2 ),QPoint(positionx + i*35 + 25, positiony -42));

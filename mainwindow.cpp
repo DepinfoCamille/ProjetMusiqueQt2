@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Préparation de l'affichage
     ui->setupUi(this);
-    ui->page->hide()
+    ui->page->hide() ;
     ui->page_2->hide() ;
     ui->page_3->hide() ;
  //   ui->label->hide() ;
