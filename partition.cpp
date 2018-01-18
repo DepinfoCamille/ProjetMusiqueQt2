@@ -135,6 +135,36 @@ static void joueSinusoide(int frequence, float temps){
     }
 }
 
+
+int Partition::setTempo(float val){
+    int i = 0 ;
+    while(this->listePulsations[i]!=0){
+        i++;
+    }
+    if(i<4){
+        this->listePulsations[i] = val;
+    }
+
+    return i ;
+}
+
+/** @brief Reinitialise la partition*/
+void Partition::initPartition(){
+
+    /* Initialisation du tempo*/
+    for(int i = 0 ; i<4 ; i++){
+        this->listePulsations[i] = 0 ;
+    }
+
+    /*Initialisation des listes contenant les informations de la partition*/
+    this->listeClavier.clear() ;
+    this->listeNotes.clear() ;
+    this->listeTemps.clear() ;
+    this->listeDuree.clear() ;
+    this->listeOctave.clear() ;
+    this->listeRythme.clear() ;
+}
+
 /** @param t le temps qu'est joué la note en ms
  *  @param tempo le temps que dure une pulsation en ms
  *  @return le nombre de croches contenues dans la note
