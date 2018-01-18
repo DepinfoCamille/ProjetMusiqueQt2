@@ -30,16 +30,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Préparation de l'affichage
     ui->setupUi(this);
-    ui->dialogue->setCurrentIndex(0);
+    ui->dialogue->setCurrentIndex(1);
 
- /*   ui->page->hide() ;
+    ui->page->hide() ;
     ui->page_2->hide() ;
     ui->page_3->hide() ;
 
     ui->label->hide() ;
     ui->textEdit->hide() ;
     ui->boxEcrirePartition->hide() ;
-    ui->boxPartitionEcrite->hide() ;*/
+    ui->boxPartitionEcrite->hide() ;
 
     // Affichage du choix de la clé et de la taille de la mesure
     ui->setupUi(this);
@@ -93,9 +93,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 void MainWindow::afficherTempo(){
-    ui->dialogue->setCurrentIndex(1);
     this->p->initPartition();
-    ui->dialogue->setCurrentIndex(0);
+    ui->dialogue->setCurrentIndex(1);
 }
 
 void MainWindow::afficherCreationPartition(){
