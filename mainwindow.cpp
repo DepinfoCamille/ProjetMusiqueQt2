@@ -68,7 +68,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
    // QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
    //                  SLOT(mesurepartition()));
-
+    // Etape 0 : On initialise tout
+  /*  QObject::connect(this, SIGNAL(initFaite()), this,
+                     SLOT(initialiser()));    */
     // Première étape : l'utilisateur détermine le tempo
     QObject::connect(ui->boutonEcrirePartition, SIGNAL(clicked()), this,
                      SLOT(afficherTempo()));
@@ -92,6 +94,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::afficherTempo(){
     ui->dialogue->setCurrentIndex(1);
+    this->p->initPartition();
+    ui->dialogue->setCurrentIndex(0);
 }
 
 void MainWindow::afficherCreationPartition(){
@@ -100,9 +104,7 @@ void MainWindow::afficherCreationPartition(){
 }
 
 void MainWindow::afficherEcouterPartition(){
-    std::cout << " \n On est dans calculDuree \n" << std::endl ;
     this->p->calculDuree() ;
-    std::cout << " \n On est dans creerRythme \n" << std::endl ;
     this->p->creeRythme() ;
     ui->dialogue->setCurrentIndex(3) ;
     ui->boxPartitionEcrite->show() ;
@@ -113,13 +115,15 @@ void MainWindow::afficherEcouterPartition(){
  */
 void MainWindow::choisirTempo(){
     clock_t start = clock() ;
-    int i = 0 ;
+/*    int i = 0 ;
     while(this->p->listePulsations[i]!=0){
         i++;
     }
     if(i<4){
         this->p->listePulsations[i] = 1000*start/(float)CLOCKS_PER_SEC ;
-    }
+    }*/
+    int i = this->p->setTempo(1000*start/(float)CLOCKS_PER_SEC);
+
     if(i==3){
 
         for(int j = 0 ; j < 4 ; j++){
@@ -154,11 +158,10 @@ void MainWindow::affichecle()
     }
 }
 
-/** Cette fonction est appelée quand l'utilisateur tape sur une touche de son clavier
+/** @brief Cette fonction est appelée quand l'utilisateur tape sur une touche de son clavier
  * Elle ajoute la note correspondant à la touche tapée à la partition
  * Lorsque l'utilisateur tape sur entrée, la partition est considérée comme finie
  */
-
 void MainWindow::ecrirePartition() {
 
     // On lit la note tapée au clavier
@@ -174,7 +177,7 @@ void MainWindow::ecrirePartition() {
 
         if(!noteLongue){
             this->p->ajoutNote(note) ;
-            std::cout <<"note : " << note << std::endl ;
+      //      std::cout <<"note : " << note << std::endl ;
      //       std::cout <<"temps : " << temps << std::endl ;
         }
 
