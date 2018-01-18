@@ -33,6 +33,7 @@ public slots:
     void afficherCreationPartition() ;
     void afficherEcouterPartition() ;
     void voirPartition();
+    void positioncurseur();
 
     /* Slots agissant sur la partition */
     void choisirTempo() ;

@@ -27,7 +27,7 @@ void Affichernotes::paintEvent (QPaintEvent *event)
 
         compteur +=  valeursnotes[tempsi];
 
-        if (compteur== mesure || compteur == 2* mesure) {
+        if (compteur== mesure || compteur == 2* mesure || compteur == 3*mesure) {
             compteur = 0;
             painter.drawLine (QPoint(positionx + 25, positiony -2 ),QPoint(positionx + 25, positiony -42));
         }
