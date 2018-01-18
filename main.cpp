@@ -18,8 +18,10 @@
     #define GetCurrentDir getcwd
  #endif
 
-#include "portaudio.h"
-#include <unistd.h>
+
+//#include "portaudio.h"
+
+
 int main(int argc, char *argv[]){
 
     QApplication a(argc, argv);

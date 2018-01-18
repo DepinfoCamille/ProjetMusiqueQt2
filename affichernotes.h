@@ -15,13 +15,13 @@ public:
     std::vector<std::string> listeNotes ;
     std::vector<std::string> listeTemps ;
     std::vector<int> listeOctaves ;
-    int mesure;
+    float mesure;
 
 signals:
 
 protected:
     virtual void paintEvent(QPaintEvent *event);
-    std::unordered_map<std::string, float> valeursnotes = {{"NOIRE", 1.0}, {"BLANCHE", 2.0}, {"RONDE",4.0}, {"CORCHE", 0.5}, {"NOIRE_POINTEE", 1.5}, {"BLANCHE_POINTEE", 3.0}};
+    std::unordered_map<std::string, float> valeursnotes = {{"NOIRE", 1.0}, {"BLANCHE", 2.0}, {"RONDE",4.0}, {"CROCHE", 0.5}, {"NOIRE_POINTEE", 1.5}, {"BLANCHE_POINTEE", 3.0}};
     float compteur=0.0;
 
 

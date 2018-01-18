@@ -348,14 +348,6 @@ void Partition::jouer(){
      Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
    outputParameters.hostApiSpecificStreamInfo = NULL;
 
-<<<<<<< HEAD
-           if(entierFrequence!=-1){
-               std::cout << "on joue la note de numéro " <<entierFrequence <<std::endl ;
-               std::cout << "On joue la fréquence " << entierFrequence << std::endl ;
-               std::cout << "On attend " <<(this->listeDuree[i]) << "ms" << std::endl ;
-               joueSinusoide(entierFrequence, this->listeDuree[i]) ;
-               thread.msleep (this->listeDuree[i]-500) ;
-=======
    int i = 0 ;
    int temps ;
 
@@ -396,7 +388,6 @@ void Partition::jouer(){
            err = Pa_CloseStream(stream);
            if (err != paNoError) {
              printf("PortAudio error: close stream: %s\n", Pa_GetErrorText(err));
->>>>>>> changementFrequence
            }
        }
    }

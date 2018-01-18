@@ -12,8 +12,6 @@ Affichernotes::Affichernotes( QWidget *parent) : QWidget(parent)
 void Affichernotes::paintEvent (QPaintEvent *event)
 {
 
-
-
     QPainter painter(this);
     QPen myPen(Qt::black, 2, Qt::SolidLine);
     painter.setPen(myPen);
@@ -22,15 +20,16 @@ void Affichernotes::paintEvent (QPaintEvent *event)
         painter.setBrush(QBrush(Qt::NoBrush )); // pas de fond
         const char* notei= listeNotes[i].c_str();
         const char* tempsi = listeTemps[i].c_str();//transorme les std::str en char*
-        int positionx = 130; //position de départ
-        int positiony = 90;
+        int j;
+        j= i/15;
+        int positionx = 130 +(i-15*j)*35; //position de départ
+        int positiony = 90 + j*90;
 
         compteur +=  valeursnotes[tempsi];
- //       std::cout << "  la note est "<< tempsi << "et vaut "<< valeursnotes[tempsi];
- //       std::cout<< " le compteur est à"<<compteur<<"\n";
-        if (compteur == mesure) {
+
+        if (compteur== mesure || compteur == 2* mesure) {
             compteur = 0;
-            painter.drawLine (QPoint(positionx +i*35 + 25, positiony -2 ),QPoint(positionx + i*35 + 25, positiony -42));
+            painter.drawLine (QPoint(positionx + 25, positiony -2 ),QPoint(positionx + 25, positiony -42));
         }
 
         if (listeOctaves[i] == 4){
@@ -38,34 +37,27 @@ void Affichernotes::paintEvent (QPaintEvent *event)
         }
 
         if (strstr(notei, "DO")){
-            positionx = positionx + i*35;
             positiony = positiony+2;
             if (listeOctaves[i] == 3){
             painter.drawLine(QPoint(positionx - 5 ,positiony + 5),QPoint(positionx + 15,positiony + 5));
             }
         }
         if (strstr(notei, "RE")){
-            positionx = positionx + i*35 ;
             positiony = positiony - 2;
         }
         if (strstr(notei, "MI")){
-            positionx = positionx + i*35;
             positiony = positiony - 6;
         }
         if (strstr(notei, "FA")){
-            positionx = positionx + i*35;
             positiony = positiony - 11;
         }
         if (strstr(notei, "SOL")){
-            positionx = positionx + i*35;
             positiony = positiony - 17;
         }
         if (strstr(notei, "LA")){
-            positionx = positionx + i*35;
             positiony = positiony - 21;
         }
         if (strstr(notei, "SI")){
-           positionx = positionx + i*35;
            positiony = positiony - 26 ;
         }
 

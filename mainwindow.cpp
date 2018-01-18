@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Préparation de l'affichage
     ui->setupUi(this);
+/* HEAD
     ui->dialogue->setCurrentIndex(1);
 
     ui->page->hide() ;
@@ -40,9 +41,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->textEdit->hide() ;
     ui->boxEcrirePartition->hide() ;
     ui->boxPartitionEcrite->hide() ;
+*/
+    ui->dialogue->setParent(ui->centralWidget);
+    ui-> dialogue -> setVisible(FALSE);
 
     // Affichage du choix de la clé et de la taille de la mesure
-    ui->setupUi(this);
+
     ui->CLE->addItem("Cle de Sol");
     ui->CLE->addItem("Cle de Fa");
     QObject::connect(ui->CLE, SIGNAL(currentIndexChanged(int)), this,
@@ -89,14 +93,17 @@ MainWindow::MainWindow(QWidget *parent) :
                      SLOT(ecouterPartition()));
     QObject::connect(ui->boutonvoirpartition, SIGNAL(clicked()), this,
                      SLOT(voirPartition()));
+    //Quatrième étape: modification de la partition déjà écrite
+    QObject::connect(ui->frame, SIGNAL(clicked()), this, SLOT(getMousePosition()));
 }
 
 
 void MainWindow::afficherTempo(){
     this->p->initPartition();
     ui->dialogue->setCurrentIndex(1);
+    ui->dialogue->setVisible(TRUE);
+    ui->dialogue->setCurrentIndex(0);
 }
-
 void MainWindow::afficherCreationPartition(){
     ui->dialogue->setCurrentIndex(2) ;
     ui->boxEcrirePartition->show() ;
@@ -213,6 +220,7 @@ void MainWindow::affichemesure()
         ui->mesure1_2 -> setText("4\n4");
         this->an->mesure = 4;
     }
+    ui->dialogue->setCurrentIndex(1) ;
 
 }
 void MainWindow::voirPartition(){
