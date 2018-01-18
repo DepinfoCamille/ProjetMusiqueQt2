@@ -288,7 +288,7 @@ void Partition::jouer(){
                std::cout << "On joue la fréquence " << entierFrequence << std::endl ;
                std::cout << "On attend " <<(this->listeDuree[i]) << "ms" << std::endl ;
                joueSinusoide(entierFrequence, this->listeDuree[i]) ;
-               thread.msleep (this->listeDuree[i]) ;
+               thread.msleep (this->listeDuree[i]-500) ;
            }
        }
    }

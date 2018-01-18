@@ -30,11 +30,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Préparation de l'affichage
     ui->setupUi(this);
-    ui->page->hide() ;
- //   ui->label->hide() ;
-  //  ui->textEdit->hide() ;
+    ui->dialogue->setCurrentIndex(0);
+
+ /*   ui->page->hide() ;
+    ui->page_2->hide() ;
+    ui->page_3->hide() ;
+
+    ui->label->hide() ;
+    ui->textEdit->hide() ;
     ui->boxEcrirePartition->hide() ;
-    ui->boxPartitionEcrite->hide() ;
+    ui->boxPartitionEcrite->hide() ;*/
 
     // Affichage du choix de la clé et de la taille de la mesure
     ui->setupUi(this);
@@ -86,11 +91,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 void MainWindow::afficherTempo(){
-    ui->dialogue->setCurrentIndex(0);
+    ui->dialogue->setCurrentIndex(1);
 }
 
 void MainWindow::afficherCreationPartition(){
-    ui->dialogue->setCurrentIndex(1) ;
+    ui->dialogue->setCurrentIndex(2) ;
     ui->boxEcrirePartition->show() ;
 }
 
@@ -99,7 +104,7 @@ void MainWindow::afficherEcouterPartition(){
     this->p->calculDuree() ;
     std::cout << " \n On est dans creerRythme \n" << std::endl ;
     this->p->creeRythme() ;
-    ui->dialogue->setCurrentIndex(2) ;
+    ui->dialogue->setCurrentIndex(3) ;
     ui->boxPartitionEcrite->show() ;
 }
 
