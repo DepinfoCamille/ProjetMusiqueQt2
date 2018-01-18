@@ -205,14 +205,6 @@ Partition::Partition(){
     this->dicco_rythme = {
         {1.0, "CROCHE"}, {2.0, "NOIRE"}, {4.0, "BLANCHE"}, {3.0, "NOIRE_POINTEE"}, {8.0, "RONDE"}, {6.0,"BLANCHE_POINTEE"}
     };
-  /*  this->dicco_son.push_back(std::make_tuple("DO",3)) ; this->dicco_son.push_back(std::make_tuple("DO#",3)) ;
-    this->dicco_son.push_back(std::make_tuple("RE",3)) ; this->dicco_son.push_back(std::make_tuple("RE#",3)) ;
-    this->dicco_son.push_back(std::make_tuple("MI",3)) ;this->dicco_son.push_back(std::make_tuple("FA",3)) ;
-    this->dicco_son.push_back(std::make_tuple("FA#",3)) ; this->dicco_son.push_back(std::make_tuple("SOL",3)) ;
-    this->dicco_son.push_back(std::make_tuple("SOL#",3)) ; this->dicco_son.push_back(std::make_tuple("LA",3)) ;
-    this->dicco_son.push_back(std::make_tuple("LA#",3))  ;this->dicco_son.push_back(std::make_tuple("SI",3)) ;
-    this->dicco_son.push_back(std::make_tuple("DO",4)) ; this->dicco_son.push_back(std::make_tuple("DO#",4))  ;
-    this->dicco_son.push_back(std::make_tuple("RE",4)) ; */
     this->dicco_notes2.push_back(std::make_tuple("DO",3)) ; this->dicco_notes2.push_back(std::make_tuple("DO#",3)) ;
         this->dicco_notes2.push_back(std::make_tuple("RE",3)) ; this->dicco_notes2.push_back(std::make_tuple("RE#",3)) ;
         this->dicco_notes2.push_back(std::make_tuple("MI",3)) ;this->dicco_notes2.push_back(std::make_tuple("FA",3)) ;
@@ -391,13 +383,15 @@ void Partition::jouer(){
            if (err != paNoError) {
              printf(  "PortAudio error: stop stream: %s\n", Pa_GetErrorText(err));
            }
+
+           /* Close audio stream */
+           err = Pa_CloseStream(stream);
+           if (err != paNoError) {
+             printf("PortAudio error: close stream: %s\n", Pa_GetErrorText(err));
+           }
        }
    }
-   /* Close audio stream */
-   err = Pa_CloseStream(stream);
-   if (err != paNoError) {
-     printf("PortAudio error: close stream: %s\n", Pa_GetErrorText(err));
-   }
+
    /* Terminate audio stream */
    err = Pa_Terminate();
    if (err != paNoError) {
