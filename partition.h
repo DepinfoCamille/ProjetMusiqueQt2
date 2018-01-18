@@ -7,11 +7,14 @@
 //#include "portaudio.h"
 #include <stdio.h>
 #include <math.h>
-//#include "portaudio.h"
+
 #define FREQUENCY 440
+
+#include "portaudio.h"
+
+
 #define SAMPLE_RATE 44100
 #define TABLE_SIZE SAMPLE_RATE
-#define NUM_SECONDS 3
 #define FRAMES_PER_BUFFER 256
 
 #include <stdio.h>
@@ -31,7 +34,12 @@ typedef struct _testData {
              const PaStreamCallbackTimeInfo* timeInfo,
              PaStreamCallbackFlags statusFlags, void *userData );
 
+<<<<<<< HEAD
 static void joueSinusoide(int frequence, float temps) ;*/
+=======
+static void joueSinusoide(int frequence, float temps,
+                          TestData *data, PaStream **stream,/* PaStreamParameters *outputParameters,*/ PaError *err) ;
+>>>>>>> 2c10b4c1f7e7b33af67e7f1c2061728bf2fb430b
 
 
 using std::vector ;
@@ -48,12 +56,15 @@ class Partition
 {
     public:
         Partition();
-        void ajoutNote(char c/*,int t*/) ;
+
+        int setTempo( float val) ;
+        void ajoutNote(char c) ;
         float ajoutTemps(clock_t t) ;
         void calculDuree() ;
         void creeRythme() ;
         void jouer() ;
-
+        std::vector<TestData> creeDataSinusoide() ;
+        void initPartition() ;
 
         virtual ~Partition();
         int lectureClavier() ;  // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé '\n'

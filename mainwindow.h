@@ -26,6 +26,9 @@ public:
 
 public slots:
 
+    /*Initialisation*/
+ //   void initialisation() ;
+
     /* Slots d'affichage*/
     void affichecle();
     void afficherTempo() ;
@@ -42,6 +45,7 @@ public slots:
 
 
 signals:
+//    void initFaite() ;
     void tempoDefini() ;
     void partitionEcrite() ;
 

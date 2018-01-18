@@ -887,7 +887,7 @@
       <bool>true</bool>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="page_4">
       <widget class="QGroupBox" name="boxTempo_2">
@@ -898,6 +898,9 @@
          <width>491</width>
          <height>61</height>
         </rect>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
        </property>
        <property name="title">
         <string>Veuillez choisir la mesure souhaitée:</string>
@@ -918,11 +921,14 @@
       <widget class="QGroupBox" name="boxTempo">
        <property name="geometry">
         <rect>
-         <x>70</x>
+         <x>30</x>
          <y>40</y>
          <width>491</width>
          <height>61</height>
         </rect>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
        </property>
        <property name="title">
         <string>Veuillez taper quatre fois sur le bouton &quot;Tempo&quot; à la pulsation souhaitée </string>
@@ -946,11 +952,14 @@
       <widget class="QGroupBox" name="boxEcrirePartition">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>20</y>
+         <x>40</x>
+         <y>30</y>
          <width>511</width>
          <height>80</height>
         </rect>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
        </property>
        <property name="title">
         <string>Veuillez écrire votre partition dans le cadre blanc ci-dessous : </string>
@@ -985,10 +994,13 @@
        <property name="geometry">
         <rect>
          <x>180</x>
-         <y>20</y>
+         <y>10</y>
          <width>211</width>
          <height>111</height>
         </rect>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
        </property>
        <property name="title">
         <string>Votre partition a été écrite ! </string>
@@ -1053,7 +1065,7 @@
      <x>0</x>
      <y>0</y>
      <width>1061</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
