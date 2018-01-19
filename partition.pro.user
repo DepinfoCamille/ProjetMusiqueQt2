@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<<<<<<< HEAD
-<!-- Written by QtCreator 4.5.0, 2018-01-17T15:35:19. -->
-=======
-
-<!-- Written by QtCreator 4.4.1, 2018-01-17T10:21:10. -->
-
->>>>>>> deeafc2ccbbe600f751cd4ebe8044a8e8f200d5a
+<!-- Written by QtCreator 4.5.0, 2018-01-18T20:58:39. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -298,9 +292,7 @@
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">partition.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
-
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">C:/Users/User/Documents/build-partition-Desktop_Qt_5_9_3_MinGW_32bit-Debug</value>
-
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">D:/ProjetMusique/ProjetMusiqueQt/build-partition-Desktop_Qt_5_10_0_MinGW_32bit-Debug</value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>

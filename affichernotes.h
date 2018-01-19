@@ -1,5 +1,4 @@
-#ifndef AFFICHERNOTES_H
-#define AFFICHERNOTES_H
+#pragma once
 
 #include <unordered_map>
 #include <QWidget>
@@ -28,4 +27,3 @@ protected:
 public slots:
 };
 
-#endif // AFFICHERNOTES_H

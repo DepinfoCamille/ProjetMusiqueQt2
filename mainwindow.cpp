@@ -30,18 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Préparation de l'affichage
     ui->setupUi(this);
-/* HEAD
-    ui->dialogue->setCurrentIndex(1);
 
-    ui->page->hide() ;
-    ui->page_2->hide() ;
-    ui->page_3->hide() ;
-
-    ui->label->hide() ;
-    ui->textEdit->hide() ;
-    ui->boxEcrirePartition->hide() ;
-    ui->boxPartitionEcrite->hide() ;
-*/
     ui->dialogue->setParent(ui->centralWidget);
     ui-> dialogue -> setVisible(FALSE);
 
@@ -66,47 +55,76 @@ MainWindow::MainWindow(QWidget *parent) :
         this -> an = new Affichernotes();
          this->an->setParent(ui->frame);
 
+    // Connexion des différents objets entre eux
 
-    QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
+    // Première étape : on initialise la partition et l'affichage
+    QObject::connect(ui->boutonEcrirePartition, SIGNAL(clicked()), this,
+                     SLOT(initialisation()));
+
+    // Deuxième étape : on choisit le type de mesure voulue
+    QObject::connect(this, SIGNAL(initFaite()), this,
                      SLOT(affichemesure()));
 
-   // QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
-   //                  SLOT(mesurepartition()));
-    // Etape 0 : On initialise tout
-  /*  QObject::connect(this, SIGNAL(initFaite()), this,
-                     SLOT(initialiser()));    */
-    // Première étape : l'utilisateur détermine le tempo
-    QObject::connect(ui->boutonEcrirePartition, SIGNAL(clicked()), this,
+    // Troisième étape : on choisit le tempo
+    QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(afficherTempo()));
     QObject::connect(ui->boutonTempo, SIGNAL(clicked()), this,
                      SLOT(choisirTempo()));
-    // Deuxième étape : l'utilisateur joue son morceau au clavier
+
+    // Quatrième étape : l'utilisateur joue son morceau au clavier
     QObject::connect(this, SIGNAL(tempoDefini()), this,
                      SLOT(afficherCreationPartition()));
     QObject::connect(ui->textEdit, SIGNAL(textChanged()), this,
                      SLOT(ecrirePartition()));
-    // Troisième étape : on affiche la partition, et s'il le veut,
-    // l'utilisateur peut écouter son morceau
+
+    // Cinquième étape : l'utilisateur peut écouter son morceau
+    //                   et/ou voir sa partition
     QObject::connect(this, SIGNAL(partitionEcrite()), this,
                      SLOT(afficherEcouterPartition()));
     QObject::connect(ui->boutonEcouter, SIGNAL(clicked()), this,
                      SLOT(ecouterPartition()));
     QObject::connect(ui->boutonvoirpartition, SIGNAL(clicked()), this,
                      SLOT(voirPartition()));
-    //Quatrième étape: modification de la partition déjà écrite
+
+    //Sixième étape: modification de la partition déjà écrite
     QObject::connect(ui->frame, SIGNAL(clicked()), this, SLOT(getMousePosition()));
 }
 
+void MainWindow::initialisation(){
+    this->p->initPartition();
+    ui->MESURE->setCurrentIndex(0);
+    emit initFaite() ;
+
+}
+
+void MainWindow::affichemesure()
+{
+    ui->dialogue->setVisible(TRUE);
+    std::cout << "on est dans affiche mesure" << std::endl ;
+
+    int mesure = ui->MESURE->currentIndex();
+
+    if (mesure == 1){
+        ui->mesure1_2 -> setText("2\n4");
+        this->an->mesure = 2;
+    }
+    if (mesure == 2){
+        ui->mesure1_2 -> setText("3\n4");
+        this->an->mesure = 3;
+    }
+    if (mesure == 3){
+        ui->mesure1_2 -> setText("4\n4");
+        this->an->mesure = 4;
+    }
+}
 
 void MainWindow::afficherTempo(){
-    this->p->initPartition();
     ui->dialogue->setCurrentIndex(1);
-    ui->dialogue->setVisible(TRUE);
-    ui->dialogue->setCurrentIndex(0);
 }
 void MainWindow::afficherCreationPartition(){
     ui->dialogue->setCurrentIndex(2) ;
     ui->boxEcrirePartition->show() ;
+    ui->textEdit->hide() ;
 }
 
 void MainWindow::afficherEcouterPartition(){
@@ -120,6 +138,7 @@ void MainWindow::afficherEcouterPartition(){
  * Elle remplit une liste contenant le moment où l'utilisateur appuie sur le bouton
  */
 void MainWindow::choisirTempo(){
+    std::cout << "index de tempo 2 " <<ui->dialogue->currentIndex() << std::endl;
     clock_t start = clock() ;
 /*    int i = 0 ;
     while(this->p->listePulsations[i]!=0){
@@ -205,24 +224,6 @@ void MainWindow::ecouterPartition(){
     this->p->jouer() ;
 }
 
-void MainWindow::affichemesure()
-{
-    int mesure = ui->MESURE->currentIndex();
-    if (mesure == 1){
-        ui->mesure1_2 -> setText("2\n4");
-        this->an->mesure = 2;
-    }
-    if (mesure == 2){
-        ui->mesure1_2 -> setText("3\n4");
-        this->an->mesure = 3;
-    }
-    if (mesure == 3){
-        ui->mesure1_2 -> setText("4\n4");
-        this->an->mesure = 4;
-    }
-    ui->dialogue->setCurrentIndex(1) ;
-
-}
 void MainWindow::voirPartition(){
 
     this->an->update();

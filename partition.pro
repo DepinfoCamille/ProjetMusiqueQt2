@@ -54,12 +54,31 @@ DISTFILES += \
 #LIBS += -L"$$_PRO_FILE_PWD_C:\Program Files (x86)\OpenAL 1.1 SDK\libs\Win32" -lOpenAL32
 
 
-#INCLUDEPATH += "D:\ProjetMusique\portaudio\include"
-#LIBS += -L"D:\ProjetMusique\portaudio\src"
+INCLUDEPATH += "D:\ProjetMusique\portaudio\include"
+LIBS += -L"D:\ProjetMusique\portaudio\src"
 
-#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../portaudio/build/release/ -lportaudio_x86
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../portaudio/build/debug/ -lportaudio_x86
-#else:unix: LIBS += -L$$PWD/../../portaudio/build/ -lportaudio_x86
+INCLUDEPATH += "D:\ProjetMusique\openal-soft\include"
 
-#INCLUDEPATH += $$PWD/../../portaudio/build/Debug
-#DEPENDPATH += $$PWD/../../portaudio/build/Debug
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../portaudio/build/release/ -lportaudio_x86
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../portaudio/build/debug/ -lportaudio_x86
+else:unix: LIBS += -L$$PWD/../../portaudio/build/ -lportaudio_x86
+
+INCLUDEPATH += $$PWD/../../portaudio/build/Debug
+DEPENDPATH += $$PWD/../../portaudio/build/Debug
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../openal-soft/build/release/ -lOpenAL32
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../openal-soft/build/debug/ -lOpenAL32
+else:unix: LIBS += -L$$PWD/../../openal-soft/build/ -lOpenAL32
+
+INCLUDEPATH += $$PWD/../../openal-soft/build/Debug
+DEPENDPATH += $$PWD/../../openal-soft/build/Debug
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../SFML/build/lib/release/ -lsfml-audio-d
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../SFML/build/lib/debug/ -lsfml-audio-d
+else:unix: LIBS += -L$$PWD/../../SFML/build/lib/ -lsfml-audio-d
+
+INCLUDEPATH += $$PWD/../../SFML/build/lib/Debug
+DEPENDPATH += $$PWD/../../SFML/build/lib/Debug
+
+INCLUDEPATH += "D:\ProjetMusique\SFML\include"
+LIBS += -L"D:\ProjetMusique\SFML\src"

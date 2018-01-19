@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <QStackedWidget>
@@ -26,8 +25,9 @@ public:
 
 public slots:
 
-    /*Initialisation*/
- //   void initialisation() ;
+    /* Slot d'initialisation */
+
+    void initialisation() ;
 
     /* Slots d'affichage*/
     void affichecle();
@@ -44,7 +44,8 @@ public slots:
 
 
 signals:
-//    void initFaite() ;
+    void initFaite() ;
+    void mesureDefinie() ;
     void tempoDefini() ;
     void partitionEcrite() ;
 
@@ -53,5 +54,3 @@ private:
   //  void affichedo(position,ligne);
 
 };
-
-#endif // MAINWINDOW_H

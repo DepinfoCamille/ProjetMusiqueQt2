@@ -9,7 +9,7 @@
 #include <math.h>
 #include "portaudio.h"
 
-#define SAMPLE_RATE 44100
+#define SAMPLE_RATE 44500
 #define TABLE_SIZE SAMPLE_RATE
 #define FRAMES_PER_BUFFER 256
 
@@ -55,7 +55,7 @@ class Partition
         void calculDuree() ;
         void creeRythme() ;
         void jouer() ;
-        std::vector<TestData> creeDataSinusoide() ;
+        TestData creeDataSinusoide() ;
         void initPartition() ;
 
         virtual ~Partition();
@@ -70,7 +70,7 @@ class Partition
      //   std::tuple<std::tuple<std::string,int>, int> dicco_frequence ;
         std::vector<std::tuple<std::string,int>> dicco_notes2 ;
         std::vector<int> dicco_frequence ;
-
+        std::vector<char> dicco_clavier ;
 
         float listePulsations[4] = {0} ;
         float tempo ;

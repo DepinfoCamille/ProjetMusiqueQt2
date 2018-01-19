@@ -884,7 +884,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page_4">
       <widget class="QGroupBox" name="boxTempo_2">
@@ -959,18 +959,8 @@
         <bool>true</bool>
        </property>
        <property name="title">
-        <string>Veuillez écrire votre partition dans le cadre blanc ci-dessous : </string>
+        <string>Veuillez taper jouer votre partition au clavier.</string>
        </property>
-       <widget class="QTextEdit" name="textEdit">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>40</y>
-          <width>481</width>
-          <height>31</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QLabel" name="label">
         <property name="geometry">
          <rect>
@@ -984,6 +974,16 @@
          <string>Tapez sur Enter lorsque vous avez fini</string>
         </property>
        </widget>
+      </widget>
+      <widget class="QTextEdit" name="textEdit">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>100</y>
+         <width>481</width>
+         <height>31</height>
+        </rect>
+       </property>
       </widget>
      </widget>
      <widget class="QWidget" name="page_3">

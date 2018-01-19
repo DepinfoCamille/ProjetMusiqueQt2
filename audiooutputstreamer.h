@@ -10,7 +10,8 @@
 
 #include <math.h>
 #include <iostream>
-#include "partition.h"
+
+#define PI 3.14159265
 
 using namespace std;
 
@@ -19,11 +20,8 @@ class AudioOutputStreamer : public QObject
     Q_OBJECT
 
     public:
-        AudioOutputStreamer(int duree, int frequence);
+        AudioOutputStreamer();
         ~AudioOutputStreamer();
-        void setNotes(Partition* p);
-        void setFrequency(int f) ;
-        void setLenght(int l) ;
         void start();
 
     public slots:
@@ -41,8 +39,6 @@ class AudioOutputStreamer : public QObject
         float _omega;
         signed char* _buffer;
         int _sizeNolBuffer;
-        QAudioFormat format;
-
 
 };
 
