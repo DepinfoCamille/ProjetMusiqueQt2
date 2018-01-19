@@ -115,7 +115,6 @@ void MainWindow::affichemesure()
 {
     ui->dialogue->setVisible(TRUE);
     ui->dialogue->setCurrentIndex(0);
-    std::cout << "on est dans affiche mesure" << std::endl ;
 
     int mesure = ui->MESURE->currentIndex();
 
@@ -178,7 +177,6 @@ void MainWindow::affichecle()
     char *path=nullptr ;
     size_t size = 0 ;
     path=GetCurrentDir(path,size);
-    std::cout <<"rep courant " <<path << std::endl ;
 
     char* repCleSol = (char*) malloc(sizeof(char)*strlen(path)) ;
     char* repCleFa = (char*) malloc(sizeof(char)*strlen(path)) ;
@@ -186,11 +184,9 @@ void MainWindow::affichecle()
     strcpy(repCleSol,path) ;
     strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
 
-    std::cout << "rep sol " << repCleSol << std::endl ;
 
     strcpy(repCleFa,path) ;
     strcat(repCleFa,"\\..\\ProjetMusiqueQt2\\cleFa.png") ;
-    std::cout <<"rep fa " <<repCleFa << std::endl ;
 
     int cle = ui->CLE->currentIndex();
 
@@ -239,7 +235,7 @@ void MainWindow::ecrirePartition() {
         this->p->ajoutTemps(temps) ;
         emit partitionEcrite();
     }
-    ui->textEdit->setOverwriteMode(false);
+  //  ui->textEdit->setOverwriteMode(false);
 }
 
 void MainWindow::ecouterPartition(){
