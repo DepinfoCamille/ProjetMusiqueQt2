@@ -29,15 +29,13 @@ SOURCES += \
         mainwindow.cpp \
     partition.cpp \
     audiooutputstreamer.cpp \
-    affichernotes.cpp \
-    notesedit.cpp
+    affichernotes.cpp
 
 HEADERS += \
         mainwindow.h \
     partition.h \
     audiooutputstreamer.h \
-    affichernotes.h \
-    notesedit.h
+    affichernotes.h
 
 FORMS += \
         mainwindow.ui

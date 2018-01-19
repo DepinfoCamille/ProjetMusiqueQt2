@@ -111,8 +111,8 @@ void MainWindow::initialisation(){
 
 }
 
-void MainWindow::affichemesure()
-{
+void MainWindow::affichemesure(){
+
     ui->dialogue->setVisible(TRUE);
     ui->dialogue->setCurrentIndex(0);
 
@@ -135,10 +135,12 @@ void MainWindow::affichemesure()
 void MainWindow::afficherTempo(){
     ui->dialogue->setCurrentIndex(1);
 }
+
 void MainWindow::afficherCreationPartition(){
     ui->dialogue->setCurrentIndex(2) ;
     ui->boxEcrirePartition->show() ;
- //   ui->textEdit->hide() ;
+    ui->textEdit->setReadOnly(false);
+    ui->textEdit->hide() ;
 }
 
 void MainWindow::afficherEcouterPartition(){
@@ -146,6 +148,9 @@ void MainWindow::afficherEcouterPartition(){
     this->p->creeRythme() ;
     ui->dialogue->setCurrentIndex(3) ;
     ui->boxPartitionEcrite->show() ;
+   // ui->textEdit->clear() ;
+    ui->textEdit->show() ;
+
 }
 
 /** Cette fonction est lancée lorsque l'utilisateur appuie sur "Tempo"
