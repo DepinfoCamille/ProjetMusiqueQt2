@@ -87,7 +87,8 @@ MainWindow::MainWindow(QWidget *parent) :
                      SLOT(voirPartition()));
 
     //Sixième étape: modification de la partition déjà écrite
-    QObject::connect(ui->frame, SIGNAL(clicked()), this, SLOT(getMousePosition()));
+    QObject::connect(ui->frame, SIGNAL(clicked()), this, SLOT(positioncurseur()));
+
 }
 
 void MainWindow::initialisation(){
@@ -230,7 +231,30 @@ void MainWindow::voirPartition(){
     this->an->listeNotes =this->p->listeNotes ;
     this->an->listeTemps = this->p->listeRythme;
     this->an->listeOctaves=this->p->listeOctave;
+    int mesure = ui->MESURE->currentIndex();
 
+    if ( this->an->listeNotes.size() >15 ) {
+        for (int i=1; i <=this->an->listeNotes.size()/15; i++){
+            QLabel *cle= new QLabel(this);
+            QLabel *copiemesure = new QLabel(this);
+            cle ->setPixmap(QPixmap( "C:/Users/User/Desktop/2A/C++/cledesol.png" ));
+            cle ->setScaledContents(true);
+            cle -> show();
+            cle->setGeometry(27,43+96*i,55,65);
+            if (mesure == 1){
+                copiemesure -> setText("2\n4");
+            }
+                copiemesure->setGeometry(90,40+98*i,47,51);
+                copiemesure->show();
+                copiemesure ->setFont(QFont("Source Code Pro ",14,QFont::Bold));
+
+        }
+    }
+}
+
+void MainWindow::positioncurseur(){
+  //  pos = QCursor.pos();
+    std::cout<<"qjdhf";
 }
 
 
