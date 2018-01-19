@@ -101,6 +101,7 @@ void MainWindow::initialisation(){
 void MainWindow::affichemesure()
 {
     ui->dialogue->setVisible(TRUE);
+    ui->dialogue->setCurrentIndex(0);
     std::cout << "on est dans affiche mesure" << std::endl ;
 
     int mesure = ui->MESURE->currentIndex();

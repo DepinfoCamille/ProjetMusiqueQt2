@@ -57,7 +57,7 @@ class Partition
         void calculDuree() ;
         void creeRythme() ;
         void jouer() ;
-        TestData creeDataSinusoide() ;
+        TestData creeDataSinusoide(int i) ;
         void initPartition() ;
 
         virtual ~Partition();
