@@ -9,7 +9,7 @@
 
 #include <QChar>
 
-static int paCallback( const void *inputBuffer,
+int paCallback( const void *inputBuffer,
              void *outputBuffer, unsigned long framesPerBuffer,
              const PaStreamCallbackTimeInfo* timeInfo,
              PaStreamCallbackFlags statusFlags, void *userData )
@@ -34,7 +34,8 @@ static int paCallback( const void *inputBuffer,
 /** Joue une sinusoïde
  * @param frequence
  * @param temps en ms */
-static void joueSinusoide(int frequence, float temps){
+void joueSinusoide(int frequence, float temps){
+
     TestData data;
     PaStream *stream;
     PaStreamParameters outputParameters;
@@ -46,7 +47,7 @@ static void joueSinusoide(int frequence, float temps){
     /* Generate table with sine values at given frequency */
     for (i = 0; i < TABLE_SIZE; i++) {
       t = (double)i/(double)SAMPLE_RATE;
-      data.sine[i] = sin(2 * M_PI * frequence * t);
+      data.sine[i] = 1*sin(2 * M_PI * frequence * t);
     }
 
     /* Initialize user data */
@@ -80,7 +81,7 @@ static void joueSinusoide(int frequence, float temps){
     }
 
     /* Play sine wav */
-    printf("Play for %d seconds.\n", temps/1000 );
+    printf("Play for %d seconds.\n", (int)temps/1000 );
     sleep(temps/1000);
     err = Pa_StopStream( stream );
 
@@ -99,30 +100,6 @@ static void joueSinusoide(int frequence, float temps){
     if (err != paNoError) {
       printf("PortAudio error: terminate: %s\n", Pa_GetErrorText(err));
     }
-}
-
-/**
- * @brief Partition::creeDataSinusoide
- * @param i l'indice de la note à jouer
- * @return
- */
-TestData Partition::creeDataSinusoide(int i){
-
-    TestData data;
-
-    int entierFrequence ;
-    int t ;
-    entierFrequence = this->Partition::frequence(i) ;
-
-        int j ;
-        // Generate table with sine values at given frequency
-        for (j = 0; j < TABLE_SIZE/200; j++) {
-          t = (double)i/(double)SAMPLE_RATE;
-          data.sine[j] = sin(2 * M_PI * entierFrequence * t);
-        }
-    data.phase = 0;
-
-    return data ;
 }
 
 int Partition::setTempo(float val){
@@ -158,26 +135,23 @@ void Partition::initPartition(){
  *  @param tempo le temps que dure une pulsation en ms
  *  @return le nombre de croches contenues dans la note
  */
-static float nombredeDoublesCroches(float t, float tempo){
+ float nombredeDoublesCroches(float t, float tempo){
   //  float temps = static_cast<float>(t) ;
-    std::cout << "temps " << t << " tempo " <<tempo << std::endl ;
-
-    std::cout << "nombre croches " << ceil(2.0*/*temps*/t/tempo) << std::endl ;
 
     return ceil(2.0*/*temps*/t/tempo) ; // En fait on est en croches
 
 }
 
-static bool estTriolet(int t, float tempo){
-    float temps = static_cast<float>(t) ;
-
-    return ceil(3.0*temps/tempo)==1.0 ;
-}
-
+/**
+ * @brief Partition::Partition crée ce qu'on a choisi d'appeler des dictionnaires
+ * Un dictionnaire dicco_notes associe le caractère tapé au clavier à la note à laquelle il correspond
+ * Un dictionnaire dicco_notes2 est en fait un vecteur des différentes notes par ordre croissant
+ * Un dictionnaire dicco_frequence est le vecteur des différentes fréquences des notes par ordre croissant
+ */
 Partition::Partition(){
 
-/*    joueSinusoide(262, 500) ; // DO
-    joueSinusoide(294 ,1000) ; // RE
+    joueSinusoide(262, 500) ; // DO
+/*    joueSinusoide(294 ,1000) ; // RE
     joueSinusoide(330 ,1000) ; // MI
     joueSinusoide(349 ,1000) ; // FA
 
@@ -281,7 +255,6 @@ float Partition::ajoutTemps(clock_t t){
 
         else{ */
             this->listeTemps.push_back(floatT) ;
-            std::cout << "Temps entré dans ajoutTemps : " << floatT << std::endl ;
             return 0.0 ;
   //      }
     }
@@ -302,7 +275,6 @@ void Partition::calculDuree(){
     for(std::vector<float>::iterator it = this->listeTemps.begin() ;
         it != this->listeTemps.end()-1 ; it++){
         this->listeDuree.push_back(1000*(*(it+1)-*it)) ;
-        std::cout << " Durée calculée dans calculDuree : " << 1000*(*(it+1)-*it) << std::endl ;
     }
 }
 
@@ -312,24 +284,16 @@ void Partition::calculDuree(){
 void Partition::creeRythme(){ // Pour l'instant, on se limite aux croches
 
  //   float tempo = static_cast<float>(this->tempo) ; // temps d'une noire
-    std::cout << "On a " << this->listeDuree.size() << " éléments dans notre liste temps" << std::endl ;
     float fRythme ; // contient le nombre de croches dans une note
 
     for(std::vector<int>::iterator it = this->listeDuree.begin() ;
         it != this->listeDuree.end() ; it++){
 
         fRythme = nombredeDoublesCroches(*it, this->tempo) ;
-        std::cout <<"fRyhtme " <<fRythme << std::endl ;
 
         // on stocke le rythme sous la forme "NOIRE", "CROCHE"... dans listeRythme
         std::string sRythme = this->dicco_rythme[nombredeDoublesCroches(*it, this->tempo)] ;
-        std::cout << sRythme << std::endl ;
         this->listeRythme.push_back(sRythme) ;
-    }
-
-    for(std::vector<std::string>::iterator it = this->listeRythme.begin() ;
-        it != this->listeRythme.end() ; it++){
-        std::cout << " " << *it ;
     }
 
 }
@@ -349,9 +313,10 @@ void Partition::jouer(){
    for(auto it = this->listeNotes.begin() ; it!= this->listeNotes.end() ; it++){
        std::cout << *it << " ";
 
+       entierFrequence = this->frequence(i) ;
        temps = this->listeDuree[i++] ;
-       joueSinusoide(frequence(i++),this->listeTemps[i]);
-    }
+       joueSinusoide(entierFrequence,temps);
+   }
    std::cout << std::endl ;
    for(auto it = this->listeDuree.begin() ; it!= this->listeDuree.end() ; it++){
        std::cout << *it << " ";
@@ -362,7 +327,7 @@ void Partition::jouer(){
    for(int i = 0 ; i<this->listeDuree.size() ; i++){
 
        temps = this->listeDuree[i] ;
-       std::cout << "on joue la note " << (this->listeNotes[i]) << " " << std::endl ;
+       std::cout << "on joue la note " << (this->listeNotes[i]) << " de fréquence " << entierFrequence << std::endl ;
        entierFrequence = this->Partition::frequence(i) ;
        joueSinusoide(entierFrequence, temps);
    }
@@ -370,9 +335,15 @@ void Partition::jouer(){
 }
 
 /** @brief Cette fonction associe une note de listeNotes à la fréquence correspondante
+ * @param n l'indice de la note dans la partition
  */
 int Partition::frequence(int n){
+
     int i = 0 ;
+
+    for(int i = 0 ; i<this->dicco_notes2.size() ; i++){
+        std::cout << "note " << std::get<0>(this->dicco_notes2[i]) << " fréquence " << this->dicco_frequence[i] << std::endl ;
+            }
 
     for(std::vector<std::tuple<std::string,int>>::iterator it = this->dicco_notes2.begin() ; it != dicco_notes2.end() ; it++ ){
 

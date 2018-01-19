@@ -1,6 +1,6 @@
 #pragma once
-#include <vector>
 #include <unordered_map>
+#include <vector>
 #include <QChar>
 #include <QTextStream>
 #include <time.h>
@@ -12,7 +12,7 @@
 
 #include "portaudio.h"
 
-#define SAMPLE_RATE 44500
+#define SAMPLE_RATE 44100
 #define TABLE_SIZE SAMPLE_RATE
 #define FRAMES_PER_BUFFER 256
 
@@ -28,18 +28,15 @@ typedef struct _testData {
 } TestData;
 
 /* callback function prototype */
-/*static int paCallback( const void *inputBuffer,
+int paCallback( const void *inputBuffer,
              void *outputBuffer, unsigned long framesPerBuffer,
              const PaStreamCallbackTimeInfo* timeInfo,
              PaStreamCallbackFlags statusFlags, void *userData );
-*/
 
-static void joueSinusoide(int frequence, float temps) ;
 
-using std::vector ;
+ void joueSinusoide(int frequence, float temps) ;
 
-static float nombredeDoublesCroches(float t, float tempo) ;
-static bool estTriolet(int t, float tempo) ;
+ float nombredeDoublesCroches(float t, float tempo) ;
 
 /* Cette classe transforme la lecture clavier de l'utilisateur en partition
  * les attributs de la classe sont :
@@ -57,11 +54,10 @@ class Partition
         void calculDuree() ;
         void creeRythme() ;
         void jouer() ;
-        TestData creeDataSinusoide(int i) ;
         void initPartition() ;
 
         virtual ~Partition();
-        int lectureClavier() ;  // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé '\n'
+        int lectureClavier() ;  // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé sur entrée
                                 // c'est la fin de la partition
         int frequence(int n) ;
 

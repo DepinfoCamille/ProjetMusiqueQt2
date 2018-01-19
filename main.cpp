@@ -24,10 +24,24 @@ int main(int argc, char *argv[]){
 
 
     QApplication a(argc, argv);
-    char* cd = nullptr ;
-    /*cd = malloc(sizeof(char*)) ;
-    GetCurrentDir(cd,sizeof(char*));
-    std::cout << cd << std::endl ;*/
+
+    char *path=NULL;
+    size_t size;
+    path=GetCurrentDir(path,size);
+    std::cout<<"\n current Path "<<path << " size " <<size;
+    std::cout << std::endl ;
+
+ //   char str[] ="/path/to/file";
+  /*  char * pch;
+    char * temp;
+    pch = strtok (path,(char*)43);
+    while ( (temp = strtok (NULL, (char*)43) ) != NULL)
+    {
+      pch = temp;
+    }
+
+    std::cout << "The file is: " << pch << std::endl;*/
+
     MainWindow w;
 
     w.show();

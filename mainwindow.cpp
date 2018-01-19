@@ -94,6 +94,7 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::initialisation(){
     this->p->initPartition();
     ui->MESURE->setCurrentIndex(0);
+    ui->textEdit->setOverwriteMode(true); ;
     emit initFaite() ;
 
 }
@@ -126,7 +127,7 @@ void MainWindow::afficherTempo(){
 void MainWindow::afficherCreationPartition(){
     ui->dialogue->setCurrentIndex(2) ;
     ui->boxEcrirePartition->show() ;
-    ui->textEdit->hide() ;
+ //   ui->textEdit->hide() ;
 }
 
 void MainWindow::afficherEcouterPartition(){
@@ -140,7 +141,6 @@ void MainWindow::afficherEcouterPartition(){
  * Elle remplit une liste contenant le moment où l'utilisateur appuie sur le bouton
  */
 void MainWindow::choisirTempo(){
-    std::cout << "index de tempo 2 " <<ui->dialogue->currentIndex() << std::endl;
     clock_t start = clock() ;
 /*    int i = 0 ;
     while(this->p->listePulsations[i]!=0){
@@ -153,12 +153,7 @@ void MainWindow::choisirTempo(){
 
     if(i==3){
 
-        for(int j = 0 ; j < 4 ; j++){
-            std::cout << "tempo numéro " << j << " : " << this->p->listePulsations[j] << std::endl ;
-        }
-
         this->p->tempo = (this->p->listePulsations[3]-this->p->listePulsations[0])/3 ;
-        std::cout << "tempo " << this->p->tempo << std::endl ;
         emit tempoDefini() ;
         ui->page->hide() ;
     }
@@ -204,8 +199,6 @@ void MainWindow::ecrirePartition() {
 
         if(!noteLongue){
             this->p->ajoutNote(note) ;
-      //      std::cout <<"note : " << note << std::endl ;
-     //       std::cout <<"temps : " << temps << std::endl ;
         }
 
     }
@@ -213,16 +206,11 @@ void MainWindow::ecrirePartition() {
         this->p->ajoutTemps(temps) ;
         emit partitionEcrite();
     }
+    ui->textEdit->setOverwriteMode(false);
 }
 
 void MainWindow::ecouterPartition(){
-    int i = 0 ;
-    std::cout << " \n On est à l'affichage des fréquences" << std::endl ;
 
-    for(auto it = this->p->dicco_frequence.begin() ; it!=this->p->dicco_frequence.end() ; it++){
-        std::cout << this->p->dicco_frequence[i++] << " " ;
-    }
-    std::cout << " \n On a passé l'affichage des fréquences" << std::endl ;
     this->p->jouer() ;
 }
 
