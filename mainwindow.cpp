@@ -14,6 +14,8 @@
 #include <windows.h>
 #include <time.h>
 #include <conio.h>
+#include <string>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,9 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Initialisation des données
     this->p = new Partition() ;
-    QString titre ;
-    //titre.fromLatin1(buffer + "D:/ProjetMusique/ProjetMusiqueQt/build-partition-Desktop_Qt_5_10_0_MinGW_32bit-Debug/debug/morceau.wav") ;
-    //this->lecture = new QSound(titre) ;
 
     // Préparation de l'affichage
     ui->setupUi(this);
@@ -41,8 +40,20 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->CLE, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(affichecle()));
 
+    char *path=NULL;
+    size_t size;
+    path=GetCurrentDir(path,size);
+    std::cout<<"\n current Path "<<path << " size " <<size;
+    std::cout << std::endl ;
+
+    std::string repCourant = path ;
+    std::string repVoulu = "\\..\\PEA241.jpg" ;
+//    std::string repCle = repCourant + repVoulu ;
+    char* repCle = path ;
+    strcat(repCle,"\\..\\ProjetMusiqueQt2\\PEA241.jpg") ;
+
     ui->cledeSol_2 -> setGeometry(27,38,55,65);
-    ui->cledeSol_2->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledeSol.png" ) );
+    ui->cledeSol_2->setPixmap( QPixmap( repCle) );
     ui->cledeSol_2->setScaledContents(true);
     ui->cledeSol_2-> show();
 
