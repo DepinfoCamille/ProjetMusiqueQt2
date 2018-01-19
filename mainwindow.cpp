@@ -14,15 +14,13 @@
 #include <windows.h>
 #include <time.h>
 #include <conio.h>
-#include <string>
+#include <string.h>
 
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
- /*   char buffer[200];
-    GetCurrentDir(buffer, sizeof(buffer) );*/
 
     // Initialisation des données
     this->p = new Partition() ;
@@ -39,21 +37,24 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->CLE->addItem("Cle de Fa");
     QObject::connect(ui->CLE, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(affichecle()));
+    ui->CLE->setCurrentIndex(0);
 
-    char *path=NULL;
-    size_t size;
+    // Emplacement des clés
+    char *path=nullptr ;
+    size_t size = 0 ;
     path=GetCurrentDir(path,size);
-    std::cout<<"\n current Path "<<path << " size " <<size;
-    std::cout << std::endl ;
+    std::cout <<"rep courant " <<path << std::endl ;
 
-    std::string repCourant = path ;
-    std::string repVoulu = "\\..\\PEA241.jpg" ;
-//    std::string repCle = repCourant + repVoulu ;
-    char* repCle = path ;
-    strcat(repCle,"\\..\\ProjetMusiqueQt2\\PEA241.jpg") ;
+    char* repCleSol = (char*) malloc(sizeof(char)*strlen(path)) ;
+    strcpy(repCleSol,path) ;
+    strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
+
+    std::cout << "rep path après = " << path << std::endl ;
+    std::cout <<"rep sol " <<repCleSol << std::endl ;
+
 
     ui->cledeSol_2 -> setGeometry(27,38,55,65);
-    ui->cledeSol_2->setPixmap( QPixmap( repCle) );
+    ui->cledeSol_2->setPixmap( QPixmap( repCleSol) );
     ui->cledeSol_2->setScaledContents(true);
     ui->cledeSol_2-> show();
 
@@ -169,23 +170,44 @@ void MainWindow::choisirTempo(){
         ui->page->hide() ;
     }
 }
-
+/** @brief affiche une clé de sol ou une clé de fa, au choix */
 void MainWindow::affichecle()
 {
-    int cle = ui->CLE->currentIndex();
-    if (cle == 0 ){
 
+    // Emplacement des clés
+    char *path=nullptr ;
+    size_t size = 0 ;
+    path=GetCurrentDir(path,size);
+    std::cout <<"rep courant " <<path << std::endl ;
+
+    char* repCleSol = (char*) malloc(sizeof(char)*strlen(path)) ;
+    char* repCleFa = (char*) malloc(sizeof(char)*strlen(path)) ;
+
+    strcpy(repCleSol,path) ;
+    strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
+
+    std::cout << "rep sol " << repCleSol << std::endl ;
+
+    strcpy(repCleFa,path) ;
+    strcat(repCleFa,"\\..\\ProjetMusiqueQt2\\cleFa.png") ;
+    std::cout <<"rep fa " <<repCleFa << std::endl ;
+
+    int cle = ui->CLE->currentIndex();
+
+    // Clé de sol
+    if (cle == 0){
         ui->cledeSol_2 -> setGeometry(27,38,55,65);
-        ui->cledeSol_2->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledesol.png" ) );
+        ui->cledeSol_2->setPixmap( QPixmap(repCleSol) );
         ui->cledeSol_2->setScaledContents(true);
         ui->cledeSol_2-> show();
-
     }
+
+    // CLé de fa
     if (cle == 1){
 
        // QLabel *picture = new QLabel( this );
         ui->cledeSol_2 -> setGeometry(27,43,40,44);
-        ui->cledeSol_2 ->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledefa.png" ) );
+        ui->cledeSol_2 ->setPixmap( QPixmap(repCleFa) );
         ui->cledeSol_2 ->setScaledContents(true);
         ui->cledeSol_2 -> show();
     }
