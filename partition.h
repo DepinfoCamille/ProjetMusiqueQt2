@@ -1,6 +1,6 @@
 #pragma once
-#include <vector>
 #include <unordered_map>
+#include <vector>
 #include <QChar>
 #include <QTextStream>
 #include <time.h>
@@ -11,7 +11,6 @@
 #define FREQUENCY 440
 
 //#include "portaudio.h"
-
 
 #define SAMPLE_RATE 44100
 #define TABLE_SIZE SAMPLE_RATE
@@ -29,23 +28,17 @@ typedef struct _testData {
 } TestData;
 
 /* callback function prototype */
-/*static int paCallback( const void *inputBuffer,
+int paCallback( const void *inputBuffer,
              void *outputBuffer, unsigned long framesPerBuffer,
              const PaStreamCallbackTimeInfo* timeInfo,
              PaStreamCallbackFlags statusFlags, void *userData );
 
-<<<<<<< HEAD
-static void joueSinusoide(int frequence, float temps) ;*/
-/*
-static void joueSinusoide(int frequence, float temps,
-                          TestData *data, PaStream **stream,/* PaStreamParameters *outputParameters,*/ //PaError *err) ;
 
 
 
-using std::vector ;
+ void joueSinusoide(int frequence, float temps) ;
 
-static float nombredeDoublesCroches(float t, float tempo) ;
-static bool estTriolet(int t, float tempo) ;
+ float nombredeDoublesCroches(float t, float tempo) ;
 
 /* Cette classe transforme la lecture clavier de l'utilisateur en partition
  * les attributs de la classe sont :
@@ -63,11 +56,10 @@ class Partition
         void calculDuree() ;
         void creeRythme() ;
         void jouer() ;
-        std::vector<TestData> creeDataSinusoide() ;
         void initPartition() ;
 
         virtual ~Partition();
-        int lectureClavier() ;  // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé '\n'
+        int lectureClavier() ;  // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé sur entrée
                                 // c'est la fin de la partition
         int frequence(int n) ;
 
@@ -78,7 +70,7 @@ class Partition
      //   std::tuple<std::tuple<std::string,int>, int> dicco_frequence ;
         std::vector<std::tuple<std::string,int>> dicco_notes2 ;
         std::vector<int> dicco_frequence ;
-
+        std::vector<char> dicco_clavier ;
 
         float listePulsations[4] = {0} ;
         float tempo ;

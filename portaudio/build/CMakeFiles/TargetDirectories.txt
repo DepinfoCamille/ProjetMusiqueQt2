@@ -1,4 +1,0 @@
-D:/ProjetMusique/portaudio/build/CMakeFiles/portaudio.dir
-D:/ProjetMusique/portaudio/build/CMakeFiles/portaudio_static.dir
-D:/ProjetMusique/portaudio/build/CMakeFiles/ALL_BUILD.dir
-D:/ProjetMusique/portaudio/build/CMakeFiles/ZERO_CHECK.dir

@@ -14,34 +14,20 @@
 #include <windows.h>
 #include <time.h>
 #include <conio.h>
+#include <string.h>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
- /*   char buffer[200];
-    GetCurrentDir(buffer, sizeof(buffer) );*/
 
     // Initialisation des données
     this->p = new Partition() ;
-    QString titre ;
-    //titre.fromLatin1(buffer + "D:/ProjetMusique/ProjetMusiqueQt/build-partition-Desktop_Qt_5_10_0_MinGW_32bit-Debug/debug/morceau.wav") ;
-    //this->lecture = new QSound(titre) ;
 
     // Préparation de l'affichage
     ui->setupUi(this);
-/* HEAD
-    ui->dialogue->setCurrentIndex(1);
 
-    ui->page->hide() ;
-    ui->page_2->hide() ;
-    ui->page_3->hide() ;
-
-    ui->label->hide() ;
-    ui->textEdit->hide() ;
-    ui->boxEcrirePartition->hide() ;
-    ui->boxPartitionEcrite->hide() ;
-*/
     ui->dialogue->setParent(ui->centralWidget);
     ui-> dialogue -> setVisible(FALSE);
 
@@ -51,9 +37,24 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->CLE->addItem("Cle de Fa");
     QObject::connect(ui->CLE, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(affichecle()));
+    ui->CLE->setCurrentIndex(0);
+
+    // Emplacement des clés
+    char *path=nullptr ;
+    size_t size = 0 ;
+    path=GetCurrentDir(path,size);
+    std::cout <<"rep courant " <<path << std::endl ;
+
+    char* repCleSol = (char*) malloc(sizeof(char)*(strlen(path)+31)) ;
+    strcpy(repCleSol,path) ;
+    strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
+
+    std::cout << "rep path après = " << path << std::endl ;
+    std::cout <<"rep sol " <<repCleSol << std::endl ;
+
 
     ui->cledeSol_2 -> setGeometry(27,38,55,65);
-    ui->cledeSol_2->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledeSol.png" ) );
+    ui->cledeSol_2->setPixmap( QPixmap( repCleSol) );
     ui->cledeSol_2->setScaledContents(true);
     ui->cledeSol_2-> show();
 
@@ -66,47 +67,80 @@ MainWindow::MainWindow(QWidget *parent) :
         this -> an = new Affichernotes();
          this->an->setParent(ui->frame);
 
+    // Connexion des différents objets entre eux
 
-    QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
+    // Première étape : on initialise la partition et l'affichage
+    QObject::connect(ui->boutonEcrirePartition, SIGNAL(clicked()), this,
+                     SLOT(initialisation()));
+
+    // Deuxième étape : on choisit le type de mesure voulue
+    QObject::connect(this, SIGNAL(initFaite()), this,
                      SLOT(affichemesure()));
 
-   // QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
-   //                  SLOT(mesurepartition()));
-    // Etape 0 : On initialise tout
-  /*  QObject::connect(this, SIGNAL(initFaite()), this,
-                     SLOT(initialiser()));    */
-    // Première étape : l'utilisateur détermine le tempo
-    QObject::connect(ui->boutonEcrirePartition, SIGNAL(clicked()), this,
+    // Troisième étape : on choisit le tempo
+    QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(afficherTempo()));
     QObject::connect(ui->boutonTempo, SIGNAL(clicked()), this,
                      SLOT(choisirTempo()));
-    // Deuxième étape : l'utilisateur joue son morceau au clavier
+
+    // Quatrième étape : l'utilisateur joue son morceau au clavier
     QObject::connect(this, SIGNAL(tempoDefini()), this,
                      SLOT(afficherCreationPartition()));
     QObject::connect(ui->textEdit, SIGNAL(textChanged()), this,
                      SLOT(ecrirePartition()));
-    // Troisième étape : on affiche la partition, et s'il le veut,
-    // l'utilisateur peut écouter son morceau
+
+    // Cinquième étape : l'utilisateur peut écouter son morceau
+    //                   et/ou voir sa partition
     QObject::connect(this, SIGNAL(partitionEcrite()), this,
                      SLOT(afficherEcouterPartition()));
     QObject::connect(ui->boutonEcouter, SIGNAL(clicked()), this,
                      SLOT(ecouterPartition()));
     QObject::connect(ui->boutonvoirpartition, SIGNAL(clicked()), this,
                      SLOT(voirPartition()));
-    //Quatrième étape: modification de la partition déjà écrite
+
+    //Sixième étape: modification de la partition déjà écrite
     QObject::connect(ui->frame, SIGNAL(clicked()), this, SLOT(positioncurseur()));
+
 }
 
-
-void MainWindow::afficherTempo(){
+void MainWindow::initialisation(){
     this->p->initPartition();
-    ui->dialogue->setCurrentIndex(1);
+    ui->MESURE->setCurrentIndex(0);
+    ui->textEdit->setOverwriteMode(true); ;
+    emit initFaite() ;
+
+}
+
+void MainWindow::affichemesure(){
+
     ui->dialogue->setVisible(TRUE);
     ui->dialogue->setCurrentIndex(0);
+
+    int mesure = ui->MESURE->currentIndex();
+
+    if (mesure == 1){
+        ui->mesure1_2 -> setText("2\n4");
+        this->an->mesure = 2;
+    }
+    if (mesure == 2){
+        ui->mesure1_2 -> setText("3\n4");
+        this->an->mesure = 3;
+    }
+    if (mesure == 3){
+        ui->mesure1_2 -> setText("4\n4");
+        this->an->mesure = 4;
+    }
 }
+
+void MainWindow::afficherTempo(){
+    ui->dialogue->setCurrentIndex(1);
+}
+
 void MainWindow::afficherCreationPartition(){
     ui->dialogue->setCurrentIndex(2) ;
     ui->boxEcrirePartition->show() ;
+    ui->textEdit->setReadOnly(false);
+    ui->textEdit->hide() ;
 }
 
 void MainWindow::afficherEcouterPartition(){
@@ -114,6 +148,9 @@ void MainWindow::afficherEcouterPartition(){
     this->p->creeRythme() ;
     ui->dialogue->setCurrentIndex(3) ;
     ui->boxPartitionEcrite->show() ;
+   // ui->textEdit->clear() ;
+    ui->textEdit->show() ;
+
 }
 
 /** Cette fonction est lancée lorsque l'utilisateur appuie sur "Tempo"
@@ -132,33 +169,46 @@ void MainWindow::choisirTempo(){
 
     if(i==3){
 
-        for(int j = 0 ; j < 4 ; j++){
-            std::cout << "tempo numéro " << j << " : " << this->p->listePulsations[j] << std::endl ;
-        }
-
         this->p->tempo = (this->p->listePulsations[3]-this->p->listePulsations[0])/3 ;
-        std::cout << "tempo " << this->p->tempo << std::endl ;
         emit tempoDefini() ;
         ui->page->hide() ;
     }
 }
-
+/** @brief affiche une clé de sol ou une clé de fa, au choix */
 void MainWindow::affichecle()
 {
-    int cle = ui->CLE->currentIndex();
-    if (cle == 0 ){
 
+    // Emplacement des clés
+    char *path=nullptr ;
+    size_t size = 0 ;
+    path=GetCurrentDir(path,size);
+
+    char* repCleSol = (char*) malloc(sizeof(char)*(strlen(path)+50)) ;
+    char* repCleFa = (char*) malloc(sizeof(char)*(strlen(path)+50)) ;
+
+    strcpy(repCleSol,path) ;
+    strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
+
+
+    strcpy(repCleFa,path) ;
+    strcat(repCleFa,"\\..\\ProjetMusiqueQt2\\cleFa.png") ;
+
+    int cle = ui->CLE->currentIndex();
+
+    // Clé de sol
+    if (cle == 0){
         ui->cledeSol_2 -> setGeometry(27,38,55,65);
-        ui->cledeSol_2->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledesol.png" ) );
+        ui->cledeSol_2->setPixmap( QPixmap(repCleSol) );
         ui->cledeSol_2->setScaledContents(true);
         ui->cledeSol_2-> show();
-
     }
+
+    // CLé de fa
     if (cle == 1){
 
        // QLabel *picture = new QLabel( this );
         ui->cledeSol_2 -> setGeometry(27,43,40,44);
-        ui->cledeSol_2 ->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledefa.png" ) );
+        ui->cledeSol_2 ->setPixmap( QPixmap(repCleFa) );
         ui->cledeSol_2 ->setScaledContents(true);
         ui->cledeSol_2 -> show();
     }
@@ -183,8 +233,6 @@ void MainWindow::ecrirePartition() {
 
         if(!noteLongue){
             this->p->ajoutNote(note) ;
-      //      std::cout <<"note : " << note << std::endl ;
-     //       std::cout <<"temps : " << temps << std::endl ;
         }
 
     }
@@ -192,37 +240,14 @@ void MainWindow::ecrirePartition() {
         this->p->ajoutTemps(temps) ;
         emit partitionEcrite();
     }
+  //  ui->textEdit->setOverwriteMode(false);
 }
 
 void MainWindow::ecouterPartition(){
-    int i = 0 ;
-    std::cout << " \n On est à l'affichage des fréquences" << std::endl ;
 
-    for(auto it = this->p->dicco_frequence.begin() ; it!=this->p->dicco_frequence.end() ; it++){
-        std::cout << this->p->dicco_frequence[i++] << " " ;
-    }
-    std::cout << " \n On a passé l'affichage des fréquences" << std::endl ;
     this->p->jouer() ;
 }
 
-void MainWindow::affichemesure()
-{
-    int mesure = ui->MESURE->currentIndex();
-    if (mesure == 1){
-        ui->mesure1_2 -> setText("2\n4");
-        this->an->mesure = 2;
-    }
-    if (mesure == 2){
-        ui->mesure1_2 -> setText("3\n4");
-        this->an->mesure = 3;
-    }
-    if (mesure == 3){
-        ui->mesure1_2 -> setText("4\n4");
-        this->an->mesure = 4;
-    }
-    ui->dialogue->setCurrentIndex(1) ;
-
-}
 void MainWindow::voirPartition(){
 
     this->an->update();

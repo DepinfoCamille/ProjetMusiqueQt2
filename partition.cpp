@@ -9,8 +9,7 @@
 
 #include <QChar>
 
-//data.sine[i] = SILENCE + (char) (127.0 * sin( frequence*((double)i/(double)TABLE_SIZE) * M_PI * 2. ));
-/*static int paCallback( const void *inputBuffer,
+int paCallback( const void *inputBuffer,
              void *outputBuffer, unsigned long framesPerBuffer,
              const PaStreamCallbackTimeInfo* timeInfo,
              PaStreamCallbackFlags statusFlags, void *userData )
@@ -23,53 +22,20 @@
   for (i = 0; i < framesPerBuffer; i++) {
     sample = data->sine[data->phase++];
     *out++ = sample; /* left */
-    //*out++ = sample; /* right */
-/*
+  //*out++ = sample; /* right */
+
     if (data->phase >= TABLE_SIZE)
       data->phase -= TABLE_SIZE;
   }
   return paContinue;
 }
 
-std::vector<TestData> Partition::creeDataSinusoide(){
-
-    std::vector<TestData> vecteurDonnees ;
-
-    int entierFrequence ;
-    int t ;
-    TestData data;
-
-    for(int i = 0 ; i < this->listeNotes.size() ; i++){
-
-        entierFrequence = this->Partition::frequence(i) ;
-
-        if(entierFrequence!=-1){
-
-            int j ;
-
-            /* Generate table with sine values at given frequency */
-            //for (j = 0; j < TABLE_SIZE; j++) {
-             // t = (double)i/(double)SAMPLE_RATE;
-              //data.sine[j] = sin(2 * M_PI * entierFrequence * t);
-            //}
-            //data.phase = 0;
-        //}
-        //else{
-          //  data.phase = 1;
-       //}
-        //vecteurDonnees.push_back(data);
-
-    //}
-    /*std::cout << "Longueur de vecteurDonnes souhaitée " << this->listeNotes.size() << std::endl ;
-    std::cout << "Longueur de vecteurDonnes obtenue " << vecteurDonnees.size() << std::endl ;
-
-    return vecteurDonnees ;
-}
 
 /** Joue une sinusoïde
  * @param frequence
  * @param temps en ms */
-/*static void joueSinusoide(int frequence, float temps){
+void joueSinusoide(int frequence, float temps){
+
     TestData data;
     PaStream *stream;
     PaStreamParameters outputParameters;
@@ -79,28 +45,28 @@ std::vector<TestData> Partition::creeDataSinusoide(){
     double t;
 
     /* Generate table with sine values at given frequency */
-   /* for (i = 0; i < TABLE_SIZE; i++) {
+    for (i = 0; i < TABLE_SIZE; i++) {
       t = (double)i/(double)SAMPLE_RATE;
-      data.sine[i] = sin(2 * M_PI * frequence * t);
+      data.sine[i] = 1*sin(2 * M_PI * frequence * t);
     }
 
     /* Initialize user data */
-    /*data.phase = 0;
+    data.phase = 0;
 
     /* Initialize PortAudio */
-    /*Pa_Initialize();
+    Pa_Initialize();
 
     /* Set output stream parameters */
-   /*outputParameters.device = Pa_GetDefaultOutputDevice();
+    outputParameters.device = Pa_GetDefaultOutputDevice();
     outputParameters.channelCount = 2;
     outputParameters.sampleFormat = paFloat32;
     outputParameters.suggestedLatency =
-      Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
+    Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
     outputParameters.hostApiSpecificStreamInfo = NULL;
 
     /* Open audio stream */
-   // err = Pa_OpenStream( &stream, NULL /* no input */,
-     /*            &outputParameters,
+    err = Pa_OpenStream( &stream, NULL /* no input */,
+                 &outputParameters,
                  SAMPLE_RATE, FRAMES_PER_BUFFER, paNoFlag,
                  paCallback, &data );
 
@@ -109,33 +75,32 @@ std::vector<TestData> Partition::creeDataSinusoide(){
     }
 
     /* Start audio stream */
-  /*  err = Pa_StartStream( stream );
+    err = Pa_StartStream( stream );
     if (err != paNoError) {
       printf(  "PortAudio error: start stream: %s\n", Pa_GetErrorText(err));
     }
 
     /* Play sine wav */
-  /*  printf("Play for %d seconds.\n", temps/1000 );
+    printf("Play for %d seconds.\n", (int)temps/1000 );
     sleep(temps/1000);
     err = Pa_StopStream( stream );
 
 
     /* Stop audio stream */
-  /*  if (err != paNoError) {
+    if (err != paNoError) {
       printf(  "PortAudio error: stop stream: %s\n", Pa_GetErrorText(err));
     }
     /* Close audio stream */
-  /*  err = Pa_CloseStream(stream);
+    err = Pa_CloseStream(stream);
     if (err != paNoError) {
       printf("PortAudio error: close stream: %s\n", Pa_GetErrorText(err));
     }
     /* Terminate audio stream */
-   /* err = Pa_Terminate();
+    err = Pa_Terminate();
     if (err != paNoError) {
       printf("PortAudio error: terminate: %s\n", Pa_GetErrorText(err));
     }
-}*/
-
+}
 
 int Partition::setTempo(float val){
     int i = 0 ;
@@ -170,25 +135,26 @@ void Partition::initPartition(){
  *  @param tempo le temps que dure une pulsation en ms
  *  @return le nombre de croches contenues dans la note
  */
-static float nombredeDoublesCroches(float t, float tempo){
+ float nombredeDoublesCroches(float t, float tempo){
   //  float temps = static_cast<float>(t) ;
-    std::cout << "temps " << t << " tempo " <<tempo << std::endl ;
-
-    std::cout << "nombre croches " << ceil(2.0*/*temps*/t/tempo) << std::endl ;
 
     return ceil(2.0*/*temps*/t/tempo) ; // En fait on est en croches
 
 }
 
-static bool estTriolet(int t, float tempo){
-    float temps = static_cast<float>(t) ;
-
-    return ceil(3.0*temps/tempo)==1.0 ;
-}
-
+/**
+ * @brief Partition::Partition crée ce qu'on a choisi d'appeler des dictionnaires
+ * Un dictionnaire dicco_notes associe le caractère tapé au clavier à la note à laquelle il correspond
+ * Un dictionnaire dicco_notes2 est en fait un vecteur des différentes notes par ordre croissant
+ * Un dictionnaire dicco_frequence est le vecteur des différentes fréquences des notes par ordre croissant
+ */
 Partition::Partition(){
 
+<<<<<<< HEAD
     //joueSinusoide(262, 2000) ; // DO
+=======
+    joueSinusoide(262, 500) ; // DO
+>>>>>>> 8692c37db9b276ea022f0ceff11190213c8d759a
 /*    joueSinusoide(294 ,1000) ; // RE
     joueSinusoide(330 ,1000) ; // MI
     joueSinusoide(349 ,1000) ; // FA
@@ -196,8 +162,6 @@ Partition::Partition(){
  //   joueSinusoide(300,1) ;
     joueSinusoide(650,1000) ;*/
 
-//    this->listeNotes = new std::vector<char*>() ;
- //   this->listeTemps = new std::vector<int>() ;
     this->dicco_notes = {
    {'q',std::make_tuple("DO",3)},{'z',std::make_tuple("DO#",3)}, {'s',std::make_tuple("RE",3)}, {'e',std::make_tuple("RE#",3)},
        {'d',std::make_tuple("MI",3)}, {'f',std::make_tuple("FA",3)}, {'t',std::make_tuple("FA#",3)}, {'g',std::make_tuple("SOL",3)},
@@ -206,14 +170,26 @@ Partition::Partition(){
     this->dicco_rythme = {
         {1.0, "CROCHE"}, {2.0, "NOIRE"}, {4.0, "BLANCHE"}, {3.0, "NOIRE_POINTEE"}, {8.0, "RONDE"}, {6.0,"BLANCHE_POINTEE"}
     };
+
+    this->dicco_clavier.push_back('q') ; this->dicco_clavier.push_back('z') ;
+    this->dicco_clavier.push_back('s') ; this->dicco_clavier.push_back('e') ;
+    this->dicco_clavier.push_back('d') ; this->dicco_clavier.push_back('f') ;
+    this->dicco_clavier.push_back('t') ; this->dicco_clavier.push_back('g') ;
+    this->dicco_clavier.push_back('y') ; this->dicco_clavier.push_back('h') ;
+    this->dicco_clavier.push_back('u') ; this->dicco_clavier.push_back('j') ;
+    this->dicco_clavier.push_back('k') ; this->dicco_clavier.push_back('o') ;
+    this->dicco_clavier.push_back('l') ;
+
+
     this->dicco_notes2.push_back(std::make_tuple("DO",3)) ; this->dicco_notes2.push_back(std::make_tuple("DO#",3)) ;
-        this->dicco_notes2.push_back(std::make_tuple("RE",3)) ; this->dicco_notes2.push_back(std::make_tuple("RE#",3)) ;
-        this->dicco_notes2.push_back(std::make_tuple("MI",3)) ;this->dicco_notes2.push_back(std::make_tuple("FA",3)) ;
-        this->dicco_notes2.push_back(std::make_tuple("FA#",3)) ; this->dicco_notes2.push_back(std::make_tuple("SOL",3)) ;
-        this->dicco_notes2.push_back(std::make_tuple("SOL#",3)) ; this->dicco_notes2.push_back(std::make_tuple("LA",3)) ;
-        this->dicco_notes2.push_back(std::make_tuple("LA#",3))  ;this->dicco_notes2.push_back(std::make_tuple("SI",3)) ;
-        this->dicco_notes2.push_back(std::make_tuple("DO",4)) ; this->dicco_notes2.push_back(std::make_tuple("DO#",4))  ;
-        this->dicco_notes2.push_back(std::make_tuple("RE",4)) ;
+    this->dicco_notes2.push_back(std::make_tuple("RE",3)) ; this->dicco_notes2.push_back(std::make_tuple("RE#",3)) ;
+    this->dicco_notes2.push_back(std::make_tuple("MI",3)) ;this->dicco_notes2.push_back(std::make_tuple("FA",3)) ;
+    this->dicco_notes2.push_back(std::make_tuple("FA#",3)) ; this->dicco_notes2.push_back(std::make_tuple("SOL",3)) ;
+    this->dicco_notes2.push_back(std::make_tuple("SOL#",3)) ; this->dicco_notes2.push_back(std::make_tuple("LA",3)) ;
+    this->dicco_notes2.push_back(std::make_tuple("LA#",3))  ;this->dicco_notes2.push_back(std::make_tuple("SI",3)) ;
+    this->dicco_notes2.push_back(std::make_tuple("DO",4)) ; this->dicco_notes2.push_back(std::make_tuple("DO#",4))  ;
+    this->dicco_notes2.push_back(std::make_tuple("RE",4)) ;
+
     this->dicco_frequence.push_back(264) ; this->dicco_frequence.push_back(277 ) ;
     this->dicco_frequence.push_back(294 ) ; this->dicco_frequence.push_back(311) ;
     this->dicco_frequence.push_back(330) ; this->dicco_frequence.push_back(349) ;
@@ -240,6 +216,15 @@ void Partition::ajoutNote(char c){
             octave = std::get<1>(it->second) ;
 
         }
+
+     /*   int i ;
+        while(this->dicco_clavier[i]!=c || i<this->dicco_clavier.size()){
+            i++ ;
+        }
+        if(i==this->dicco_clavier.size()){return ;} // erreur de frappe
+
+        note = std::get<0>(dicco_notes2[i]) ;
+        octave = std::get<1>(dicco_notes2[i]) ;*/
 
         // on ajoute la note à la partition
         this->listeNotes.push_back(note) ;
@@ -274,7 +259,6 @@ float Partition::ajoutTemps(clock_t t){
 
         else{ */
             this->listeTemps.push_back(floatT) ;
-            std::cout << "Temps entré dans ajoutTemps : " << floatT << std::endl ;
             return 0.0 ;
   //      }
     }
@@ -295,7 +279,6 @@ void Partition::calculDuree(){
     for(std::vector<float>::iterator it = this->listeTemps.begin() ;
         it != this->listeTemps.end()-1 ; it++){
         this->listeDuree.push_back(1000*(*(it+1)-*it)) ;
-        std::cout << " Durée calculée dans calculDuree : " << 1000*(*(it+1)-*it) << std::endl ;
     }
 }
 
@@ -305,24 +288,16 @@ void Partition::calculDuree(){
 void Partition::creeRythme(){ // Pour l'instant, on se limite aux croches
 
  //   float tempo = static_cast<float>(this->tempo) ; // temps d'une noire
-    std::cout << "On a " << this->listeDuree.size() << " éléments dans notre liste temps" << std::endl ;
     float fRythme ; // contient le nombre de croches dans une note
 
     for(std::vector<int>::iterator it = this->listeDuree.begin() ;
         it != this->listeDuree.end() ; it++){
 
         fRythme = nombredeDoublesCroches(*it, this->tempo) ;
-        std::cout <<"fRyhtme " <<fRythme << std::endl ;
 
         // on stocke le rythme sous la forme "NOIRE", "CROCHE"... dans listeRythme
         std::string sRythme = this->dicco_rythme[nombredeDoublesCroches(*it, this->tempo)] ;
-        std::cout << sRythme << std::endl ;
         this->listeRythme.push_back(sRythme) ;
-    }
-
-    for(std::vector<std::string>::iterator it = this->listeRythme.begin() ;
-        it != this->listeRythme.end() ; it++){
-        std::cout << " " << *it ;
     }
 
 }
@@ -333,86 +308,46 @@ void Partition::creeRythme(){ // Pour l'instant, on se limite aux croches
  */
 void Partition::jouer(){
 
-   std::vector<TestData> vecteurDonneesSinusoides = this->creeDataSinusoide() ;
+   //TestData data = this->creeDataSinusoide() ;
 
-   /* Initialize PortAudio */
-   PaStreamParameters outputParameters;
-   PaError err;
-   PaStream *stream;
-   Pa_Initialize();
-
-   /* Set output stream parameters */
-   outputParameters.device = Pa_GetDefaultOutputDevice();
-   outputParameters.channelCount = 2;
-   outputParameters.sampleFormat = paFloat32;
-   outputParameters.suggestedLatency =
-     Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
-   outputParameters.hostApiSpecificStreamInfo = NULL;
-
-<<<<<<< HEAD
-           if(entierFrequence!=-1){
-               std::cout << "on joue la note de numéro " <<entierFrequence <<std::endl ;
-               std::cout << "On joue la fréquence " << entierFrequence << std::endl ;
-               std::cout << "On attend " <<(this->listeDuree[i]) << "ms" << std::endl ;
-               //joueSinusoide(entierFrequence, this->listeDuree[i]) ;
-               thread.msleep (this->listeDuree[i]) ;
-=======
    int i = 0 ;
    int temps ;
+   int entierFrequence ;
 
-   for(auto data = vecteurDonneesSinusoides.begin() ; data != vecteurDonneesSinusoides.end() ; data++){
+   for(auto it = this->listeNotes.begin() ; it!= this->listeNotes.end() ; it++){
+       std::cout << *it << " ";
 
+       entierFrequence = this->frequence(i) ;
        temps = this->listeDuree[i++] ;
-       std::cout << "on joue la " << i -1 << " e note" << std::endl ;
-
-       if(data->phase!=1){
-           /* Open audio stream */
-           err = Pa_OpenStream( &stream, NULL /* no input */,
-                        &outputParameters,
-                        SAMPLE_RATE, FRAMES_PER_BUFFER, paNoFlag,
-                        paCallback, &(*data) );
-
-           if (err != paNoError) {
-             printf("PortAudio error: open stream: %s\n", Pa_GetErrorText(err));
-           }
-
-           /* Start audio stream */
-           err = Pa_StartStream( stream );
-           if (err != paNoError) {
-             printf(  "PortAudio error: start stream: %s\n", Pa_GetErrorText(err));
-           }
-
-           /* Play sine wav */
-           printf("Play for %d seconds.\n", temps/1000 );
-           sleep(temps/1000);
-           err = Pa_StopStream( stream );
+       joueSinusoide(entierFrequence,temps);
+   }
+   std::cout << std::endl ;
+   for(auto it = this->listeDuree.begin() ; it!= this->listeDuree.end() ; it++){
+       std::cout << *it << " ";
+   }
+   std::cout << std::endl ;
 
 
-           /* Stop audio stream */
-           if (err != paNoError) {
-             printf(  "PortAudio error: stop stream: %s\n", Pa_GetErrorText(err));
-           }
+   for(int i = 0 ; i<this->listeDuree.size() ; i++){
 
-           /* Close audio stream */
-           err = Pa_CloseStream(stream);
-           if (err != paNoError) {
-             printf("PortAudio error: close stream: %s\n", Pa_GetErrorText(err));
->>>>>>> 2c10b4c1f7e7b33af67e7f1c2061728bf2fb430b
-           }
-       }
+       temps = this->listeDuree[i] ;
+       std::cout << "on joue la note " << (this->listeNotes[i]) << " de fréquence " << entierFrequence << std::endl ;
+       entierFrequence = this->Partition::frequence(i) ;
+       joueSinusoide(entierFrequence, temps);
    }
 
-   /* Terminate audio stream */
-   err = Pa_Terminate();
-   if (err != paNoError) {
-     printf("PortAudio error: terminate: %s\n", Pa_GetErrorText(err));
-   }
 }
 
 /** @brief Cette fonction associe une note de listeNotes à la fréquence correspondante
+ * @param n l'indice de la note dans la partition
  */
 int Partition::frequence(int n){
+
     int i = 0 ;
+
+    for(int i = 0 ; i<this->dicco_notes2.size() ; i++){
+        std::cout << "note " << std::get<0>(this->dicco_notes2[i]) << " fréquence " << this->dicco_frequence[i] << std::endl ;
+            }
 
     for(std::vector<std::tuple<std::string,int>>::iterator it = this->dicco_notes2.begin() ; it != dicco_notes2.end() ; it++ ){
 
@@ -421,7 +356,6 @@ int Partition::frequence(int n){
         }
         i++;
     }
-    return -1 ; // on est sur une faute de frappe, qui sera ignorée
 }
 
 

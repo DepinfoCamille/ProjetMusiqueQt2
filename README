@@ -1,0 +1,5 @@
+Notre programme crée un exécutable capable de lire une partition au clavier.
+
+Pour créer l'exécutable :
+
+ - Nous avons utilisé la bibliothèque portaudio, que vous trouverez ...
