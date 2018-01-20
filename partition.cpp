@@ -150,6 +150,7 @@ Partition::Partition(){
 
     for(int i = 0 ; i < 5; i++){
         joueSinusoide(264+10*i, 2000) ;
+        Sleep(2000) ;
         std::cout << "fréquence " << 264+10*i << std::endl ;
 
     }
