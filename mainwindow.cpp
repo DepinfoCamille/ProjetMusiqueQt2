@@ -349,8 +349,6 @@ void MainWindow::changerPartition(){
         this->p->listebuttons.push_back(buttoni);
         QObject::connect(this->p->listebuttons[i], SIGNAL(clicked()), this,
                          SLOT(affichercaracteristiquesnote()));
-
-
     }
 }
 
@@ -364,10 +362,11 @@ void MainWindow::affichercaracteristiquesnote(){
     int j= i/15;
     QLabel *information = new QLabel(this);
     QComboBox *note = new QComboBox(information);
+    QComboBox *tempo = new QComboBox(information);
     information ->setScaledContents(true);
-    information->setGeometry(150 +(i-15*j)*35,120 + j*90,100,60);
-    information->setText(this->an->listeNotes[i].c_str());
-    information->autoFillBackground();
+    information->setGeometry(150 +(i-15*j)*35,120 + j*90,130,120);
+    information->setText("    Veuillez choisir \n    votre modification \n \n \n \n \n \n");
+    information->setStyleSheet("background-color: rgb(240, 243, 244)");
     information->show();
     indicenoteachanger=i;
     note ->addItem("notes");
@@ -378,12 +377,22 @@ void MainWindow::affichercaracteristiquesnote(){
     note ->addItem("SOL");
     note ->addItem("LA");
     note ->addItem("SI");
+    note->move(30,42);
     QObject::connect(note, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(changernote(int)));
+    tempo->addItem("tempo");
+    tempo->addItem("NOIRE");
+    tempo->addItem("BLANCHE");
+    tempo->addItem("RONDE");
+    tempo->addItem("CROCHE");
+    tempo->addItem("NOIRE_POINTEE");
+    tempo->addItem("BLANCHE_POINTEE");
+    tempo->move(30,62);
+    QObject::connect(tempo, SIGNAL(currentIndexChanged(int)), this,
+                     SLOT(changertempo(int)));
 }
 
 void MainWindow::changernote(int i){
-
     if (i == 1){
         this->p->listeNotes[indicenoteachanger] = "DO";
     }
@@ -404,6 +413,28 @@ void MainWindow::changernote(int i){
     }
     if (i == 7){
         this->p->listeNotes[indicenoteachanger] = "SI";
+    }
+    this->voirPartition();
+}
+void MainWindow::changertempo(int i){
+
+    if (i == 1){
+        this->p->listeRythme[indicenoteachanger] = "NOIRE";
+    }
+    if (i == 2){
+        this->p->listeRythme[indicenoteachanger] = "BLANCHE";
+    }
+    if (i == 3){
+        this->p->listeRythme[indicenoteachanger] = "RONDE";
+    }
+    if (i == 4){
+        this->p->listeRythme[indicenoteachanger] = "CROCHE";
+    }
+    if (i == 5){
+        this->p->listeRythme[indicenoteachanger] = "NOIRE_POINTEE";
+    }
+    if (i == 6){
+        this->p->listeRythme[indicenoteachanger] = "BLANCHE_POINTEE";
     }
 
     this->voirPartition();

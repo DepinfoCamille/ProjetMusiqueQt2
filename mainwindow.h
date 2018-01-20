@@ -55,6 +55,8 @@ public slots:
     void ecouterPartition() ;
     void changerPartition();
     void changernote(int i);
+    void changertempo(int i);
+
 
 
 signals:
