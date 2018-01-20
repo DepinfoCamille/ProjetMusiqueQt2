@@ -34,7 +34,7 @@ public:
     QSound* lecture ;
     Affichernotes* an;
 
-public slots:
+protected slots:
 
     /* Slot d'initialisation */
 

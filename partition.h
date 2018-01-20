@@ -4,11 +4,8 @@
 #include <QChar>
 #include <QTextStream>
 #include <time.h>
-//#include "portaudio.h"
 #include <stdio.h>
 #include <math.h>
-
-#define FREQUENCY 440
 
 #include "portaudio.h"
 
@@ -33,9 +30,6 @@ int paCallback( const void *inputBuffer,
              const PaStreamCallbackTimeInfo* timeInfo,
              PaStreamCallbackFlags statusFlags, void *userData );
 
-
-
-
  void joueSinusoide(int frequence, float temps) ;
 
  float nombredeDoublesCroches(float t, float tempo) ;
@@ -55,33 +49,46 @@ class Partition
         void initPartition() ;
 
         virtual ~Partition();
+
+        void ajoutNote(char c) ;
+        float ajoutTemps(clock_t t) ;
+        void creeRythme() ;
+
+        // stocke toutes les notes tapées au clavier sous forme de notes "DO", "RE"...
+        std::vector<std::string> listeNotes ;
+        // stocke les octaves des notes de listeNotes
+        std::vector<int> listeOctave ;
+        // stocke le rythme d'une note sous la forme "NOIRE", "BLANCHE"...
+        std::vector<std::string> listeRythme ;
+    protected:
+
         int lectureClavier() ;  // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé sur entrée
                                 // c'est la fin de la partition
         int frequence(int n) ;
-        void ajoutNote(char c) ;
-        float ajoutTemps(clock_t t) ;
         void calculDuree() ;
-        void creeRythme() ;
+
+        // Les dictionnaires sont les objets qui permettent de créer les listes
+        // contenant différentes informations relatives à la partition
 
         // dictionnaire qui à une touche de clavier associe une note
         std::unordered_map<char,std::tuple<std::string,int>> dicco_notes ;
+        // dictionnaire qui à un nombre de doubles croches associe une string de la forme "CROCHE"
         std::unordered_map<float,std::string> dicco_rythme ;
-    //    std::vector<std::tuple<std::string,int>> dicco_son ;
-     //   std::tuple<std::tuple<std::string,int>, int> dicco_frequence ;
+        // "dictionnaire" rangeant les notes (tuple contenant son nom et son octave) par ordre croissant
         std::vector<std::tuple<std::string,int>> dicco_notes2 ;
+        // "dictionnaire" rangeant les fréquences correspondant aux notes de dicco_notes2 par ordre croissant
         std::vector<int> dicco_frequence ;
-        std::vector<char> dicco_clavier ;
+        std::vector<char> dicco_clavier ; // pas utilisé
+
+        // stocke toutes les notes tapées au clavier sous forme de caractères 'q', 's'...
+        std::vector<char> listeClavier ;
+        // stocke le moment où l'utilisateur appuie sur chaque touche
+        std::vector<float> listeTemps ;
+        // stocke la durée en ms de chaque note
+        std::vector<int> listeDuree ;
 
         float listePulsations[4] = {0} ;
         float tempo ;
-        std::vector<char> listeClavier ; // stocke toutes les notes tapées au clavier sous forme de caractères 'q', 's'...
-        std::vector<std::string> listeNotes ; // stocke toutes les notes tapées au clavier sous forme de notes "DO", "RE"...
-        std::vector<float> listeTemps ; // stocke le temps en ms que cette note est jouée
-        std::vector<int> listeDuree ;
-        std::vector<int> listeOctave ;
-        std::vector<std::string> listeRythme ; // stocke le rythme d'une note sous la forme "NOIRE", "BLANCHE"...
-
-    protected:
 
     private:
 
