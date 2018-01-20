@@ -109,11 +109,19 @@ void MainWindow::initialisation(){
     ui->MESURE->setCurrentIndex(0);
     ui->textEdit->setOverwriteMode(true);
     this->an->hide() ;
+
     if(!this->clesDebutLignes.empty()){
         for(auto cle = this->clesDebutLignes.begin() ; cle != this->clesDebutLignes.end() ; cle++){
             (*cle)->clear() ;
         }
         this->clesDebutLignes.clear() ;
+    }
+
+    if(!this->mesureDebutLignes.empty()){
+        for(auto mesure = this->mesureDebutLignes.begin() ; mesure != this->mesureDebutLignes.end() ; mesure++){
+            (*mesure)->clear() ;
+        }
+        this->mesureDebutLignes.clear() ;
     }
 
     emit initFaite() ;
@@ -320,6 +328,7 @@ void MainWindow::voirPartition(){
                 copiemesure->setGeometry(90,40+98*i,47,51);
                 copiemesure->show();
                 copiemesure ->setFont(QFont("Source Code Pro ",14,QFont::Bold));
+                this->mesureDebutLignes.push_back(copiemesure);
 
         }
     }

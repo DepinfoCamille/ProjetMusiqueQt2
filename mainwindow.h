@@ -63,6 +63,7 @@ signals:
 
 protected:
     std::vector<QLabel*> clesDebutLignes ;
+    std::vector<QLabel*> mesureDebutLignes ;
 
 private:
     Ui::MainWindow *ui;
