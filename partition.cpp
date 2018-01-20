@@ -342,14 +342,15 @@ int Partition::frequence(int n){
 
     int i = 0 ;
 
-    for(int i = 0 ; i<this->dicco_notes2.size() ; i++){
+  /*  for(int i = 0 ; i<this->dicco_notes2.size() ; i++){
         std::cout << "note " << std::get<0>(this->dicco_notes2[i]) << " fréquence " << this->dicco_frequence[i] << std::endl ;
-            }
+            }*/
 
-    for(std::vector<std::tuple<std::string,int>>::iterator it = this->dicco_notes2.begin() ; it != dicco_notes2.end() ; it++ ){
-
-        if(std::get<0>(*it)==this->listeNotes[n] && std::get<1>(*it)==(this->listeOctave[n])){
-            return this->dicco_frequence[i];
+   // for(std::vector<std::tuple<std::string,int>>::iterator it = this->dicco_notes2.begin() ; it != dicco_notes2.end() ; it++ ){
+    for(int j = 0 ; j <(int)this->listeNotes.size() ; j++) {
+        if(std::get<0>(this->dicco_notes2[j])==this->listeNotes[n] && std::get<1>(this->dicco_notes2[j])==(this->listeOctave[n])){
+            std::cout << "On a trouvé la fréquence " << this->dicco_frequence[j] << std::endl ;
+            return this->dicco_frequence[j];
         }
         i++;
     }
