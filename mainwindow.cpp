@@ -75,11 +75,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Deuxième étape : on choisit le type de mesure voulue
     QObject::connect(this, SIGNAL(initFaite()), this,
-                     SLOT(affichemesure()));
+                     SLOT(afficherboxmesure()));
 
     // Troisième étape : on choisit le tempo
     QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
-                     SLOT(afficherTempo()));
+                     SLOT(choixmesure()));
     QObject::connect(ui->boutonTempo, SIGNAL(clicked()), this,
                      SLOT(choisirTempo()));
 
@@ -110,11 +110,14 @@ void MainWindow::initialisation(){
     emit initFaite() ;
 
 }
-
-void MainWindow::affichemesure(){
-
+void MainWindow::afficherboxmesure(){
     ui->dialogue->setVisible(TRUE);
     ui->dialogue->setCurrentIndex(0);
+
+}
+void MainWindow::choixmesure(){
+
+
 
     int mesure = ui->MESURE->currentIndex();
 
@@ -122,19 +125,19 @@ void MainWindow::affichemesure(){
         ui->mesure1_2 -> setText("2\n4");
         this->an->mesure = 2;
     }
-    if (mesure == 2){
+    else if (mesure == 2){
         ui->mesure1_2 -> setText("3\n4");
         this->an->mesure = 3;
     }
-    if (mesure == 3){
+    else if (mesure == 3){
         ui->mesure1_2 -> setText("4\n4");
         this->an->mesure = 4;
     }
+    ui->dialogue->setCurrentIndex(1);
+
 }
 
-void MainWindow::afficherTempo(){
-    ui->dialogue->setCurrentIndex(1);
-}
+
 
 void MainWindow::afficherCreationPartition(){
     ui->dialogue->setCurrentIndex(2) ;

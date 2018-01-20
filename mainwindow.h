@@ -41,12 +41,12 @@ public slots:
 
     /* Slots d'affichage*/
     void affichecle();
-    void afficherTempo() ;
-    void affichemesure();
+    void choixmesure();
     void afficherCreationPartition() ;
     void afficherEcouterPartition() ;
     void voirPartition();
     void positioncurseur();
+    void afficherboxmesure();
 
     /* Slots agissant sur la partition */
     void choisirTempo() ;
