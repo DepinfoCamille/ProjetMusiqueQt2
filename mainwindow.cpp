@@ -130,8 +130,6 @@ void MainWindow::affichemesure(){
         ui->mesure1_2 -> setText("4\n4");
         this->an->mesure = 4;
     }
- //   ui->mesure1_2->setParent(ui->centralWidget);
-   // ui->mesure1_2->show();
 }
 
 void MainWindow::afficherTempo(){
