@@ -51,10 +51,6 @@ class Partition
         Partition();
 
         int setTempo( float val) ;
-        void ajoutNote(char c) ;
-        float ajoutTemps(clock_t t) ;
-        void calculDuree() ;
-        void creeRythme() ;
         void jouer() ;
         void initPartition() ;
 
@@ -62,6 +58,10 @@ class Partition
         int lectureClavier() ;  // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé sur entrée
                                 // c'est la fin de la partition
         int frequence(int n) ;
+        void ajoutNote(char c) ;
+        float ajoutTemps(clock_t t) ;
+        void calculDuree() ;
+        void creeRythme() ;
 
         // dictionnaire qui à une touche de clavier associe une note
         std::unordered_map<char,std::tuple<std::string,int>> dicco_notes ;
@@ -84,7 +84,5 @@ class Partition
     protected:
 
     private:
-
-        bool premiereValeur ; // Attention ! Il faut le réinitialiser quand on recommence un partition
 
 };

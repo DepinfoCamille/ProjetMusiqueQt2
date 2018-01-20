@@ -76,11 +76,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Deuxième étape : on choisit le type de mesure voulue
     QObject::connect(this, SIGNAL(initFaite()), this,
-                     SLOT(affichemesure()));
+                     SLOT(afficherboxmesure()));
 
     // Troisième étape : on choisit le tempo
     QObject::connect(ui->MESURE, SIGNAL(currentIndexChanged(int)), this,
-                     SLOT(afficherTempo()));
+                     SLOT(choixmesure()));
     QObject::connect(ui->boutonTempo, SIGNAL(clicked()), this,
                      SLOT(choisirTempo()));
 
@@ -119,11 +119,14 @@ void MainWindow::initialisation(){
     emit initFaite() ;
 
 }
-
-void MainWindow::affichemesure(){
-
+void MainWindow::afficherboxmesure(){
     ui->dialogue->setVisible(TRUE);
     ui->dialogue->setCurrentIndex(0);
+
+}
+void MainWindow::choixmesure(){
+
+
 
     int mesure = ui->MESURE->currentIndex();
 
@@ -131,19 +134,19 @@ void MainWindow::affichemesure(){
         ui->mesure1_2 -> setText("2\n4");
         this->an->mesure = 2;
     }
-    if (mesure == 2){
+    else if (mesure == 2){
         ui->mesure1_2 -> setText("3\n4");
         this->an->mesure = 3;
     }
-    if (mesure == 3){
+    else if (mesure == 3){
         ui->mesure1_2 -> setText("4\n4");
         this->an->mesure = 4;
     }
+    ui->dialogue->setCurrentIndex(1);
+
 }
 
-void MainWindow::afficherTempo(){
-    ui->dialogue->setCurrentIndex(1);
-}
+
 
 void MainWindow::afficherCreationPartition(){
     ui->dialogue->setCurrentIndex(2) ;
@@ -260,11 +263,13 @@ void MainWindow::ecouterPartition(){
 void MainWindow::voirPartition(){
 
     this->an->show() ;
+
     this->an->update();
     this->an->listeNotes =this->p->listeNotes ;
     this->an->listeTemps = this->p->listeRythme;
     this->an->listeOctaves=this->p->listeOctave;
     int mesure = ui->MESURE->currentIndex();
+    int indexCle = ui->CLE->currentIndex() ;
 
     // Emplacement des clés
     char *path=nullptr ;
@@ -281,19 +286,16 @@ void MainWindow::voirPartition(){
     strcpy(repCleFa,path) ;
     strcat(repCleFa,"\\..\\ProjetMusiqueQt2\\cleFa.png") ;
 
-    int indexCle = ui->CLE->currentIndex();
-
-
     // On est dans le cas où il y a plusieurs lignes
-
-
     if ( this->an->listeNotes.size() >15 ) {
+
         for (int i=1; i <=(int)this->an->listeNotes.size()/15; i++){
             QLabel *cle= new QLabel(this);
             QLabel *copiemesure = new QLabel(this);
 
             if(indexCle==0){ // clé de sol
                 cle ->setPixmap(QPixmap( repCleSol));
+
                 cle ->setScaledContents(true);
                 cle -> show();
                 cle->setGeometry(27,43+96*i,55,65);
@@ -308,6 +310,12 @@ void MainWindow::voirPartition(){
 
             if (mesure == 1){
                 copiemesure -> setText("2\n4");
+            }
+            if (mesure == 2){
+                copiemesure -> setText("3\n4");
+            }
+            if (mesure == 3){
+                copiemesure -> setText("4\n4");
             }
                 copiemesure->setGeometry(90,40+98*i,47,51);
                 copiemesure->show();
