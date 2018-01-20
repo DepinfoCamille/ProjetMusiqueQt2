@@ -14,19 +14,16 @@
 #include <windows.h>
 #include <time.h>
 #include <conio.h>
+#include <string.h>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
- /*   char buffer[200];
-    GetCurrentDir(buffer, sizeof(buffer) );*/
 
     // Initialisation des données
     this->p = new Partition() ;
-    QString titre ;
-    //titre.fromLatin1(buffer + "D:/ProjetMusique/ProjetMusiqueQt/build-partition-Desktop_Qt_5_10_0_MinGW_32bit-Debug/debug/morceau.wav") ;
-    //this->lecture = new QSound(titre) ;
 
     // Préparation de l'affichage
     ui->setupUi(this);
@@ -40,9 +37,24 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->CLE->addItem("Cle de Fa");
     QObject::connect(ui->CLE, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(affichecle()));
+    ui->CLE->setCurrentIndex(0);
+
+    // Emplacement des clés
+    char *path=nullptr ;
+    size_t size = 0 ;
+    path=GetCurrentDir(path,size);
+    std::cout <<"rep courant " <<path << std::endl ;
+
+    char* repCleSol = (char*) malloc(sizeof(char)*strlen(path)) ;
+    strcpy(repCleSol,path) ;
+    strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
+
+    std::cout << "rep path après = " << path << std::endl ;
+    std::cout <<"rep sol " <<repCleSol << std::endl ;
+
 
     ui->cledeSol_2 -> setGeometry(27,38,55,65);
-    ui->cledeSol_2->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledeSol.png" ) );
+    ui->cledeSol_2->setPixmap( QPixmap( repCleSol) );
     ui->cledeSol_2->setScaledContents(true);
     ui->cledeSol_2-> show();
 
@@ -99,11 +111,10 @@ void MainWindow::initialisation(){
 
 }
 
-void MainWindow::affichemesure()
-{
+void MainWindow::affichemesure(){
+
     ui->dialogue->setVisible(TRUE);
     ui->dialogue->setCurrentIndex(0);
-    std::cout << "on est dans affiche mesure" << std::endl ;
 
     int mesure = ui->MESURE->currentIndex();
 
@@ -124,10 +135,12 @@ void MainWindow::affichemesure()
 void MainWindow::afficherTempo(){
     ui->dialogue->setCurrentIndex(1);
 }
+
 void MainWindow::afficherCreationPartition(){
     ui->dialogue->setCurrentIndex(2) ;
     ui->boxEcrirePartition->show() ;
- //   ui->textEdit->hide() ;
+    ui->textEdit->setReadOnly(false);
+    ui->textEdit->hide() ;
 }
 
 void MainWindow::afficherEcouterPartition(){
@@ -135,6 +148,9 @@ void MainWindow::afficherEcouterPartition(){
     this->p->creeRythme() ;
     ui->dialogue->setCurrentIndex(3) ;
     ui->boxPartitionEcrite->show() ;
+   // ui->textEdit->clear() ;
+    ui->textEdit->show() ;
+
 }
 
 /** Cette fonction est lancée lorsque l'utilisateur appuie sur "Tempo"
@@ -158,23 +174,41 @@ void MainWindow::choisirTempo(){
         ui->page->hide() ;
     }
 }
-
+/** @brief affiche une clé de sol ou une clé de fa, au choix */
 void MainWindow::affichecle()
 {
-    int cle = ui->CLE->currentIndex();
-    if (cle == 0 ){
 
+    // Emplacement des clés
+    char *path=nullptr ;
+    size_t size = 0 ;
+    path=GetCurrentDir(path,size);
+
+    char* repCleSol = (char*) malloc(sizeof(char)*strlen(path)) ;
+    char* repCleFa = (char*) malloc(sizeof(char)*strlen(path)) ;
+
+    strcpy(repCleSol,path) ;
+    strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
+
+
+    strcpy(repCleFa,path) ;
+    strcat(repCleFa,"\\..\\ProjetMusiqueQt2\\cleFa.png") ;
+
+    int cle = ui->CLE->currentIndex();
+
+    // Clé de sol
+    if (cle == 0){
         ui->cledeSol_2 -> setGeometry(27,38,55,65);
-        ui->cledeSol_2->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledesol.png" ) );
+        ui->cledeSol_2->setPixmap( QPixmap(repCleSol) );
         ui->cledeSol_2->setScaledContents(true);
         ui->cledeSol_2-> show();
-
     }
+
+    // CLé de fa
     if (cle == 1){
 
        // QLabel *picture = new QLabel( this );
         ui->cledeSol_2 -> setGeometry(27,43,40,44);
-        ui->cledeSol_2 ->setPixmap( QPixmap( "C:/Users/User/Desktop/2A/C++/cledefa.png" ) );
+        ui->cledeSol_2 ->setPixmap( QPixmap(repCleFa) );
         ui->cledeSol_2 ->setScaledContents(true);
         ui->cledeSol_2 -> show();
     }
@@ -206,7 +240,7 @@ void MainWindow::ecrirePartition() {
         this->p->ajoutTemps(temps) ;
         emit partitionEcrite();
     }
-    ui->textEdit->setOverwriteMode(false);
+  //  ui->textEdit->setOverwriteMode(false);
 }
 
 void MainWindow::ecouterPartition(){
