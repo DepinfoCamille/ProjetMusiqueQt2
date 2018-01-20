@@ -40,5 +40,5 @@ portaudio-2.0.pc
 *.out
 *.app
 
-# Files
-portaudio/build
+# File
+build
