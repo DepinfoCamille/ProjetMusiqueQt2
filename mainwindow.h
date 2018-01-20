@@ -65,8 +65,9 @@ signals:
 
 protected:
     std::vector<QLabel*> clesDebutLignes ;
-    int indicenoteachanger ;
 
+    int indicenoteachanger ;
+    std::vector<QLabel*> mesureDebutLignes ;
 
 
 private:
