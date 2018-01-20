@@ -37,6 +37,8 @@ portaudio-2.0.pc
 *.lib
 
 # Executables
-*.exe
 *.out
 *.app
+
+# File
+build
