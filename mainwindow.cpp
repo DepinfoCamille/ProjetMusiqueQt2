@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     path=GetCurrentDir(path,size);
     std::cout <<"rep courant " <<path << std::endl ;
 
-    char* repCleSol = (char*) malloc(sizeof(char)*strlen(path)) ;
+    char* repCleSol = (char*) malloc(sizeof(char)*(strlen(path)+31)) ;
     strcpy(repCleSol,path) ;
     strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
 
@@ -183,8 +183,8 @@ void MainWindow::affichecle()
     size_t size = 0 ;
     path=GetCurrentDir(path,size);
 
-    char* repCleSol = (char*) malloc(sizeof(char)*strlen(path)) ;
-    char* repCleFa = (char*) malloc(sizeof(char)*strlen(path)) ;
+    char* repCleSol = (char*) malloc(sizeof(char)*(strlen(path)+50)) ;
+    char* repCleFa = (char*) malloc(sizeof(char)*(strlen(path)+50)) ;
 
     strcpy(repCleSol,path) ;
     strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
