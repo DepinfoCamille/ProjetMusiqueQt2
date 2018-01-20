@@ -9,7 +9,7 @@
 
 #include <QChar>
 
-/*int paCallback( const void *inputBuffer,
+int paCallback( const void *inputBuffer,
              void *outputBuffer, unsigned long framesPerBuffer,
              const PaStreamCallbackTimeInfo* timeInfo,
              PaStreamCallbackFlags statusFlags, void *userData )
@@ -29,12 +29,12 @@
   }
   return paContinue;
 }
-*/
+
 
 /** Joue une sinusoïde
  * @param frequence
  * @param temps en ms */
-/*void joueSinusoide(int frequence, float temps){
+void joueSinusoide(int frequence, float temps){
 
     TestData data;
     PaStream *stream;
@@ -47,7 +47,7 @@
     // Generate table with sine values at given frequency
     for (i = 0; i < TABLE_SIZE; i++) {
       t = (double)i/(double)SAMPLE_RATE;
-      data.sine[i] = 1*sin(2 * M_PI * frequence * t);
+      data.sine[i] = 0.1*sin(2 * M_PI * frequence * t);
     }
 
     // Initialize user data
@@ -101,7 +101,7 @@
       printf("PortAudio error: terminate: %s\n", Pa_GetErrorText(err));
     }
 }
-*/
+
 int Partition::setTempo(float val){
     int i = 0 ;
     while(this->listePulsations[i]!=0){
@@ -148,20 +148,29 @@ void Partition::initPartition(){
  */
 Partition::Partition(){
 
-    //joueSinusoide(262, 2000) ; // DO
+    for(int i = 0 ; i < 5; i++){
+        joueSinusoide(264+10*i, 2000) ;
+        std::cout << "fréquence " << 264+10*i << std::endl ;
 
-/*    joueSinusoide(294 ,1000) ; // RE
+    }
+
+    joueSinusoide(264, 2000) ; // DO
+
+    joueSinusoide(392 ,1000) ; // RE
     joueSinusoide(330 ,1000) ; // MI
     joueSinusoide(349 ,1000) ; // FA
 
  //   joueSinusoide(300,1) ;
-    joueSinusoide(650,1000) ;*/
+  //  joueSinusoide(650,1000) ;
 
     this->dicco_notes = {
-   {'q',std::make_tuple("DO",3)},{'z',std::make_tuple("DO#",3)}, {'s',std::make_tuple("RE",3)}, {'e',std::make_tuple("RE#",3)},
-       {'d',std::make_tuple("MI",3)}, {'f',std::make_tuple("FA",3)}, {'t',std::make_tuple("FA#",3)}, {'g',std::make_tuple("SOL",3)},
-        {'y',std::make_tuple("SOL#",3)}, {'h',std::make_tuple("LA",3)},{'u',std::make_tuple("LA#",3)}, {'j',std::make_tuple("SI",3)},
-        {'k',std::make_tuple("DO",4)}, {'o',std::make_tuple("DO#",4)}, {'l',std::make_tuple("RE",4)}};
+        {'q',std::make_tuple("DO",3)},{'z',std::make_tuple("DO#",3)},
+        {'s',std::make_tuple("RE",3)}, {'e',std::make_tuple("RE#",3)},
+        {'g',std::make_tuple("SOL",3)}, {'y',std::make_tuple("SOL#",3)},
+        {'h',std::make_tuple("LA",3)},{'u',std::make_tuple("LA#",3)},
+        {'j',std::make_tuple("SI",3)}, {'k',std::make_tuple("DO",4)}, {'o',std::make_tuple("DO#",4)},
+        {'l',std::make_tuple("RE",4)}
+    };
     // Ce dictionnaire associe un nombre de double croches au rythme associé
     // entre CROCHE, NOIRE, NOIRE_POINTEE, BLANCHE, BLANCHE_POINTEE, RONDE
     this->dicco_rythme = {
@@ -180,7 +189,6 @@ Partition::Partition(){
     this->dicco_clavier.push_back('u') ; this->dicco_clavier.push_back('j') ;
     this->dicco_clavier.push_back('k') ; this->dicco_clavier.push_back('o') ;
     this->dicco_clavier.push_back('l') ;
-
 
     this->dicco_notes2.push_back(std::make_tuple("DO",3)) ; this->dicco_notes2.push_back(std::make_tuple("DO#",3)) ;
     this->dicco_notes2.push_back(std::make_tuple("RE",3)) ; this->dicco_notes2.push_back(std::make_tuple("RE#",3)) ;
@@ -320,7 +328,7 @@ void Partition::jouer(){
 
        entierFrequence = this->frequence(i) ;
        temps = this->listeDuree[i++] ;
-   //    joueSinusoide(entierFrequence,temps);
+       joueSinusoide(entierFrequence,temps);
    }
    std::cout << std::endl ;
    for(auto it = this->listeDuree.begin() ; it!= this->listeDuree.end() ; it++){
@@ -344,19 +352,12 @@ void Partition::jouer(){
  */
 int Partition::frequence(int n){
 
-    int i = 0 ;
-
-  /*  for(int i = 0 ; i<this->dicco_notes2.size() ; i++){
-        std::cout << "note " << std::get<0>(this->dicco_notes2[i]) << " fréquence " << this->dicco_frequence[i] << std::endl ;
-            }*/
-
    // for(std::vector<std::tuple<std::string,int>>::iterator it = this->dicco_notes2.begin() ; it != dicco_notes2.end() ; it++ ){
     for(int j = 0 ; j <(int)this->listeNotes.size() ; j++) {
         if(std::get<0>(this->dicco_notes2[j])==this->listeNotes[n] && std::get<1>(this->dicco_notes2[j])==(this->listeOctave[n])){
-            std::cout << "On a trouvé la fréquence " << this->dicco_frequence[j] << std::endl ;
+         //   std::cout << "On a trouvé la fréquence " << this->dicco_frequence[j] << std::endl ;
             return this->dicco_frequence[j];
         }
-        i++;
     }
 }
 
