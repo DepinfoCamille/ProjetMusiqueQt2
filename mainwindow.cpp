@@ -120,6 +120,7 @@ void MainWindow::affichemesure(){
 
     if (mesure == 1){
         ui->mesure1_2 -> setText("2\n4");
+        std::cout<<"je rentre la";
         this->an->mesure = 2;
     }
     if (mesure == 2){
@@ -130,6 +131,7 @@ void MainWindow::affichemesure(){
         ui->mesure1_2 -> setText("4\n4");
         this->an->mesure = 4;
     }
+    ui->mesure1_2->show();
 }
 
 void MainWindow::afficherTempo(){
@@ -250,22 +252,56 @@ void MainWindow::ecouterPartition(){
 
 void MainWindow::voirPartition(){
 
+    // Emplacement des clés
+    char *path=nullptr ;
+    size_t size = 0 ;
+    path=GetCurrentDir(path,size);
+
+    char* repCleSol = (char*) malloc(sizeof(char)*(strlen(path)+50)) ;
+    char* repCleFa = (char*) malloc(sizeof(char)*(strlen(path)+50)) ;
+
+    strcpy(repCleSol,path) ;
+    strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
+
+
+    strcpy(repCleFa,path) ;
+    strcat(repCleFa,"\\..\\ProjetMusiqueQt2\\cleFa.png") ;
+
     this->an->update();
     this->an->listeNotes =this->p->listeNotes ;
     this->an->listeTemps = this->p->listeRythme;
     this->an->listeOctaves=this->p->listeOctave;
     int mesure = ui->MESURE->currentIndex();
+    int indexCle = ui->CLE->currentIndex() ;
 
     if ( this->an->listeNotes.size() >15 ) {
-        for (int i=1; i <=this->an->listeNotes.size()/15; i++){
+
+        for (int i=1; i <=(int)this->an->listeNotes.size()/15; i++){
             QLabel *cle= new QLabel(this);
             QLabel *copiemesure = new QLabel(this);
-            cle ->setPixmap(QPixmap( "C:/Users/User/Desktop/2A/C++/cledesol.png" ));
-            cle ->setScaledContents(true);
-            cle -> show();
-            cle->setGeometry(27,43+96*i,55,65);
+
+
+            if(indexCle==0){
+                cle ->setPixmap(QPixmap( repCleSol ));
+                cle ->setScaledContents(true);
+                cle -> show();
+                cle->setGeometry(27,43+96*i,55,65);
+            }
+            if(indexCle==1){
+                cle ->setPixmap(QPixmap( repCleFa ));
+                cle ->setScaledContents(true);
+                cle -> show();
+                cle->setGeometry(27,43+96*i,55,65);
+            }
+
             if (mesure == 1){
                 copiemesure -> setText("2\n4");
+            }
+            if (mesure == 2){
+                copiemesure -> setText("3\n4");
+            }
+            if (mesure == 3){
+                copiemesure -> setText("4\n4");
             }
                 copiemesure->setGeometry(90,40+98*i,47,51);
                 copiemesure->show();
