@@ -120,7 +120,6 @@ void MainWindow::affichemesure(){
 
     if (mesure == 1){
         ui->mesure1_2 -> setText("2\n4");
-        std::cout<<"je rentre la";
         this->an->mesure = 2;
     }
     if (mesure == 2){
@@ -131,7 +130,8 @@ void MainWindow::affichemesure(){
         ui->mesure1_2 -> setText("4\n4");
         this->an->mesure = 4;
     }
-    ui->mesure1_2->show();
+ //   ui->mesure1_2->setParent(ui->centralWidget);
+   // ui->mesure1_2->show();
 }
 
 void MainWindow::afficherTempo(){
