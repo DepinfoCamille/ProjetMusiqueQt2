@@ -27,7 +27,7 @@ typedef struct _testData {
   int phase;
 } TestData;
 
-/* callback function prototype */
+/* callback function prototype
 int paCallback( const void *inputBuffer,
              void *outputBuffer, unsigned long framesPerBuffer,
              const PaStreamCallbackTimeInfo* timeInfo,
@@ -37,7 +37,7 @@ int paCallback( const void *inputBuffer,
 
 
  void joueSinusoide(int frequence, float temps) ;
-
+*/
  float nombredeDoublesCroches(float t, float tempo) ;
 
 /* Cette classe transforme la lecture clavier de l'utilisateur en partition

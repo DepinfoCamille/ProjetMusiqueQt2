@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
 
+  //  std::cout << $$PWD << std::endl;
     // Initialisation des données
     this->p = new Partition() ;
 
@@ -106,7 +107,15 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::initialisation(){
     this->p->initPartition();
     ui->MESURE->setCurrentIndex(0);
-    ui->textEdit->setOverwriteMode(true); ;
+    ui->textEdit->setOverwriteMode(true);
+    this->an->hide() ;
+    if(!this->clesDebutLignes.empty()){
+        for(auto cle = this->clesDebutLignes.begin() ; cle != this->clesDebutLignes.end() ; cle++){
+            (*cle)->clear() ;
+        }
+        this->clesDebutLignes.clear() ;
+    }
+
     emit initFaite() ;
 
 }
@@ -250,20 +259,53 @@ void MainWindow::ecouterPartition(){
 
 void MainWindow::voirPartition(){
 
+    this->an->show() ;
     this->an->update();
     this->an->listeNotes =this->p->listeNotes ;
     this->an->listeTemps = this->p->listeRythme;
     this->an->listeOctaves=this->p->listeOctave;
     int mesure = ui->MESURE->currentIndex();
 
+    // Emplacement des clés
+    char *path=nullptr ;
+    size_t size = 0 ;
+    path=GetCurrentDir(path,size);
+
+    char* repCleSol = (char*) malloc(sizeof(char)*(strlen(path)+50)) ;
+    char* repCleFa = (char*) malloc(sizeof(char)*(strlen(path)+50)) ;
+
+    strcpy(repCleSol,path) ;
+    strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
+
+
+    strcpy(repCleFa,path) ;
+    strcat(repCleFa,"\\..\\ProjetMusiqueQt2\\cleFa.png") ;
+
+    int indexCle = ui->CLE->currentIndex();
+
+
+    // On est dans le cas où il y a plusieurs lignes
+
+
     if ( this->an->listeNotes.size() >15 ) {
-        for (int i=1; i <=this->an->listeNotes.size()/15; i++){
+        for (int i=1; i <=(int)this->an->listeNotes.size()/15; i++){
             QLabel *cle= new QLabel(this);
             QLabel *copiemesure = new QLabel(this);
-            cle ->setPixmap(QPixmap( "C:/Users/User/Desktop/2A/C++/cledesol.png" ));
-            cle ->setScaledContents(true);
-            cle -> show();
-            cle->setGeometry(27,43+96*i,55,65);
+
+            if(indexCle==0){ // clé de sol
+                cle ->setPixmap(QPixmap( repCleSol));
+                cle ->setScaledContents(true);
+                cle -> show();
+                cle->setGeometry(27,43+96*i,55,65);
+            }
+            else if(indexCle==1){ //clé de fa
+                cle ->setPixmap(QPixmap( repCleFa ));
+                cle ->setScaledContents(true);
+                cle -> show();
+                cle->setGeometry(27,43+96*i,40,44);
+            }
+            this->clesDebutLignes.push_back(cle);
+
             if (mesure == 1){
                 copiemesure -> setText("2\n4");
             }

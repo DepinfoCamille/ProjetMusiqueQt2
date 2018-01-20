@@ -26,6 +26,7 @@ void Affichernotes::paintEvent (QPaintEvent *event)
         int positiony = 90 + j*90;
 
         compteur +=  valeursnotes[tempsi];
+        std::cout << "le compteur est a "<< compteur;
 
         if (compteur== mesure || compteur == 2* mesure || compteur == 3*mesure) {
             compteur = 0;

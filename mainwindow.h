@@ -7,6 +7,7 @@
 #include "affichernotes.h"
 #include <time.h>
 #include <math.h>
+#include <QLabel>
 
 
 #ifdef WINDOWS
@@ -59,6 +60,9 @@ signals:
     void mesureDefinie() ;
     void tempoDefini() ;
     void partitionEcrite() ;
+
+protected:
+    std::vector<QLabel*> clesDebutLignes ;
 
 private:
     Ui::MainWindow *ui;
