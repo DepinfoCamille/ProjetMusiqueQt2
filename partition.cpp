@@ -136,9 +136,7 @@ void Partition::initPartition(){
  *  @return le nombre de croches contenues dans la note
  */
  float nombredeDoublesCroches(float t, float tempo){
-  //  float temps = static_cast<float>(t) ;
-
-    return ceil(2.0*/*temps*/t/tempo) ; // En fait on est en croches
+    return ceil(4.0*/*temps*/t/tempo) ;
 
 }
 
@@ -164,8 +162,14 @@ Partition::Partition(){
        {'d',std::make_tuple("MI",3)}, {'f',std::make_tuple("FA",3)}, {'t',std::make_tuple("FA#",3)}, {'g',std::make_tuple("SOL",3)},
         {'y',std::make_tuple("SOL#",3)}, {'h',std::make_tuple("LA",3)},{'u',std::make_tuple("LA#",3)}, {'j',std::make_tuple("SI",3)},
         {'k',std::make_tuple("DO",4)}, {'o',std::make_tuple("DO#",4)}, {'l',std::make_tuple("RE",4)}};
+    // Ce dictionnaire associe un nombre de double croches au rythme associé
+    // entre CROCHE, NOIRE, NOIRE_POINTEE, BLANCHE, BLANCHE_POINTEE, RONDE
     this->dicco_rythme = {
-        {1.0, "CROCHE"}, {2.0, "NOIRE"}, {4.0, "BLANCHE"}, {3.0, "NOIRE_POINTEE"}, {8.0, "RONDE"}, {6.0,"BLANCHE_POINTEE"}
+        {1.0, "CROCHE"}, {2.0, "CROCHE"}, {3.0, "NOIRE"}, {4.0, "NOIRE"}, {5.0, "NOIRE"},
+        {6.0, "NOIRE_POINTEE"} , {7.0, "NOIRE_POINTEE"},
+        {8.0, "BLANCHE"}, {9.0, "BLANCHE"}, {10.0,"BLANCHE"}, {11.0,"BLANCHE"},
+        {12.0,"BLANCHE_POINTEE"}, {13.0,"BLANCHE_POINTEE"}, {14.0,"BLANCHE_POINTEE"},
+        {16.0, "RONDE"}, {17.0, "RONDE"}, {18.0, "RONDE"}, {19.0, "RONDE"}, {20.0, "RONDE"}
     };
 
     this->dicco_clavier.push_back('q') ; this->dicco_clavier.push_back('z') ;
