@@ -46,13 +46,15 @@ public slots:
     void afficherCreationPartition() ;
     void afficherEcouterPartition() ;
     void voirPartition();
-    void positioncurseur();
     void afficherboxmesure();
+    void affichercaracteristiquesnote() ;
 
     /* Slots agissant sur la partition */
     void choisirTempo() ;
     void ecrirePartition() ;
     void ecouterPartition() ;
+    void changerPartition();
+    void changernote(int i);
 
 
 signals:
@@ -63,6 +65,9 @@ signals:
 
 protected:
     std::vector<QLabel*> clesDebutLignes ;
+    int indicenoteachanger ;
+
+
 
 private:
     Ui::MainWindow *ui;

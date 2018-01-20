@@ -100,7 +100,7 @@ MainWindow::MainWindow(QWidget *parent) :
                      SLOT(voirPartition()));
 
     //Sixième étape: modification de la partition déjà écrite
-    QObject::connect(ui->frame, SIGNAL(clicked()), this, SLOT(positioncurseur()));
+    QObject::connect(ui->boutonModifier, SIGNAL(clicked()), this, SLOT(changerPartition()));
 
 }
 
@@ -153,6 +153,7 @@ void MainWindow::afficherCreationPartition(){
     ui->boxEcrirePartition->show() ;
     ui->textEdit->setReadOnly(false);
     ui->textEdit->hide() ;
+
 }
 
 void MainWindow::afficherEcouterPartition(){
@@ -325,11 +326,79 @@ void MainWindow::voirPartition(){
     }
 }
 
-void MainWindow::positioncurseur(){
-  //  pos = QCursor.pos();
-    std::cout<<"qjdhf";
+
+void MainWindow::changerPartition(){
+
+    for (int i = 0; i<this->an->listeNotes.size(); i++){
+        QPushButton *buttoni= new QPushButton(this);
+        int j;
+        j= i/15;
+        buttoni->setGeometry(127 +(i-15*j)*35,60 + j*90,15,50);
+        buttoni->setFlat(true);
+        buttoni->show();
+
+        this->p->listebuttons.push_back(buttoni);
+        QObject::connect(this->p->listebuttons[i], SIGNAL(clicked()), this,
+                         SLOT(affichercaracteristiquesnote()));
+
+
+    }
 }
 
+void MainWindow::affichercaracteristiquesnote(){
+
+    int i=0;
+    QObject *modif = QObject::sender();
+    while (this->p->listebuttons[i] != modif && i<10){
+       i =i+1;
+    }
+    int j= i/15;
+    QLabel *information = new QLabel(this);
+    QComboBox *note = new QComboBox(information);
+    information ->setScaledContents(true);
+    information->setGeometry(150 +(i-15*j)*35,120 + j*90,100,60);
+    information->setText(this->an->listeNotes[i].c_str());
+    information->autoFillBackground();
+    information->show();
+    indicenoteachanger=i;
+    note ->addItem("notes");
+    note ->addItem("DO");
+    note ->addItem("RE");
+    note ->addItem("MI");
+    note ->addItem("FA");
+    note ->addItem("SOL");
+    note ->addItem("LA");
+    note ->addItem("SI");
+    QObject::connect(note, SIGNAL(currentIndexChanged(int)), this,
+                     SLOT(changernote(int)));
+}
+
+void MainWindow::changernote(int i){
+
+    if (i == 1){
+        this->p->listeNotes[indicenoteachanger] = "DO";
+    }
+    if (i == 2){
+        this->p->listeNotes[indicenoteachanger] = "RE";
+    }
+    if (i == 3){
+        this->p->listeNotes[indicenoteachanger] = "MI";
+    }
+    if (i == 4){
+        this->p->listeNotes[indicenoteachanger] = "FA";
+    }
+    if (i == 5){
+        this->p->listeNotes[indicenoteachanger] = "SOL";
+    }
+    if (i == 6){
+        this->p->listeNotes[indicenoteachanger] = "LA";
+    }
+    if (i == 7){
+        this->p->listeNotes[indicenoteachanger] = "SI";
+    }
+
+    this->voirPartition();
+}
 
 
 MainWindow::~MainWindow()

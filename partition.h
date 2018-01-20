@@ -5,6 +5,7 @@
 #include <QTextStream>
 #include <time.h>
 //#include "portaudio.h"
+#include <QPushButton>
 #include <stdio.h>
 #include <math.h>
 
@@ -80,6 +81,9 @@ class Partition
         std::vector<int> listeDuree ;
         std::vector<int> listeOctave ;
         std::vector<std::string> listeRythme ; // stocke le rythme d'une note sous la forme "NOIRE", "BLANCHE"...
+
+        //vecteur de boutons sur la position de chaque note
+        std::vector<QPushButton*> listebuttons;
 
     protected:
 
