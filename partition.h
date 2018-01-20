@@ -10,7 +10,7 @@
 
 #define FREQUENCY 440
 
-#include "portaudio.h"
+//#include "portaudio.h"
 
 
 #define SAMPLE_RATE 44100
@@ -36,10 +36,10 @@ typedef struct _testData {
 
 <<<<<<< HEAD
 static void joueSinusoide(int frequence, float temps) ;*/
-=======
+/*
 static void joueSinusoide(int frequence, float temps,
-                          TestData *data, PaStream **stream,/* PaStreamParameters *outputParameters,*/ PaError *err) ;
->>>>>>> 2c10b4c1f7e7b33af67e7f1c2061728bf2fb430b
+                          TestData *data, PaStream **stream,/* PaStreamParameters *outputParameters,*/ //PaError *err) ;
+
 
 
 using std::vector ;

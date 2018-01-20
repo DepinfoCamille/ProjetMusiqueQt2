@@ -48,19 +48,19 @@ std::vector<TestData> Partition::creeDataSinusoide(){
             int j ;
 
             /* Generate table with sine values at given frequency */
-            for (j = 0; j < TABLE_SIZE; j++) {
-              t = (double)i/(double)SAMPLE_RATE;
-              data.sine[j] = sin(2 * M_PI * entierFrequence * t);
-            }
-            data.phase = 0;
-        }
-        else{
-            data.phase = 1;
-       }
-        vecteurDonnees.push_back(data);
+            //for (j = 0; j < TABLE_SIZE; j++) {
+             // t = (double)i/(double)SAMPLE_RATE;
+              //data.sine[j] = sin(2 * M_PI * entierFrequence * t);
+            //}
+            //data.phase = 0;
+        //}
+        //else{
+          //  data.phase = 1;
+       //}
+        //vecteurDonnees.push_back(data);
 
-    }
-    std::cout << "Longueur de vecteurDonnes souhaitée " << this->listeNotes.size() << std::endl ;
+    //}
+    /*std::cout << "Longueur de vecteurDonnes souhaitée " << this->listeNotes.size() << std::endl ;
     std::cout << "Longueur de vecteurDonnes obtenue " << vecteurDonnees.size() << std::endl ;
 
     return vecteurDonnees ;
@@ -188,7 +188,7 @@ static bool estTriolet(int t, float tempo){
 
 Partition::Partition(){
 
-    joueSinusoide(262, 2000) ; // DO
+    //joueSinusoide(262, 2000) ; // DO
 /*    joueSinusoide(294 ,1000) ; // RE
     joueSinusoide(330 ,1000) ; // MI
     joueSinusoide(349 ,1000) ; // FA
