@@ -1,5 +1,19 @@
 Notre programme crée un exécutable capable de lire une partition au clavier.
 
-Pour créer l'exécutable :
+Notice d'utilisation : 
 
- - Nous avons utilisé la bibliothèque portaudio, que vous trouverez ...
+La partition se joue au clavier : les différentes touches correspondent à des notes.
+q : Do 3 
+z : Do# 3 
+s : RE 3 
+etc. jusque : 
+l : RE 4 
+
+Pour créer sa partition, il faut cliquer sur le bouton Ecrire partition, puis suivre les informations : 
+
+
+Structure du programme : 
+
+
+
+

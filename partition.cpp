@@ -66,25 +66,10 @@ void Partition::initPartition(){
  */
 Partition::Partition(){
 
-    for(int i = 0 ; i < 5; i++){
-        joueSinusoide(264+10*i, 2000) ;
-        Sleep(2000) ;
-        std::cout << "fréquence " << 264+10*i << std::endl ;
-
-    }
-
-    joueSinusoide(264, 2000) ; // DO
-
-    joueSinusoide(392 ,1000) ; // RE
-    joueSinusoide(330 ,1000) ; // MI
-    joueSinusoide(349 ,1000) ; // FA
-
- //   joueSinusoide(300,1) ;
-  //  joueSinusoide(650,1000) ;
-
     this->dicco_notes = {
         {'q',std::make_tuple("DO",3)},{'z',std::make_tuple("DO#",3)},
         {'s',std::make_tuple("RE",3)}, {'e',std::make_tuple("RE#",3)},
+        {'d',std::make_tuple("MI",3)}, {'f',std::make_tuple("FA",3)},
         {'g',std::make_tuple("SOL",3)}, {'y',std::make_tuple("SOL#",3)},
         {'h',std::make_tuple("LA",3)},{'u',std::make_tuple("LA#",3)},
         {'j',std::make_tuple("SI",3)}, {'k',std::make_tuple("DO",4)}, {'o',std::make_tuple("DO#",4)},

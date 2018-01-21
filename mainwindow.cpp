@@ -15,6 +15,7 @@
 #include <time.h>
 #include <conio.h>
 #include <string.h>
+#include "ecouterpartition.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -259,7 +260,8 @@ void MainWindow::ecrirePartition() {
 
 void MainWindow::ecouterPartition(){
 
-    this->p->jouer() ;
+    EcouterPartition* son = new EcouterPartition(this->p);
+ //   son->joueMorceau() ;
 }
 
 void MainWindow::voirPartition(){

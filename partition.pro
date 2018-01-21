@@ -6,6 +6,7 @@
 
 QT       += core gui
 QT       += multimedia
+Qt       +=multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -44,15 +45,6 @@ FORMS += \
 
 
 DISTFILES += \
-    partition.pro.user
+    partition.pro.user \
+    DO3.wav
 
-
-INCLUDEPATH += $$PWD/portaudio/include
-LIBS += -L$$PWD/portaudio/src
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/portaudio/build/release/ -lportaudio_x86
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/portaudio/build/debug/ -lportaudio_x86
-else:unix: LIBS += -L$$PWD/portaudio/build/ -lportaudio_x86
-
-INCLUDEPATH += $$PWD/portaudio/build/Debug
-DEPENDPATH += $$PWD/portaudio/build/Debug

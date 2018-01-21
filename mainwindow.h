@@ -9,7 +9,6 @@
 #include <math.h>
 #include <QLabel>
 
-
 #ifdef WINDOWS
     #include <direct.h>
     #define GetCurrentDir _getcwd
@@ -17,7 +16,6 @@
     #include <unistd.h>
     #define GetCurrentDir getcwd
  #endif
-
 
 namespace Ui {
 class MainWindow;

@@ -10,6 +10,15 @@
 #include "partition.h"
 #include <QMediaPlaylist>
 #include <QMediaPlayer>
+#include <string>
+
+#ifdef WINDOWS
+    #include <direct.h>
+    #define GetCurrentDir _getcwd
+#else
+    #include <unistd.h>
+    #define GetCurrentDir getcwd
+ #endif
 
 
 QSound initQSound(char*);
@@ -19,12 +28,10 @@ class EcouterPartition : public QObject
     Q_OBJECT
 
 public:
-    EcouterPartition(/*Partition* p*/);
+    EcouterPartition(Partition* p);
     ~EcouterPartition() ;
-  //  std::vector<QSound> listeSons ;
     std::vector<QTimer*> listeTimers  ;
-    std::vector<int> listeDurees ;
-  //  QSound son ;
+    std::vector<float> listeDurees ;
     QMediaPlaylist *notesPartitions ;
     QMediaPlayer *player ;
 

@@ -47,6 +47,9 @@ class Partition
         std::vector<std::string> listeRythme ;
         //vecteur de boutons sur la position de chaque note
         std::vector<QPushButton*> listebuttons;
+        // stocke la durée en ms de chaque note
+        std::vector<int> listeDuree ;
+
 
     protected:
 
@@ -72,8 +75,6 @@ class Partition
         std::vector<char> listeClavier ;
         // stocke le moment où l'utilisateur appuie sur chaque touche
         std::vector<float> listeTemps ;
-        // stocke la durée en ms de chaque note
-        std::vector<int> listeDuree ;
 
         float listePulsations[4] = {0} ;
         float tempo ;
