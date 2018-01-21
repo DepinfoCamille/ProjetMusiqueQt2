@@ -199,18 +199,11 @@ void MainWindow::afficherEcouterPartition(){
  */
 void MainWindow::choisirTempo(){
     clock_t start = clock() ;
-/*    int i = 0 ;
-    while(this->p->listePulsations[i]!=0){
-        i++;
-    }
-    if(i<4){
-        this->p->listePulsations[i] = 1000*start/(float)CLOCKS_PER_SEC ;
-    }*/
+
     int i = this->p->setTempo(1000*start/(float)CLOCKS_PER_SEC);
 
     if(i==3){
 
-   //     this->p->tempo = (this->p->listePulsations[3]-this->p->listePulsations[0])/3 ;
         emit tempoDefini() ;
         ui->page->hide() ;
     }
@@ -236,47 +229,29 @@ void MainWindow::affichecle()
 
     int cle = ui->CLE->currentIndex();
 
-   // if(this->partitionAffichee){
     // Clé de sol
     if (cle == 0){
-     /*   ui->cledeSol_2 -> setGeometry(27,38,55,65);
-        ui->cledeSol_2->setPixmap( QPixmap(repCleSol) );
-        ui->cledeSol_2->setScaledContents(true);
-        ui->cledeSol_2-> show();
-        this->an->estCledeSol = true ;*/
-    //    if(!this->clesDebutLignes.empty()){
-            int i = 0 ;
-            for(auto cle = this->clesDebutLignes.begin() ; cle != this->clesDebutLignes.end() ; cle++){
-                (*cle)->clear();
-                (*cle)->setPixmap(QPixmap( repCleSol));
-                (*cle) ->setScaledContents(true);
-                (*cle) -> show();
-                (*cle)->setGeometry(27,55+94*i++,55,65);
-            }
-   //     }
+        int i = 0 ;
+        for(auto cle = this->clesDebutLignes.begin() ; cle != this->clesDebutLignes.end() ; cle++){
+            (*cle)->clear();
+            (*cle)->setPixmap(QPixmap( repCleSol));
+            (*cle) ->setScaledContents(true);
+            (*cle) -> show();
+            (*cle)->setGeometry(27,50+91*i++,55,65);
+        }
     }
 
     // CLé de fa
     if (cle == 1){
-
-       // QLabel *picture = new QLabel( this );
-  /*      ui->cledeSol_2 -> setGeometry(27,43,40,44);
-        ui->cledeSol_2 ->setPixmap( QPixmap(repCleFa) );
-        ui->cledeSol_2 ->setScaledContents(true);
-        ui->cledeSol_2 -> show();*/
         this->an->estCledeSol = false ;
-     //   if(!this->clesDebutLignes.empty()){
-            int i = 0 ;
-            for(auto cle = this->clesDebutLignes.begin() ; cle != this->clesDebutLignes.end() ; cle++){
-                (*cle)->clear();
-                (*cle) ->setPixmap(QPixmap( repCleFa ));
-                (*cle) ->setScaledContents(true);
-                (*cle) -> show();
-              //  (*cle)->setGeometry(27,55+96*i++,40,44);
-                (*cle)->setGeometry(27,55+94*i++,50,65);
-
-        //    }
-        }
+        int i = 0 ;
+        for(auto cle = this->clesDebutLignes.begin() ; cle != this->clesDebutLignes.end() ; cle++){
+            (*cle)->clear();
+            (*cle) ->setPixmap(QPixmap( repCleFa ));
+            (*cle) ->setScaledContents(true);
+            (*cle) -> show();
+            (*cle)->setGeometry(27,50+91*i++,50,65);
+         }
     }
     if(this->partitionAffichee){
         this->voirPartition();
@@ -298,43 +273,18 @@ void MainWindow::ecrirePartition() {
     // on enregistre la note
     if((int)note!=10){
 
-        int noteLongue = this->p->ajoutTemps(temps) ;
-
-        if(!noteLongue){
-            this->p->ajoutNote(note) ;
-        }
-
+        this->p->ajoutTemps(temps) ;
+        this->p->ajoutNote(note) ;
     }
     else{
         this->p->ajoutTemps(temps) ;
         emit partitionEcrite();
     }
-  //  ui->textEdit->setOverwriteMode(false);
 }
 
 void MainWindow::ecouterPartition(){
 
-    EcouterPartition* son = new EcouterPartition(this->p);
-    QSound test("D:\\ProjetMusique\\ProjetMusiqueQt\\ProjetMusiqueQt2\\DO3.wav") ;
-    QSound test2("D:\\ProjetMusique\\ProjetMusiqueQt\\ProjetMusiqueQt2\\DO4.wav") ;
-    QSound silence("D:\\ProjetMusique\\ProjetMusiqueQt\\ProjetMusiqueQt2\\SILENCE.wav") ;
-
-    test.play() ;
-
- /*   for(unsigned int i = 0 ; i<son->listeTimers.size() ; i++){
-        QSound note(son->listeChemins[i]) ;
-      //  connect( son->listeTimers[i], SIGNAL( timeout() ), son, SLOT( finNote(note) ) );
-      //  son->listeTimers[i]->start(son->listeDurees[i]);
-        clock_t start =clock();
-        note.play();
-        while((clock()-start/CLOCKS_PER_SEC*1000 )<son->listeDurees[i]) ;
-        note.stop() ;
-     }*/
- //   son->joueMorceau() ;
-
-
-
-
+    std::cout << "Désolée, je n'ai pas réussi... pourtant j'y ai passé du temps !" << std::endl ;
 }
 
 void MainWindow::voirPartition(){
@@ -379,13 +329,15 @@ void MainWindow::voirPartition(){
 
                 cle ->setScaledContents(true);
                 cle -> show();
-                cle->setGeometry(27,48+91*i,55,65);
+                cle->setGeometry(27,50+91*i,55,65);
+//                cle -> setGeometry(27,50,55,65);
+
             }
             else if(indexCle==1){ //clé de fa
                 cle ->setPixmap(QPixmap( repCleFa ));
                 cle ->setScaledContents(true);
                 cle -> show();
-                cle->setGeometry(27,55+97*i,40,44);
+                cle->setGeometry(27,50+91*i,50,65);
             }
             this->clesDebutLignes.push_back(cle);
         }
@@ -436,7 +388,6 @@ void MainWindow::affichercaracteristiquesnote(){
     }
     int j= i/15;
     this->information  = new QLabel(this) ;
-//    QLabel *information = new QLabel(this);
     QComboBox *note = new QComboBox(this->information);
     QComboBox *tempo = new QComboBox(this->information);
     this->information ->setScaledContents(true);
