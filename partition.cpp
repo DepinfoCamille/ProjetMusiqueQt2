@@ -202,12 +202,8 @@ void Partition::creeRythme(){
 
     this->calculDuree() ;
 
-    float fRythme ; // contient le nombre de croches dans une note
-
     for(std::vector<int>::iterator it = this->listeDuree.begin() ;
         it != this->listeDuree.end() ; it++){
-
-        fRythme = nombredeDoublesCroches(*it, this->tempo) ;
 
         // on stocke le rythme sous la forme "NOIRE", "CROCHE"... dans listeRythme
         std::string sRythme = this->dicco_rythme[nombredeDoublesCroches(*it, this->tempo)] ;
@@ -242,7 +238,7 @@ void Partition::jouer(){
    std::cout << std::endl ;
 
 
-   for(int i = 0 ; i<this->listeDuree.size() ; i++){
+   for(unsigned int i = 0 ; i<this->listeDuree.size() ; i++){
 
        temps = this->listeDuree[i] ;
        std::cout << "on joue la note " << (this->listeNotes[i]) << " de fréquence " << entierFrequence << std::endl ;

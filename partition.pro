@@ -46,5 +46,10 @@ FORMS += \
 
 DISTFILES += \
     partition.pro.user \
-    DO3.wav
+    DO3.wav \
+    DO3.aac \
+    DO3.aac \
+    DO3.mp3 \
+    DO3.wv \
+    DO4.wav
 

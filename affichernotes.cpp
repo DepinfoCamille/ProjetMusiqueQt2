@@ -17,7 +17,7 @@ void Affichernotes::paintEvent (QPaintEvent *event)
     painter.setPen(myPen);
     compteur = 0.0;
 
-    for (int i=0; i<listeNotes.size(); i++){
+    for (unsigned int i=0; i<listeNotes.size(); i++){
         painter.setBrush(QBrush(Qt::NoBrush )); // pas de fond
         const char* notei= listeNotes[i].c_str();
         const char* tempsi = listeTemps[i].c_str();//transorme les std::str en char*

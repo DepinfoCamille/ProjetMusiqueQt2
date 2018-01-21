@@ -3,8 +3,6 @@
 
 EcouterPartition::EcouterPartition(Partition* p)
 {
-
-    std::cout << "on entre dans le constructeur ecouterpartition" << std::endl ;
     // Emplacement des fichiers wav
 
     char *path=nullptr ;
@@ -30,23 +28,18 @@ EcouterPartition::EcouterPartition(Partition* p)
 
         char* octave = (char*) malloc(sizeof(char*));
         sprintf(octave, "%d", p->listeOctave[i]);
-        std::cout << "octave " << octave << std::endl ;
 
         strcat(nomNote,octave);
-        std::cout << "nomNote 2 " << nomNote << std::endl ;
         strcat(nomNote, ".wav") ;
-        std::cout << "nomNote 3 " << nomNote << std::endl ;
 
 
-  /*      strcpy(cheminNote,repWav);
-        std::cout << "chemin note 1 " << cheminNote << std::endl ;
+        strcpy(cheminNote,repWav);
         strcat(cheminNote,nomNote) ;
-        std::cout << "chemin de la note jouée " << cheminNote ;*/
+        std::cout << "chemin de la note jouée " << cheminNote ;
 
         QTimer* timer = new QTimer(this);
         connect( timer, SIGNAL( timeout() ), this, SLOT( finNote() ) );
 
-        std::cout << "qtimer connecté" << std::endl ;
 
 
         if(i!=0){
@@ -58,8 +51,8 @@ EcouterPartition::EcouterPartition(Partition* p)
 
         std::cout << " temps " << temps << std::endl ;
 
-        this->notesPartitions->addMedia(QUrl::fromLocalFile(nomNote));
-    //    this->notesPartitions->addMedia(QUrl(cheminNote));
+     //   this->notesPartitions->addMedia(QUrl::fromLocalFile(nomNote));
+        this->notesPartitions->addMedia(QUrl(cheminNote));
         std::cout << " on passe addmedia\n" ;
         this->listeTimers.push_back(timer) ;
         this->listeDurees.push_back(temps) ;
@@ -85,15 +78,13 @@ void EcouterPartition::finNote(){
     this->notesPartitions->setCurrentIndex(++this->indicePartition);
     std::cout << "indice partition " << this->indicePartition << " taille timers " << this->listeTimers.size() ;
     if(this->indicePartition>=(int)this->listeTimers.size()){
-        std::cout << "bon bah alors ? " << std::endl ;
-
         this->player->stop() ;
     }
-    std::cout << "indice partition " << this->indicePartition ;
-  //  this->indicePartition++ ;
 }
 
 EcouterPartition::~EcouterPartition(){
 
+    this->listeTimers.clear();
+    this->listeDurees.clear() ;
 }
 
