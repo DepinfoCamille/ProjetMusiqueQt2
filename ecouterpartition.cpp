@@ -1,6 +1,8 @@
 #include "ecouterpartition.h"
 #include <iostream>
 
+/** Cette classe permet de jouer un morceau (audible) à partir d'une partition
+ */
 EcouterPartition::EcouterPartition(Partition* p)
 {
     // Emplacement des fichiers wav
@@ -59,7 +61,8 @@ EcouterPartition::EcouterPartition(Partition* p)
     }
 
 }
-
+/** @brief joue les notes de la partition
+ */
 void EcouterPartition::joueMorceau() {
 
     this->player = new QMediaPlayer() ;
@@ -71,7 +74,8 @@ void EcouterPartition::joueMorceau() {
      }
 }
 
-
+/** @brief Slot faisant passer la playlist à la note suivante
+ */
 void EcouterPartition::finNote(){
 
     this->listeTimers[this->indicePartition]->stop() ;

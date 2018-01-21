@@ -62,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Initialisation du Widget permettant de dessiner les notes
         this -> an = new Affichernotes();
          this->an->setParent(ui->frame);
+        this->an->estCledeSol = true ;
 
     // Connexion des différents objets entre eux
 
@@ -104,6 +105,7 @@ void MainWindow::initialisation(){
     ui->MESURE->setCurrentIndex(0);
     ui->textEdit->setOverwriteMode(true);
     this->an->hide() ;
+    this->an->estCledeSol = true ;
 
     if(!this->clesDebutLignes.empty()){
         for(auto cle = this->clesDebutLignes.begin() ; cle != this->clesDebutLignes.end() ; cle++){
@@ -135,8 +137,6 @@ void MainWindow::afficherboxmesure(){
 
 }
 void MainWindow::choixmesure(){
-
-
 
     int mesure = ui->MESURE->currentIndex();
 
@@ -223,6 +223,7 @@ void MainWindow::affichecle()
         ui->cledeSol_2->setPixmap( QPixmap(repCleSol) );
         ui->cledeSol_2->setScaledContents(true);
         ui->cledeSol_2-> show();
+        this->an->estCledeSol = true ;
     }
 
     // CLé de fa
@@ -233,6 +234,7 @@ void MainWindow::affichecle()
         ui->cledeSol_2 ->setPixmap( QPixmap(repCleFa) );
         ui->cledeSol_2 ->setScaledContents(true);
         ui->cledeSol_2 -> show();
+        this->an->estCledeSol = false ;
     }
 }
 

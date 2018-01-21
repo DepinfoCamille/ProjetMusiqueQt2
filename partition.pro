@@ -29,14 +29,12 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     partition.cpp \
-    audiooutputstreamer.cpp \
     affichernotes.cpp \
     ecouterpartition.cpp
 
 HEADERS += \
         mainwindow.h \
     partition.h \
-    audiooutputstreamer.h \
     affichernotes.h \
     ecouterpartition.h
 

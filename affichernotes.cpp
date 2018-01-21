@@ -23,7 +23,8 @@ void Affichernotes::paintEvent (QPaintEvent *event)
         const char* tempsi = listeTemps[i].c_str();//transorme les std::str en char*
         int j;
         j= i/15;
-        int positionx = 130 +(i-15*j)*35; //position de départ
+
+        int positionx = 130 +(i-15*j)*35; // position de départ
         int positiony = 90 + j*90;
 
         compteur +=  valeursnotes[tempsi];
@@ -33,18 +34,29 @@ void Affichernotes::paintEvent (QPaintEvent *event)
             painter.drawLine (QPoint(positionx + 25, positiony -2 ),QPoint(positionx + 25, positiony -42));
         }
 
+
+        if(!this->estCledeSol){
+            positionx = 130 +(i-15*j)*35;
+            positiony = 90 - 4*6 + j*90;
+        }
+
         if (listeOctaves[i] == 4){
             positiony = positiony - 35 ;
         }
 
         if (strstr(notei, "DO")){
             positiony = positiony+2;
-            if (listeOctaves[i] == 3){
+            // barre horizontale du do grave en clé de sol et du do aigu en clé de fa
+            if (( listeOctaves[i] == 3 && this->estCledeSol) || ( listeOctaves[i] == 4 && !this->estCledeSol)){
             painter.drawLine(QPoint(positionx - 5 ,positiony + 5),QPoint(positionx + 15,positiony + 5));
             }
         }
         if (strstr(notei, "RE")){
             positiony = positiony - 2;
+            // barre horizontale du ré aigu en clé de fa
+            if (( listeOctaves[i] == 4 && !this->estCledeSol) ){
+            painter.drawLine(QPoint(positionx - 5 ,positiony + 10),QPoint(positionx + 15,positiony + 10));
+            }
         }
         if (strstr(notei, "MI")){
             positiony = positiony - 6;
@@ -73,10 +85,13 @@ void Affichernotes::paintEvent (QPaintEvent *event)
             }
             if ((j == 1)) //|| (j==2 && listeOctaves[i] != listeOctaves[i+1]))     // la corche est toute seule ou ils appartiennent à des octaves différents (plus facile à coder)
                 {*/
-                    if (listeOctaves[i] == 3) {
+
+            // On dessine les barres des croches
+                if (/*listeOctaves[i] == 3 && this->estCledeSol*/ positiony> 63 - 4*6 + j*90) {
                     painter.drawLine(QPoint(positionx +9 ,positiony - 25 ),QPoint(positionx + 16 ,positiony - 20));
                 }
-                if (listeOctaves[i] == 4){
+
+                    else /*if (listeOctaves[i] == 4 || (listeOctaves[i] == 3 && !this->estCledeSol))*/{
                    painter.drawLine(QPoint(positionx  ,positiony +30) ,QPoint(positionx +6 ,positiony + 24));
                 }
             }
@@ -92,10 +107,10 @@ void Affichernotes::paintEvent (QPaintEvent *event)
 
 
         if (tempsi != "RONDE"){
-            if (listeOctaves[i] == 3) {
+            if (/*listeOctaves[i] == 3*/ positiony>63 - 4*6 + j*90 ) {
                 painter.drawLine(QPoint(positionx +9 ,positiony ),QPoint(positionx + 9,positiony - 25));
             }
-            if (listeOctaves[i] == 4){
+            else{
                painter.drawLine(QPoint(positionx ,positiony +3 ),QPoint(positionx ,positiony + 30));
             }
          }

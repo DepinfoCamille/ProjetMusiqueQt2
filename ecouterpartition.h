@@ -44,6 +44,8 @@ public slots:
 
     void finNote() ;
 
+protected:
+ //   QSound test("D:\\ProjetMusique\\ProjetMusiqueQt\\ProjetMusiqueQt2\\DO3.wav") ;
 
 
 };
