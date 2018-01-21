@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
 
     w.show();
 
-    QSound test("D:\ProjetMusique\ProjetMusiqueQt\ProjetMusiqueQt2\DO3.wma") ;
+    QSound test("D:\ProjetMusique\ProjetMusiqueQt\ProjetMusiqueQt2\DO3.wav") ;
     test.play() ;
 
 /*    QMediaPlaylist* playlist = new QMediaPlaylist() ;
