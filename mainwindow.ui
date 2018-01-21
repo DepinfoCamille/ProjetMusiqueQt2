@@ -887,7 +887,7 @@
       <bool>true</bool>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="page_4">
       <widget class="QGroupBox" name="boxTempo_2">
@@ -1006,9 +1006,9 @@
       <widget class="QGroupBox" name="boxPartitionEcrite">
        <property name="geometry">
         <rect>
-         <x>180</x>
+         <x>30</x>
          <y>10</y>
-         <width>211</width>
+         <width>531</width>
          <height>111</height>
         </rect>
        </property>
@@ -1021,8 +1021,8 @@
        <widget class="QPushButton" name="boutonEcouter">
         <property name="geometry">
          <rect>
-          <x>40</x>
-          <y>30</y>
+          <x>20</x>
+          <y>40</y>
           <width>151</width>
           <height>28</height>
          </rect>
@@ -1034,14 +1034,27 @@
        <widget class="QPushButton" name="boutonvoirpartition">
         <property name="geometry">
          <rect>
-          <x>40</x>
-          <y>70</y>
+          <x>180</x>
+          <y>40</y>
           <width>151</width>
           <height>31</height>
          </rect>
         </property>
         <property name="text">
          <string>Voir la partition</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="boutonModifier">
+        <property name="geometry">
+         <rect>
+          <x>350</x>
+          <y>40</y>
+          <width>141</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Modifier la partition</string>
         </property>
        </widget>
       </widget>
@@ -1078,7 +1091,7 @@
      <x>0</x>
      <y>0</y>
      <width>1061</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

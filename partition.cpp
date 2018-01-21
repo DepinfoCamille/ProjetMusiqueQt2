@@ -9,97 +9,11 @@
 
 #include <QChar>
 
-int paCallback( const void *inputBuffer,
-             void *outputBuffer, unsigned long framesPerBuffer,
-             const PaStreamCallbackTimeInfo* timeInfo,
-             PaStreamCallbackFlags statusFlags, void *userData )
-{
-  TestData *data = (TestData*) userData;
-  float *out = (float*) outputBuffer;
-  float sample;
-  int i;
-
-  for (i = 0; i < framesPerBuffer; i++) {
-    sample = data->sine[data->phase++];
-    *out++ = sample; // left
-  //*out++ = sample; // right
-
-    if (data->phase >= TABLE_SIZE)
-      data->phase -= TABLE_SIZE;
-  }
-  return paContinue;
-}
-
-
 /** Joue une sinusoïde
  * @param frequence
  * @param temps en ms */
 void joueSinusoide(int frequence, float temps){
 
-    TestData data;
-    PaStream *stream;
-    PaStreamParameters outputParameters;
-    PaError err;
-
-    int i;
-    double t;
-
-    // Generate table with sine values at given frequency
-    for (i = 0; i < TABLE_SIZE; i++) {
-      t = (double)i/(double)SAMPLE_RATE;
-      data.sine[i] = 0.1*sin(2 * M_PI * frequence * t);
-    }
-
-    // Initialize user data
-    data.phase = 0;
-
-    // Initialize PortAudio
-    Pa_Initialize();
-
-    // Set output stream parameters
-    outputParameters.device = Pa_GetDefaultOutputDevice();
-    outputParameters.channelCount = 2;
-    outputParameters.sampleFormat = paFloat32;
-    outputParameters.suggestedLatency =
-    Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
-    outputParameters.hostApiSpecificStreamInfo = NULL;
-
-    // Open audio stream
-    err = Pa_OpenStream( &stream, NULL,
-                 &outputParameters,
-                 SAMPLE_RATE, FRAMES_PER_BUFFER, paNoFlag,
-                 paCallback, &data );
-
-    if (err != paNoError) {
-      printf("PortAudio error: open stream: %s\n", Pa_GetErrorText(err));
-    }
-
-    // Start audio stream
-    err = Pa_StartStream( stream );
-    if (err != paNoError) {
-      printf(  "PortAudio error: start stream: %s\n", Pa_GetErrorText(err));
-    }
-
-    // Play sine wav
-    printf("Play for %d seconds.\n", (int)temps/1000 );
-    sleep(temps/1000);
-    err = Pa_StopStream( stream );
-
-
-    // Stop audio stream
-    if (err != paNoError) {
-      printf(  "PortAudio error: stop stream: %s\n", Pa_GetErrorText(err));
-    }
-    // Close audio stream
-    err = Pa_CloseStream(stream);
-    if (err != paNoError) {
-      printf("PortAudio error: close stream: %s\n", Pa_GetErrorText(err));
-    }
-    // Terminate audio stream
-    err = Pa_Terminate();
-    if (err != paNoError) {
-      printf("PortAudio error: terminate: %s\n", Pa_GetErrorText(err));
-    }
 }
 
 int Partition::setTempo(float val){
@@ -109,6 +23,10 @@ int Partition::setTempo(float val){
     }
     if(i<4){
         this->listePulsations[i] = val;
+    }
+
+    if(i==3){
+        this->tempo = (this->listePulsations[3]-this->listePulsations[0])/3 ;
     }
 
     return i ;
@@ -295,9 +213,10 @@ void Partition::calculDuree(){
 /** @brief Stocke le rythme de la partition (ex : "NOIRE", "NOIRE", "CROCHE" "CROCHE" "NOIRE")
  * dans listeRythme
  */
-void Partition::creeRythme(){ // Pour l'instant, on se limite aux croches
+void Partition::creeRythme(){
 
- //   float tempo = static_cast<float>(this->tempo) ; // temps d'une noire
+    this->calculDuree() ;
+
     float fRythme ; // contient le nombre de croches dans une note
 
     for(std::vector<int>::iterator it = this->listeDuree.begin() ;

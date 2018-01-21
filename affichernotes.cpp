@@ -15,6 +15,7 @@ void Affichernotes::paintEvent (QPaintEvent *event)
     QPainter painter(this);
     QPen myPen(Qt::black, 2, Qt::SolidLine);
     painter.setPen(myPen);
+    compteur = 0.0;
 
     for (int i=0; i<listeNotes.size(); i++){
         painter.setBrush(QBrush(Qt::NoBrush )); // pas de fond

@@ -4,31 +4,16 @@
 #include <QChar>
 #include <QTextStream>
 #include <time.h>
+
+#include <QPushButton>
 #include <stdio.h>
 #include <math.h>
-
-#include "portaudio.h"
-
-#define SAMPLE_RATE 44100
-#define TABLE_SIZE SAMPLE_RATE
-#define FRAMES_PER_BUFFER 256
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h> /* for sleep() */
 
 #include <math.h>
-
-typedef struct _testData {
-  float sine[TABLE_SIZE];
-  int phase;
-} TestData;
-
-// callback function prototype
-int paCallback( const void *inputBuffer,
-             void *outputBuffer, unsigned long framesPerBuffer,
-             const PaStreamCallbackTimeInfo* timeInfo,
-             PaStreamCallbackFlags statusFlags, void *userData );
 
  void joueSinusoide(int frequence, float temps) ;
 
@@ -60,6 +45,9 @@ class Partition
         std::vector<int> listeOctave ;
         // stocke le rythme d'une note sous la forme "NOIRE", "BLANCHE"...
         std::vector<std::string> listeRythme ;
+        //vecteur de boutons sur la position de chaque note
+        std::vector<QPushButton*> listebuttons;
+
     protected:
 
         int lectureClavier() ;  // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé sur entrée
@@ -89,6 +77,7 @@ class Partition
 
         float listePulsations[4] = {0} ;
         float tempo ;
+
 
     private:
 

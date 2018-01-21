@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
 
-  //  std::cout << $$PWD << std::endl;
     // Initialisation des données
     this->p = new Partition() ;
 
@@ -44,15 +43,10 @@ MainWindow::MainWindow(QWidget *parent) :
     char *path=nullptr ;
     size_t size = 0 ;
     path=GetCurrentDir(path,size);
-    std::cout <<"rep courant " <<path << std::endl ;
 
     char* repCleSol = (char*) malloc(sizeof(char)*(strlen(path)+31)) ;
     strcpy(repCleSol,path) ;
     strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
-
-    std::cout << "rep path après = " << path << std::endl ;
-    std::cout <<"rep sol " <<repCleSol << std::endl ;
-
 
     ui->cledeSol_2 -> setGeometry(27,38,55,65);
     ui->cledeSol_2->setPixmap( QPixmap( repCleSol) );
@@ -100,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent) :
                      SLOT(voirPartition()));
 
     //Sixième étape: modification de la partition déjà écrite
-    QObject::connect(ui->frame, SIGNAL(clicked()), this, SLOT(positioncurseur()));
+    QObject::connect(ui->boutonModifier, SIGNAL(clicked()), this, SLOT(changerPartition()));
 
 }
 
@@ -161,10 +155,10 @@ void MainWindow::afficherCreationPartition(){
     ui->boxEcrirePartition->show() ;
     ui->textEdit->setReadOnly(false);
     ui->textEdit->hide() ;
+
 }
 
 void MainWindow::afficherEcouterPartition(){
-    this->p->calculDuree() ;
     this->p->creeRythme() ;
     ui->dialogue->setCurrentIndex(3) ;
     ui->boxPartitionEcrite->show() ;
@@ -189,7 +183,7 @@ void MainWindow::choisirTempo(){
 
     if(i==3){
 
-        this->p->tempo = (this->p->listePulsations[3]-this->p->listePulsations[0])/3 ;
+   //     this->p->tempo = (this->p->listePulsations[3]-this->p->listePulsations[0])/3 ;
         emit tempoDefini() ;
         ui->page->hide() ;
     }
@@ -334,11 +328,110 @@ void MainWindow::voirPartition(){
     }
 }
 
-void MainWindow::positioncurseur(){
-  //  pos = QCursor.pos();
-    std::cout<<"qjdhf";
+
+void MainWindow::changerPartition(){
+
+    for (unsigned int i = 0; i<this->an->listeNotes.size(); i++){
+        QPushButton *buttoni= new QPushButton(this);
+        int j;
+        j= i/15;
+        buttoni->setGeometry(127 +(i-15*j)*35,60 + j*90,15,50);
+        buttoni->setFlat(true);
+        buttoni->show();
+
+        this->p->listebuttons.push_back(buttoni);
+        QObject::connect(this->p->listebuttons[i], SIGNAL(clicked()), this,
+                         SLOT(affichercaracteristiquesnote()));
+    }
 }
 
+void MainWindow::affichercaracteristiquesnote(){
+
+    int i=0;
+    QObject *modif = QObject::sender();
+    while (this->p->listebuttons[i] != modif && i<10){
+       i =i+1;
+    }
+    int j= i/15;
+    QLabel *information = new QLabel(this);
+    QComboBox *note = new QComboBox(information);
+    QComboBox *tempo = new QComboBox(information);
+    information ->setScaledContents(true);
+    information->setGeometry(150 +(i-15*j)*35,120 + j*90,130,120);
+    information->setText("    Veuillez choisir \n    votre modification \n \n \n \n \n \n");
+    information->setStyleSheet("background-color: rgb(240, 243, 244)");
+    information->show();
+    indicenoteachanger=i;
+    note ->addItem("notes");
+    note ->addItem("DO");
+    note ->addItem("RE");
+    note ->addItem("MI");
+    note ->addItem("FA");
+    note ->addItem("SOL");
+    note ->addItem("LA");
+    note ->addItem("SI");
+    note->move(30,42);
+    QObject::connect(note, SIGNAL(currentIndexChanged(int)), this,
+                     SLOT(changernote(int)));
+    tempo->addItem("tempo");
+    tempo->addItem("NOIRE");
+    tempo->addItem("BLANCHE");
+    tempo->addItem("RONDE");
+    tempo->addItem("CROCHE");
+    tempo->addItem("NOIRE_POINTEE");
+    tempo->addItem("BLANCHE_POINTEE");
+    tempo->move(30,62);
+    QObject::connect(tempo, SIGNAL(currentIndexChanged(int)), this,
+                     SLOT(changertempo(int)));
+}
+
+void MainWindow::changernote(int i){
+    if (i == 1){
+        this->p->listeNotes[indicenoteachanger] = "DO";
+    }
+    if (i == 2){
+        this->p->listeNotes[indicenoteachanger] = "RE";
+    }
+    if (i == 3){
+        this->p->listeNotes[indicenoteachanger] = "MI";
+    }
+    if (i == 4){
+        this->p->listeNotes[indicenoteachanger] = "FA";
+    }
+    if (i == 5){
+        this->p->listeNotes[indicenoteachanger] = "SOL";
+    }
+    if (i == 6){
+        this->p->listeNotes[indicenoteachanger] = "LA";
+    }
+    if (i == 7){
+        this->p->listeNotes[indicenoteachanger] = "SI";
+    }
+    this->voirPartition();
+}
+void MainWindow::changertempo(int i){
+
+    if (i == 1){
+        this->p->listeRythme[indicenoteachanger] = "NOIRE";
+    }
+    if (i == 2){
+        this->p->listeRythme[indicenoteachanger] = "BLANCHE";
+    }
+    if (i == 3){
+        this->p->listeRythme[indicenoteachanger] = "RONDE";
+    }
+    if (i == 4){
+        this->p->listeRythme[indicenoteachanger] = "CROCHE";
+    }
+    if (i == 5){
+        this->p->listeRythme[indicenoteachanger] = "NOIRE_POINTEE";
+    }
+    if (i == 6){
+        this->p->listeRythme[indicenoteachanger] = "BLANCHE_POINTEE";
+    }
+
+    this->voirPartition();
+}
 
 
 MainWindow::~MainWindow()
