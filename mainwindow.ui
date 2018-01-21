@@ -911,7 +911,7 @@
      <bool>true</bool>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page_4">
      <widget class="QGroupBox" name="boxTempo_2">
@@ -1080,7 +1080,7 @@
        <property name="text">
         <string>Modifier la partition</string>
        </property>
-       <property name="title">
+       <property name="title" stdset="0">
         <string>Votre partition a été écrite ! </string>
        </property>
        <widget class="QPushButton" name="boutonEcouter">

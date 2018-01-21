@@ -86,7 +86,7 @@ void Affichernotes::paintEvent (QPaintEvent *event)
                 j = j + 1;
             }
             if ((j == 1)) //|| (j==2 && listeOctaves[i] != listeOctaves[i+1]))     // la croche est toute seule ou ils appartiennent à des octaves différents (plus facile à coder)
-                {*/
+                {
 
             // On dessine les barres des croches
                 if (/*listeOctaves[i] == 3 && this->estCledeSol*/ positiony> 63 - 4*6 + j*91) {
@@ -98,6 +98,7 @@ void Affichernotes::paintEvent (QPaintEvent *event)
                    painter.drawLine(QPoint(positionx  ,positiony +30) ,QPoint(positionx +6 ,positiony + 24));
                 }
             }
+        }
         //baton des notes n'étant pas des Rondes
         if (tempsi != "RONDE"){
             if (/*listeOctaves[i] == 3*/ positiony>63 - 4*6 + j*91 ) {
