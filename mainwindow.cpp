@@ -356,6 +356,7 @@ void MainWindow::changerPartition(){
 
 void MainWindow::affichercaracteristiquesnote(){
 
+    emit modifPartitionfaite();
     int i=0;
     QObject *modif = QObject::sender();
     while (this->p->listebuttons[i] != modif && i<10){
@@ -376,13 +377,23 @@ void MainWindow::affichercaracteristiquesnote(){
     indicenoteachanger=i;
 
     note ->addItem("notes");
-    note ->addItem("DO");
-    note ->addItem("RE");
-    note ->addItem("MI");
-    note ->addItem("FA");
-    note ->addItem("SOL");
-    note ->addItem("LA");
-    note ->addItem("SI");
+    note ->addItem("DO3");
+    note ->addItem("DO#3");
+    note ->addItem("RE3");
+    note ->addItem("RE#3");
+    note ->addItem("MI3");
+    note ->addItem("FA3");
+    note ->addItem("FA#3");
+    note ->addItem("SOL3");
+    note ->addItem("SOL#3");
+    note ->addItem("LA3");
+    note ->addItem("LA#3");
+    note ->addItem("SI3");
+    note ->addItem("DO4");
+    note ->addItem("DO#4");
+    note ->addItem("RE4");
+
+
     note->move(30,42);
     QObject::connect(note, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(changernote(int)));
@@ -402,24 +413,63 @@ void MainWindow::affichercaracteristiquesnote(){
 void MainWindow::changernote(int i){
     if (i == 1){
         this->p->listeNotes[indicenoteachanger] = "DO";
+        this->p->listeOctave[indicenoteachanger] = 3;
     }
     if (i == 2){
-        this->p->listeNotes[indicenoteachanger] = "RE";
+        this->p->listeNotes[indicenoteachanger] = "DO#";
+        this->p->listeOctave[indicenoteachanger] = 3;
     }
     if (i == 3){
-        this->p->listeNotes[indicenoteachanger] = "MI";
+        this->p->listeNotes[indicenoteachanger] = "RE";
+         this->p->listeOctave[indicenoteachanger] = 3;
     }
     if (i == 4){
-        this->p->listeNotes[indicenoteachanger] = "FA";
+        this->p->listeNotes[indicenoteachanger] = "RE#";
+         this->p->listeOctave[indicenoteachanger] = 3;
     }
     if (i == 5){
-        this->p->listeNotes[indicenoteachanger] = "SOL";
+        this->p->listeNotes[indicenoteachanger] = "MI";
+        this->p->listeOctave[indicenoteachanger] = 3;
     }
     if (i == 6){
-        this->p->listeNotes[indicenoteachanger] = "LA";
+        this->p->listeNotes[indicenoteachanger] = "FA";
+        this->p->listeOctave[indicenoteachanger] = 3;
     }
     if (i == 7){
+        this->p->listeNotes[indicenoteachanger] = "FA#";
+        this->p->listeOctave[indicenoteachanger] = 3;
+    }
+    if (i == 8){
+        this->p->listeNotes[indicenoteachanger] = "SOL";
+        this->p->listeOctave[indicenoteachanger] = 3;
+    }
+    if (i == 9){
+        this->p->listeNotes[indicenoteachanger] = "SO#L";
+        this->p->listeOctave[indicenoteachanger] = 3;
+    }
+    if (i == 10){
+        this->p->listeNotes[indicenoteachanger] = "LA";
+        this->p->listeOctave[indicenoteachanger] = 3;
+    }
+    if (i == 11){
+        this->p->listeNotes[indicenoteachanger] = "LA#";
+        this->p->listeOctave[indicenoteachanger] = 3;
+    }
+    if (i == 12){
         this->p->listeNotes[indicenoteachanger] = "SI";
+        this->p->listeOctave[indicenoteachanger] = 3;
+    }
+    if (i == 13){
+        this->p->listeNotes[indicenoteachanger] = "DO";
+        this->p->listeOctave[indicenoteachanger] = 4;
+    }
+    if (i == 14){
+        this->p->listeNotes[indicenoteachanger] = "DO#";
+        this->p->listeOctave[indicenoteachanger] = 4;
+    }
+    if (i == 15){
+        this->p->listeNotes[indicenoteachanger] = "RE";
+        this->p->listeOctave[indicenoteachanger] = 4;
     }
     this->voirPartition();
     emit modifPartitionfaite();
