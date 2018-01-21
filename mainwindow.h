@@ -31,7 +31,7 @@ public:
     Partition* p ;
     QSound* lecture ;
     Affichernotes* an;
-   // QLabel* information  = new QLabel(this) ;
+    QLabel* information ; // = new QLabel(this) ;
 
 protected slots:
 
@@ -47,6 +47,7 @@ protected slots:
     void voirPartition();
     void afficherboxmesure();
     void affichercaracteristiquesnote() ;
+    void cacherDialoguemodif() ;
 
     /* Slots agissant sur la partition */
     void choisirTempo() ;
@@ -56,13 +57,12 @@ protected slots:
     void changernote(int i);
     void changertempo(int i);
 
-
-
 signals:
     void initFaite() ;
     void mesureDefinie() ;
     void tempoDefini() ;
     void partitionEcrite() ;
+    void modifPartitionfaite() ;
 
 protected:
     std::vector<QLabel*> clesDebutLignes ;

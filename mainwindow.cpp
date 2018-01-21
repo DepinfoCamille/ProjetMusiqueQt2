@@ -120,9 +120,9 @@ void MainWindow::initialisation(){
     }
 
     if(!this->p->listebuttons.empty()){
-    /*    for(auto bouton = this->p->listebuttons.begin() ; bouton != this->p->listebuttons.end() ; bouton++){
-            (*bouton)->clear() ;
-        }*/
+        for(auto bouton = this->p->listebuttons.begin() ; bouton != this->p->listebuttons.end() ; bouton++){
+            delete (*bouton) ;
+        }
         this->p->listebuttons.clear() ;
     }
 
@@ -362,15 +362,19 @@ void MainWindow::affichercaracteristiquesnote(){
        i =i+1;
     }
     int j= i/15;
-    QLabel *information = new QLabel(this);
-    QComboBox *note = new QComboBox(information);
-    QComboBox *tempo = new QComboBox(information);
-    information ->setScaledContents(true);
-    information->setGeometry(150 +(i-15*j)*35,120 + j*90,130,120);
-    information->setText("    Veuillez choisir \n    votre modification \n \n \n \n \n \n");
-    information->setStyleSheet("background-color: rgb(240, 243, 244)");
-    information->show();
+    this->information  = new QLabel(this) ;
+//    QLabel *information = new QLabel(this);
+    QComboBox *note = new QComboBox(this->information);
+    QComboBox *tempo = new QComboBox(this->information);
+    this->information ->setScaledContents(true);
+    this->information->setGeometry(150 +(i-15*j)*35,120 + j*90,130,120);
+    this->information->setText("    Veuillez choisir \n    votre modification \n \n \n \n \n \n");
+    this->information->setStyleSheet("background-color: rgb(240, 243, 244)");
+    this->information->show();
+    connect(this,SIGNAL(modifPartitionfaite()),this, SLOT(cacherDialoguemodif())) ;
+
     indicenoteachanger=i;
+
     note ->addItem("notes");
     note ->addItem("DO");
     note ->addItem("RE");
@@ -382,6 +386,7 @@ void MainWindow::affichercaracteristiquesnote(){
     note->move(30,42);
     QObject::connect(note, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(changernote(int)));
+
     tempo->addItem("tempo");
     tempo->addItem("NOIRE");
     tempo->addItem("BLANCHE");
@@ -417,6 +422,7 @@ void MainWindow::changernote(int i){
         this->p->listeNotes[indicenoteachanger] = "SI";
     }
     this->voirPartition();
+    emit modifPartitionfaite();
 }
 void MainWindow::changertempo(int i){
 
@@ -440,8 +446,13 @@ void MainWindow::changertempo(int i){
     }
 
     this->voirPartition();
+    emit modifPartitionfaite();
+
 }
 
+void MainWindow::cacherDialoguemodif(){
+    this->information->hide();
+}
 
 MainWindow::~MainWindow()
 {
