@@ -17,10 +17,13 @@ int main(int argc, char *argv[]){
 
     w.show();
 
-    QMediaPlaylist* playlist = new QMediaPlaylist() ;
+    QSound test("D:/ProjetMusique/ProjetMusiqueQt/ProjetQt2/DO3.wav") ;
+    test.play() ;
+
+/*    QMediaPlaylist* playlist = new QMediaPlaylist() ;
 
     std::cout << "new playlist" << std::endl ;
-    playlist->addMedia(QUrl("D:\ProjetMusique\ProjetMusiqueQt\ProjetQt2\DO3.mp3"));
+    playlist->addMedia(QUrl("D:/ProjetMusique/ProjetMusiqueQt/ProjetQt2/FormatFactoryDO3.mp3"));
 
     std::cout << "addMedia" << std::endl ;
 
@@ -28,6 +31,11 @@ int main(int argc, char *argv[]){
 
     player->setPlaylist(playlist) ;
     player->play() ;
+
+    if (player->error() == QMediaPlayer::FormatError)
+    {
+        std::cout << "format non supporté " << std::endl ;
+    }*/
 
 
     return a.exec();

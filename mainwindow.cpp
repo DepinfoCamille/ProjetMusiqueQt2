@@ -119,6 +119,13 @@ void MainWindow::initialisation(){
         this->mesureDebutLignes.clear() ;
     }
 
+    if(!this->p->listebuttons.empty()){
+    /*    for(auto bouton = this->p->listebuttons.begin() ; bouton != this->p->listebuttons.end() ; bouton++){
+            (*bouton)->clear() ;
+        }*/
+        this->p->listebuttons.clear() ;
+    }
+
     emit initFaite() ;
 
 }
