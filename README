@@ -45,5 +45,11 @@ Le programme est divisé en 5 classes:
 Audiooutputstream
 
 
+Limites de notre code: 
+
+-Bug lors des modifications des notes des lignes n+1
+-Fonction écouter en fonction des ordinateurs ne marche pas
+
+
 
 
