@@ -30,13 +30,15 @@ SOURCES += \
         mainwindow.cpp \
     partition.cpp \
     affichernotes.cpp \
-    ecouterpartition.cpp
+    ecouterpartition.cpp \
+    montimer.cpp
 
 HEADERS += \
         mainwindow.h \
     partition.h \
     affichernotes.h \
-    ecouterpartition.h
+    ecouterpartition.h \
+    montimer.h
 
 FORMS += \
         mainwindow.ui
@@ -45,9 +47,6 @@ FORMS += \
 DISTFILES += \
     partition.pro.user \
     DO3.wav \
-    DO3.aac \
-    DO3.aac \
-    DO3.mp3 \
-    DO3.wv \
-    DO4.wav
+    DO4.wav \
+    SILENCE.wav
 

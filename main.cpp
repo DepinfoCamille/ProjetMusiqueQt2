@@ -17,8 +17,24 @@ int main(int argc, char *argv[]){
 
     w.show();
 
- /*   QSound test("D:\\ProjetMusique\\ProjetMusiqueQt\\ProjetMusiqueQt2\\DO3.wav") ;
-    test.play() ;*/
+    QSound test("D:\\ProjetMusique\\ProjetMusiqueQt\\ProjetMusiqueQt2\\DO3.wav") ;
+    QSound test2("D:\\ProjetMusique\\ProjetMusiqueQt\\ProjetMusiqueQt2\\DO4.wav") ;
+    QSound silence("D:\\ProjetMusique\\ProjetMusiqueQt\\ProjetMusiqueQt2\\SILENCE.wav") ;
+
+
+    clock_t start = clock();
+    clock_t temps = clock() ;
+    std::cout << " debut son" << std::endl ;
+    test.play() ;
+    silence.play() ;
+    while((temps-start/CLOCKS_PER_SEC*1000 )<5000){
+        temps = clock() ;
+    }
+    test.stop() ;
+    std::cout << " fin son" << std::endl ;
+
+
+
 
 /*    QMediaPlaylist* playlist = new QMediaPlaylist() ;
 

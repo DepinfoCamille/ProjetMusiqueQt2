@@ -21,7 +21,7 @@
  #endif
 
 
-QSound initQSound(char*);
+//QSound initQSound(char*);
 
 class EcouterPartition : public QObject
 {
@@ -32,6 +32,7 @@ public:
     ~EcouterPartition() ;
     std::vector<QTimer*> listeTimers  ;
     std::vector<float> listeDurees ;
+    std::vector<char*> listeChemins ;
     QMediaPlaylist *notesPartitions ;
     QMediaPlayer *player ;
 
@@ -46,6 +47,7 @@ public slots:
 
 protected:
  //   QSound test("D:\\ProjetMusique\\ProjetMusiqueQt\\ProjetMusiqueQt2\\DO3.wav") ;
+ //   QSound noteJouee ;
 
 
 };

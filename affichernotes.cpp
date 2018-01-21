@@ -87,7 +87,7 @@ void Affichernotes::paintEvent (QPaintEvent *event)
                 {*/
 
             // On dessine les barres des croches
-                if (/*listeOctaves[i] == 3 && this->estCledeSol*/ positiony> 63 - 4*6 + j*90) {
+                if (/*listeOctaves[i] == 3 && this->estCledeSol*/ positiony> 63 - 4*6 + j*91) {
                     painter.drawLine(QPoint(positionx +9 ,positiony - 25 ),QPoint(positionx + 16 ,positiony - 20));
                 }
 
@@ -107,7 +107,7 @@ void Affichernotes::paintEvent (QPaintEvent *event)
 
 
         if (tempsi != "RONDE"){
-            if (/*listeOctaves[i] == 3*/ positiony>63 - 4*6 + j*90 ) {
+            if (/*listeOctaves[i] == 3*/ positiony>63 - 4*6 + j*91 ) {
                 painter.drawLine(QPoint(positionx +9 ,positiony ),QPoint(positionx + 9,positiony - 25));
             }
             else{

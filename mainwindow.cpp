@@ -16,6 +16,7 @@
 #include <conio.h>
 #include <string.h>
 #include "ecouterpartition.h"
+#include <QSound>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -49,10 +50,12 @@ MainWindow::MainWindow(QWidget *parent) :
     strcpy(repCleSol,path) ;
     strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
 
-    ui->cledeSol_2 -> setGeometry(27,38,55,65);
-    ui->cledeSol_2->setPixmap( QPixmap( repCleSol) );
-    ui->cledeSol_2->setScaledContents(true);
-    ui->cledeSol_2-> show();
+    QLabel* cle = new QLabel(this) ;
+    cle -> setGeometry(27,50,55,65);
+    cle ->setPixmap( QPixmap( repCleSol) );
+    cle ->setScaledContents(true);
+    cle -> show();
+    this->clesDebutLignes.push_back(cle);
 
     ui -> MESURE -> addItem("Cliquez ici pour choisir une mesure");
     ui ->MESURE ->addItem(" 2 / 4 ");
@@ -101,19 +104,35 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::initialisation(){
+
     this->p->initPartition();
+    this->partitionAffichee = false  ;
     ui->MESURE->setCurrentIndex(0);
     ui->textEdit->setOverwriteMode(true);
     this->an->hide() ;
     this->an->estCledeSol = true ;
 
-    if(!this->clesDebutLignes.empty()){
-        for(auto cle = this->clesDebutLignes.begin() ; cle != this->clesDebutLignes.end() ; cle++){
+    if(this->clesDebutLignes.size()!=1){
+        for(auto cle = this->clesDebutLignes.begin()+1 ; cle != this->clesDebutLignes.end() ; cle++){
             (*cle)->clear() ;
         }
         this->clesDebutLignes.clear() ;
     }
 
+    // Affichage de la clé de sol
+ /*       char *path=nullptr ;
+        size_t size = 0 ;
+        path=GetCurrentDir(path,size);
+        QLabel *cle= new QLabel(this);
+        char* repCleSol = (char*) malloc(sizeof(char)*(strlen(path)+31)) ;
+        strcpy(repCleSol,path) ;
+        strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
+
+        cle-> setGeometry(27,38,55,65);
+        cle->setPixmap( QPixmap( repCleSol) );
+        cle->setScaledContents(true);
+        cle-> show();
+        this->clesDebutLignes.push_back(cle);*/
     if(!this->mesureDebutLignes.empty()){
         for(auto mesure = this->mesureDebutLignes.begin() ; mesure != this->mesureDebutLignes.end() ; mesure++){
             (*mesure)->clear() ;
@@ -217,24 +236,50 @@ void MainWindow::affichecle()
 
     int cle = ui->CLE->currentIndex();
 
+   // if(this->partitionAffichee){
     // Clé de sol
     if (cle == 0){
-        ui->cledeSol_2 -> setGeometry(27,38,55,65);
+     /*   ui->cledeSol_2 -> setGeometry(27,38,55,65);
         ui->cledeSol_2->setPixmap( QPixmap(repCleSol) );
         ui->cledeSol_2->setScaledContents(true);
         ui->cledeSol_2-> show();
-        this->an->estCledeSol = true ;
+        this->an->estCledeSol = true ;*/
+    //    if(!this->clesDebutLignes.empty()){
+            int i = 0 ;
+            for(auto cle = this->clesDebutLignes.begin() ; cle != this->clesDebutLignes.end() ; cle++){
+                (*cle)->clear();
+                (*cle)->setPixmap(QPixmap( repCleSol));
+                (*cle) ->setScaledContents(true);
+                (*cle) -> show();
+                (*cle)->setGeometry(27,55+94*i++,55,65);
+            }
+   //     }
     }
 
     // CLé de fa
     if (cle == 1){
 
        // QLabel *picture = new QLabel( this );
-        ui->cledeSol_2 -> setGeometry(27,43,40,44);
+  /*      ui->cledeSol_2 -> setGeometry(27,43,40,44);
         ui->cledeSol_2 ->setPixmap( QPixmap(repCleFa) );
         ui->cledeSol_2 ->setScaledContents(true);
-        ui->cledeSol_2 -> show();
+        ui->cledeSol_2 -> show();*/
         this->an->estCledeSol = false ;
+     //   if(!this->clesDebutLignes.empty()){
+            int i = 0 ;
+            for(auto cle = this->clesDebutLignes.begin() ; cle != this->clesDebutLignes.end() ; cle++){
+                (*cle)->clear();
+                (*cle) ->setPixmap(QPixmap( repCleFa ));
+                (*cle) ->setScaledContents(true);
+                (*cle) -> show();
+              //  (*cle)->setGeometry(27,55+96*i++,40,44);
+                (*cle)->setGeometry(27,55+94*i++,50,65);
+
+        //    }
+        }
+    }
+    if(this->partitionAffichee){
+        this->voirPartition();
     }
 }
 
@@ -270,11 +315,32 @@ void MainWindow::ecrirePartition() {
 void MainWindow::ecouterPartition(){
 
     EcouterPartition* son = new EcouterPartition(this->p);
+    QSound test("D:\\ProjetMusique\\ProjetMusiqueQt\\ProjetMusiqueQt2\\DO3.wav") ;
+    QSound test2("D:\\ProjetMusique\\ProjetMusiqueQt\\ProjetMusiqueQt2\\DO4.wav") ;
+    QSound silence("D:\\ProjetMusique\\ProjetMusiqueQt\\ProjetMusiqueQt2\\SILENCE.wav") ;
+
+    test.play() ;
+
+ /*   for(unsigned int i = 0 ; i<son->listeTimers.size() ; i++){
+        QSound note(son->listeChemins[i]) ;
+      //  connect( son->listeTimers[i], SIGNAL( timeout() ), son, SLOT( finNote(note) ) );
+      //  son->listeTimers[i]->start(son->listeDurees[i]);
+        clock_t start =clock();
+        note.play();
+        while((clock()-start/CLOCKS_PER_SEC*1000 )<son->listeDurees[i]) ;
+        note.stop() ;
+     }*/
  //   son->joueMorceau() ;
+
+
+
+
 }
 
 void MainWindow::voirPartition(){
 
+    this->an->clearFocus();
+    this->an->clearMask();
     this->an->show() ;
 
     this->an->update();
@@ -306,20 +372,23 @@ void MainWindow::voirPartition(){
             QLabel *cle= new QLabel(this);
             QLabel *copiemesure = new QLabel(this);
 
+        if(!this->partitionAffichee){
+
             if(indexCle==0){ // clé de sol
                 cle ->setPixmap(QPixmap( repCleSol));
 
                 cle ->setScaledContents(true);
                 cle -> show();
-                cle->setGeometry(27,43+96*i,55,65);
+                cle->setGeometry(27,48+91*i,55,65);
             }
             else if(indexCle==1){ //clé de fa
                 cle ->setPixmap(QPixmap( repCleFa ));
                 cle ->setScaledContents(true);
                 cle -> show();
-                cle->setGeometry(27,43+96*i,40,44);
+                cle->setGeometry(27,55+97*i,40,44);
             }
             this->clesDebutLignes.push_back(cle);
+        }
 
             if (mesure == 1){
                 copiemesure -> setText("2\n4");
@@ -337,6 +406,7 @@ void MainWindow::voirPartition(){
 
         }
     }
+    this->partitionAffichee=true;
 }
 
 

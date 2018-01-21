@@ -32,7 +32,8 @@ public:
     Partition* p ;
     QSound* lecture ;
     Affichernotes* an;
-    QLabel* information ; // = new QLabel(this) ;
+    QLabel* information ;
+    bool partitionAffichee ;
 
 protected slots:
 
