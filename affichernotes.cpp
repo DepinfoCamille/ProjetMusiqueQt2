@@ -9,6 +9,8 @@ Affichernotes::Affichernotes( QWidget *parent) : QWidget(parent)
 
 }
 
+
+
 void Affichernotes::paintEvent (QPaintEvent *event)
 {
 
@@ -17,6 +19,7 @@ void Affichernotes::paintEvent (QPaintEvent *event)
     painter.setPen(myPen);
     compteur = 0.0;
 
+    //dessin de chaque note de ListeNotes
     for (unsigned int i=0; i<listeNotes.size(); i++){
         painter.setBrush(QBrush(Qt::NoBrush )); // pas de fond
         const char* notei= listeNotes[i].c_str();
@@ -29,21 +32,21 @@ void Affichernotes::paintEvent (QPaintEvent *event)
 
         compteur +=  valeursnotes[tempsi];
 
+        //barres de mesure
         if (compteur== mesure || compteur == 2* mesure || compteur == 3*mesure) {
             compteur = 0;
             painter.drawLine (QPoint(positionx + 25, positiony -2 ),QPoint(positionx + 25, positiony -42));
         }
-
-
         if(!this->estCledeSol){
             positionx = 130 +(i-15*j)*35;
             positiony = 90 - 4*6 + j*90;
         }
 
+        //Les coordonnes sont pour l'octave 3, beaucoup plus courante que l'octave 4
         if (listeOctaves[i] == 4){
             positiony = positiony - 35 ;
         }
-
+        //Localisation de la note en fonction de si c'est un DO-RE...
         if (strstr(notei, "DO")){
             positiony = positiony+2;
             // barre horizontale du do grave en clé de sol et du do aigu en clé de fa
@@ -73,21 +76,21 @@ void Affichernotes::paintEvent (QPaintEvent *event)
         if (strstr(notei, "SI")){
            positiony = positiony - 26 ;
         }
-
+        //si la note est 'coloriée' en noire
         if ((strstr(tempsi,"NOIRE")) || (strstr(tempsi, "CROCHE")))  {
             painter.setBrush(QBrush(Qt::black, Qt::SolidPattern));
         }
+        //élaboration de la Croche
         if (strstr(tempsi, "CROCHE")){
-            /*int j = 0;
-            while (listeTemps[i+j] == "CROCHE"){
 
                 j = j + 1;
             }
-            if ((j == 1)) //|| (j==2 && listeOctaves[i] != listeOctaves[i+1]))     // la corche est toute seule ou ils appartiennent à des octaves différents (plus facile à coder)
+            if ((j == 1)) //|| (j==2 && listeOctaves[i] != listeOctaves[i+1]))     // la croche est toute seule ou ils appartiennent à des octaves différents (plus facile à coder)
                 {*/
 
             // On dessine les barres des croches
                 if (/*listeOctaves[i] == 3 && this->estCledeSol*/ positiony> 63 - 4*6 + j*91) {
+                    if (listeOctaves[i] == 3) {
                     painter.drawLine(QPoint(positionx +9 ,positiony - 25 ),QPoint(positionx + 16 ,positiony - 20));
                 }
 
@@ -95,17 +98,7 @@ void Affichernotes::paintEvent (QPaintEvent *event)
                    painter.drawLine(QPoint(positionx  ,positiony +30) ,QPoint(positionx +6 ,positiony + 24));
                 }
             }
-            // COmpliqué à les relier pq je dois connaitre la note suivante...
-            //if (j == 2) { // deux corches liées
-            //    if (listeOctaves[i] == 3) {
-            //        painter.drawLine(QPoint(positionx +9 ,positiony - 25 ),QPoint(positionx + 44 ,positiony - 25));
-            //    }
-            //    if (listeOctaves[i] == 4){
-            //       painter.drawLine(QPoint(positionx  ,positiony +30) ,QPoint(positionx +6 ,positiony + 24));
-            //    }
-            //}
-
-
+        //baton des notes n'étant pas des Rondes
         if (tempsi != "RONDE"){
             if (/*listeOctaves[i] == 3*/ positiony>63 - 4*6 + j*91 ) {
                 painter.drawLine(QPoint(positionx +9 ,positiony ),QPoint(positionx + 9,positiony - 25));
@@ -114,6 +107,7 @@ void Affichernotes::paintEvent (QPaintEvent *event)
                painter.drawLine(QPoint(positionx ,positiony +3 ),QPoint(positionx ,positiony + 30));
             }
          }
+        //Caractères spéciaux
         if (strstr(notei, "#")){
             painter.drawLine(QPoint(positionx - 10 ,positiony -2 ),QPoint(positionx - 14 ,positiony + 10));
             painter.drawLine(QPoint(positionx - 5 ,positiony -2 ),QPoint(positionx - 9 ,positiony + 10));
@@ -124,12 +118,13 @@ void Affichernotes::paintEvent (QPaintEvent *event)
             painter.drawEllipse(QRectF (positionx + 15 ,positiony,2,2));
 
         }
+        //dessin de l'ellipse aux coordonnées correctes
          painter.drawEllipse(QRectF (positionx ,positiony,9,9));
 
     }
     painter.end();
 
-        }
+}
 
 
 

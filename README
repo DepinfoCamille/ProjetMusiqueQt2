@@ -1,4 +1,4 @@
-Notre programme crée un exécutable capable de lire une partition au clavier.
+﻿Notre programme crée un exécutable capable de lire une partition au clavier.
 
 Notice d'utilisation : 
 
@@ -11,8 +11,44 @@ l : RE 4
 
 Pour créer sa partition, il faut cliquer sur le bouton Ecrire partition, puis suivre les informations : 
 
+- Tout d'abord, le programme demandera de choisir parmi les 3 types de mesures différentes. 
+- Ensuite, il faut appuyer le bouton Tempo au ritme désiré. Il faut considérer ce bouton comme un métronome et taper à la vitesse désirée. 
+- La page suivante demande à l'utilisateur de taper la partition. Il faut taper les touches correspondant aux notes. 
+	Par exemple, si l'utilisateur désire faire une escale "DO-RE-MI-FA-SOL-LA-SI-DO", il devra toucher "QSDFGHJK". 
+	L'utilisateur doit tenir en compte que le programme détecte les rythme auquel les notes sont jouées. 
+	Même si rien ne se passe à l'écran, le programme enregistre ce qui est en train d'être joué.
+	
+	
+Inutile de rester apuyé sur une touche pour les notes longues. 
+Quand la partition est finie, appuyer sur Enter. 
+
+-Une nouvelle page apparaît avec 3 boutons. L'utilisateur peut écouter la partition avec le bouton "Ecouter le morceau" ou voir la partition écrite. 
+S'il remarque une erreur, il peut modifier la partition en réalisant les étapes suivantes:
+
+Apuyer sur "Modifier Partition" -> cliquer sur la note à changer -> Selectionner la note et le rythme désirées
+
+-Le bouton "Clé de Sol" situé en haut à droite permet de changer de clé. 
+
+
+-Pour écrire une nouvelle partition, il suffit de recliquer sur Ecrire Partition
+
+
 
 Structure du programme : 
+
+Le programme est divisé en 5 classes: 
+
+-AfficherPartition est une classe qui écrit la partition
+-MainWindow 
+-Partition
+-EcouterPartition
+Audiooutputstream
+
+
+Limites de notre code: 
+
+-Bug lors des modifications des notes des lignes n+1
+-Fonction écouter en fonction des ordinateurs ne marche pas
 
 
 

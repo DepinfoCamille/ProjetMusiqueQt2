@@ -287,6 +287,10 @@ void MainWindow::ecouterPartition(){
     std::cout << "Désolée, je n'ai pas réussi... pourtant j'y ai passé du temps !" << std::endl ;
 }
 
+/** @brief Cette fonction est appelée quand l'utilisateur tape sur le bouton 'Voir partition'
+ * Elle envoie toute les informations nécessaires de la classe partition à la classe Afficher note
+ */
+
 void MainWindow::voirPartition(){
 
     this->an->clearFocus();
@@ -361,9 +365,12 @@ void MainWindow::voirPartition(){
     this->partitionAffichee=true;
 }
 
+/** @brief Cette fonction est appelée quand l'utilisateur tape sur le bouton Modifier Partition
+ * Elle créé un bouton invisible sur chaque note pourpouvoir les modifier
+ */
 
 void MainWindow::changerPartition(){
-
+    // création d'un bouton invisible a l'emplacement de chaque note
     for (unsigned int i = 0; i<this->an->listeNotes.size(); i++){
         QPushButton *buttoni= new QPushButton(this);
         int j;
@@ -376,9 +383,18 @@ void MainWindow::changerPartition(){
         QObject::connect(this->p->listebuttons[i], SIGNAL(clicked()), this,
                          SLOT(affichercaracteristiquesnote()));
     }
+
+
+    ui->explication->setText("Veuillez cliquer sur la note que vous désirez changer");
+    ui->explication->show();
 }
 
+
+/** @brief Cette fonction est appelée quand l'utilisateur tape sur une note après avoir appuyé sur le bouton Modifier Partition
+ * Elle fait apparaitre deux combobox ou l'utilisateur peut sélectionner ses changements
+ */
 void MainWindow::affichercaracteristiquesnote(){
+    //affiche un label avec deux combobox pour pouvoir changer la note à modifier
 
     emit modifPartitionfaite();
     int i=0;
@@ -397,8 +413,10 @@ void MainWindow::affichercaracteristiquesnote(){
     this->information->show();
     connect(this,SIGNAL(modifPartitionfaite()),this, SLOT(cacherDialoguemodif())) ;
 
+    //on enregistre l'indice de la note à changer
     indicenoteachanger=i;
 
+    //valeurs possibles du combobox agissant sur les notes
     note ->addItem("notes");
     note ->addItem("DO3");
     note ->addItem("DO#3");
@@ -421,6 +439,7 @@ void MainWindow::affichercaracteristiquesnote(){
     QObject::connect(note, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(changernote(int)));
 
+    //valeurs possibles du combobox agissant sur le tempo
     tempo->addItem("tempo");
     tempo->addItem("NOIRE");
     tempo->addItem("BLANCHE");
@@ -431,8 +450,13 @@ void MainWindow::affichercaracteristiquesnote(){
     tempo->move(30,62);
     QObject::connect(tempo, SIGNAL(currentIndexChanged(int)), this,
                      SLOT(changertempo(int)));
+
 }
 
+/** @brief
+ * Cette fonction met à jour les parametres de la partition de la classe partition
+ * Elle appelle la fonction voirPartition pour que l'affichage se mette à jour
+ */
 void MainWindow::changernote(int i){
     if (i == 1){
         this->p->listeNotes[indicenoteachanger] = "DO";
@@ -497,6 +521,11 @@ void MainWindow::changernote(int i){
     this->voirPartition();
     emit modifPartitionfaite();
 }
+
+/** @brief
+ * Cette fonction met à jour les parametres de la partition de la classe partition
+ * Elle appelle la fonction voirPartition pour que l'affichage se mette à jour
+ */
 void MainWindow::changertempo(int i){
 
     if (i == 1){
