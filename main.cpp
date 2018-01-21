@@ -26,11 +26,7 @@ int main(int argc, char *argv[]){
     clock_t temps = clock() ;
     std::cout << " debut son" << std::endl ;
     test.play() ;
-    silence.play() ;
-    while((temps-start/CLOCKS_PER_SEC*1000 )<5000){
-        temps = clock() ;
-    }
-    test.stop() ;
+
     std::cout << " fin son" << std::endl ;
 
 

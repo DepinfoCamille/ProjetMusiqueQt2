@@ -30,15 +30,13 @@ SOURCES += \
         mainwindow.cpp \
     partition.cpp \
     affichernotes.cpp \
-    ecouterpartition.cpp \
-    montimer.cpp
+    ecouterpartition.cpp
 
 HEADERS += \
         mainwindow.h \
     partition.h \
     affichernotes.h \
-    ecouterpartition.h \
-    montimer.h
+    ecouterpartition.h
 
 FORMS += \
         mainwindow.ui
