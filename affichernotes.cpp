@@ -9,6 +9,8 @@ Affichernotes::Affichernotes( QWidget *parent) : QWidget(parent)
 
 }
 
+
+
 void Affichernotes::paintEvent (QPaintEvent *event)
 {
 
