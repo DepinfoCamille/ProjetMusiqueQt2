@@ -12,17 +12,14 @@ l : RE 4
 Pour créer sa partition, il faut cliquer sur le bouton Ecrire partition, puis suivre les informations : 
 
 - Tout d'abord, le programme demandera de choisir parmi les 3 types de mesures différentes. 
-- Ensuite, il faut appuyer le bouton Tempo au ritme désiré. Il faut considérer ce bouton comme un métronome et taper à la vitesse désirée. 
+- Ensuite, il faut appuyer sur le bouton Tempo au ritme désiré. Il faut considérer ce bouton comme un métronome et taper à la vitesse désirée. 
 - La page suivante demande à l'utilisateur de taper la partition. Il faut taper les touches correspondant aux notes. 
-	Par exemple, si l'utilisateur désire faire une escale "DO-RE-MI-FA-SOL-LA-SI-DO", il devra toucher "QSDFGHJK". 
-	L'utilisateur doit tenir en compte que le programme détecte les rythme auquel les notes sont jouées. 
-	Même si rien ne se passe à l'écran, le programme enregistre ce qui est en train d'être joué.
-	
-	
-Inutile de rester apuyé sur une touche pour les notes longues. 
-Quand la partition est finie, appuyer sur Enter. 
+	Par exemple, si l'utilisateur désire faire la gamme "DO-RE-MI-FA-SOL-LA-SI-DO", il devra toucher "QSDFGHJK". 
+	L'utilisateur doit prendre en compte le fait que le programme détecte les rythme auquel les notes sont jouées, et il doit appuyer brièvement sur les touches pour que le bon rythme soit enregistré.	
+	Quand la partition est finie, appuyer sur Enter. 
 
--Une nouvelle page apparaît avec 3 boutons. L'utilisateur peut écouter la partition avec le bouton "Ecouter le morceau" ou voir la partition écrite. 
+-Une nouvelle page apparaît avec 3 boutons. L'utilisateur peut écouter la partition avec le bouton "Ecouter le morceau" ou voir la partition écrite. Malheureusement, cette fonctionnalité n'est pas opérationnelle...
+
 S'il remarque une erreur, il peut modifier la partition en réalisant les étapes suivantes:
 
 Apuyer sur "Modifier Partition" -> cliquer sur la note à changer -> Selectionner la note et le rythme désirées
@@ -38,16 +35,19 @@ Structure du programme :
 
 Le programme est divisé en 5 classes: 
 
--AfficherPartition est une classe qui écrit la partition
--MainWindow 
--Partition
--EcouterPartition
-Audiooutputstream
+-AfficherNotes est une classe qui dessine les notes sur la page de la partition
+- Afficher une note est une classe qui dessine la note que l'utilisateur est en train de jouer
+-MainWindow est la classe interface graphique
+-Partition est la classe contenant toutes les informations de la partition écrite : les notes, le rythme, le tempo...
+-EcouterPartition est une classe qui aurait du jouer la partition
 
+Lorsque l'utilisateur met en place le tempo, cette information est enregistrée dans les informations de la partition (de la classe Partition)
+Ensuite, lorsqu'il choisit la mesure, cette information va dans afficher notes pour que les traits verticaux indiquant une mesure soient dessinés (c'est de l'affichage et ne sert pas à construire la partition)
+Lorsque l'utilisateur tape sa partition au clavier, les informations comme la touche jouée et le temps entre deux appuis vont dans partition
+Enfin, pour écouter la partition, le programme fait bien sûr appel à ecouterPartition. Voir partition fait appel à affichernotes et changer partition modifie la partition, puis l'afficher grâce à l'objet affichernotes
 
-Limites de notre code: 
+Limite de notre code: 
 
--Bug lors des modifications des notes des lignes n+1
 -Fonction écouter en fonction des ordinateurs ne marche pas
 
 

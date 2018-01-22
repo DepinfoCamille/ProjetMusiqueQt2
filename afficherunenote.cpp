@@ -16,6 +16,7 @@ void AfficherUneNote::paintEvent (QPaintEvent *event)
     QPen myPen(Qt::black, 2, Qt::SolidLine);
     painter.setPen(myPen);
     const char* noteStr= this->note.c_str();
+    int j = this->i/15 ;
 
     int positionx = 130 +(i-15*j)*35; // position de départ
     int positiony = 90 + j*90;

@@ -13,6 +13,7 @@ public:
     std::string note ;
     int octave ;
     int i  ;
+    bool estCledeSol ;
 
 
 signals:
