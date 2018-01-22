@@ -1,5 +1,8 @@
 ﻿Notre programme crée un exécutable capable de lire une partition au clavier.
 
+Information préalable :
+Pour que le programme tourne sans problème, il faut juste que le répertoire de compilation soit voison du dossier contenant le projet 
+
 Notice d'utilisation : 
 
 La partition se joue au clavier : les différentes touches correspondent à des notes.
