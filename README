@@ -39,7 +39,7 @@ Le programme est divisé en 5 classes:
 - Afficher une note est une classe qui dessine la note que l'utilisateur est en train de jouer
 -MainWindow est la classe interface graphique
 -Partition est la classe contenant toutes les informations de la partition écrite : les notes, le rythme, le tempo...
--EcouterPartition est une classe qui aurait du jouer la partition
+-EcouterPartition est une classe qui aurait du jouer la partition (il se peut qu'elle soit fonctionnelle mais que le bugue vienne de nos machines personnelles ou d'un problème de Qt)
 
 Lorsque l'utilisateur met en place le tempo, cette information est enregistrée dans les informations de la partition (de la classe Partition)
 Ensuite, lorsqu'il choisit la mesure, cette information va dans afficher notes pour que les traits verticaux indiquant une mesure soient dessinés (c'est de l'affichage et ne sert pas à construire la partition)

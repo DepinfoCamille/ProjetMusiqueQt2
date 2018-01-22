@@ -115,9 +115,6 @@ void MainWindow::initialisation(){
     ui->MESURE->setCurrentIndex(0);
     ui->textEdit->setOverwriteMode(true);
     this->an->hide() ;
-    this->an->estCledeSol = true ;
-    this->aun->estCledeSol = true ;
-
 
     if(this->clesDebutLignes.size()!=1){
         for(auto cle = this->clesDebutLignes.begin()+1 ; cle != this->clesDebutLignes.end() ; cle++){
@@ -227,6 +224,9 @@ void MainWindow::affichecle()
 
     // Clé de sol
     if (cle == 0){
+
+        this->an->estCledeSol = true ;
+        this->aun->estCledeSol = true ;
         int i = 0 ;
         for(auto cle = this->clesDebutLignes.begin() ; cle != this->clesDebutLignes.end() ; cle++){
             (*cle)->clear();
@@ -277,6 +277,8 @@ void MainWindow::ecrirePartition() {
         this->aun->octave = p->listeOctave.back() ;
         this->aun->i = (int) p->listeNotes.size() ;
         this->aun->update();
+        this->aun->show() ;
+
     }
     else{
         this->p->ajoutTemps(temps) ;
@@ -287,6 +289,8 @@ void MainWindow::ecrirePartition() {
 void MainWindow::ecouterPartition(){
 
     std::cout << "Désolée, je n'ai pas réussi... pourtant j'y ai passé du temps !" << std::endl ;
+    EcouterPartition* son = new EcouterPartition(this->p) ;
+    son->joueMorceau();
 }
 
 /** @brief affiche la partition */
@@ -299,7 +303,7 @@ void MainWindow::voirPartition(){
 
     this->aun->clearFocus();
     this->aun->clearMask();
-    this->aun->show() ;
+    this->aun->hide() ;
 
     // Remplissage des informations et affichage
     this->an->update();

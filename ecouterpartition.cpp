@@ -38,11 +38,9 @@ EcouterPartition::EcouterPartition(Partition* p)
 
         strcpy(cheminNote,repWav);
         strcat(cheminNote,nomNote) ;
-        std::cout << "chemin de la note jouée " << cheminNote ;
 
         QTimer* timer = new QTimer(this);
-  //      connect( timer, SIGNAL( timeout() ), this, SLOT( finNote(QSound) ) );
-        connect( this->listeTimers[i], SIGNAL( timeout() ), this, SLOT( finNote(note) ) );
+        connect(timer, SIGNAL( timeout() ), this, SLOT( finNote(note) ) );
 
 
         if(i!=0){
@@ -52,12 +50,7 @@ EcouterPartition::EcouterPartition(Partition* p)
             temps = p->listeDuree[i] ;
         }
 
-        std::cout << " temps " << temps << std::endl ;
-
-     //   this->notesPartitions->addMedia(QUrl::fromLocalFile(nomNote));
-     //   this->notesPartitions->addMedia(QUrl(cheminNote));
-     //   std::cout << " on passe addmedia\n" ;
-        this->listeChemins.push_back(cheminNote);
+        this->notesPartitions->addMedia(QUrl(cheminNote));
         this->listeTimers.push_back(timer) ;
         this->listeDurees.push_back(temps) ;
     }
@@ -67,12 +60,11 @@ EcouterPartition::EcouterPartition(Partition* p)
  */
 void EcouterPartition::joueMorceau() {
 
- //   this->player = new QMediaPlayer() ;
- //   this->player->setPlaylist(this->notesPartitions) ;
- //   this->player->play() ;
+    this->player = new QMediaPlayer() ;
+    this->player->setPlaylist(this->notesPartitions) ;
+    this->player->play() ;
 
     for(unsigned int i = 0 ; i<this->listeTimers.size() ; i++){
-   //     QSound note(this->listeChemins[i]) ;
         this->listeTimers[i]->start(this->listeDurees[i]);
      }
 }
@@ -82,14 +74,11 @@ void EcouterPartition::joueMorceau() {
 void EcouterPartition::finNote(){
 
     this->listeTimers[this->indicePartition]->stop() ;
-   // this->notesPartitions->setCurrentIndex(++this->indicePartition);
-    QSound son(this->listeChemins[this->indicePartition++]) ;
-    son.play();
- //   son.stop() ;
-    std::cout << "indice partition " << this->indicePartition << " taille timers " << this->listeTimers.size() ;
- //   if(this->indicePartition>=(int)this->listeTimers.size()){
-   //     this->player->stop() ;
-   // }
+    this->notesPartitions->setCurrentIndex(++this->indicePartition);
+
+    if(this->indicePartition>=(int)this->listeTimers.size()){
+        this->player->stop() ;
+    }
 }
 
 EcouterPartition::~EcouterPartition(){
