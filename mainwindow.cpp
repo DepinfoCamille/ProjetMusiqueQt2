@@ -64,8 +64,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Initialisation du Widget permettant de dessiner les notes
         this -> an = new Affichernotes();
-         this->an->setParent(ui->frame);
+        this->aun = new AfficherUneNote() ;
+        this->an->setParent(ui->frame);
+        this->aun->setParent(ui->frame);
         this->an->estCledeSol = true ;
+        this->aun->estCledeSol = true ;
+
 
     // Connexion des différents objets entre eux
 
@@ -112,6 +116,8 @@ void MainWindow::initialisation(){
     ui->textEdit->setOverwriteMode(true);
     this->an->hide() ;
     this->an->estCledeSol = true ;
+    this->aun->estCledeSol = true ;
+
 
     if(this->clesDebutLignes.size()!=1){
         for(auto cle = this->clesDebutLignes.begin()+1 ; cle != this->clesDebutLignes.end() ; cle++){
@@ -171,12 +177,6 @@ void MainWindow::afficherCreationPartition(){
     ui->dialogue->setCurrentIndex(2) ;
     ui->boxEcrirePartition->show() ;
     ui->textEdit->hide() ;
-
-    // Affichage de la note tapée
-    this->aun->note = p->listeNotes.back() ;
-    this->aun->octave = p->listeOctave.back() ;
-    this->aun->i = (int) p->listeNotes.size() ;
-    this->aun->update();
 
 }
 
@@ -240,6 +240,7 @@ void MainWindow::affichecle()
     // CLé de fa
     if (cle == 1){
         this->an->estCledeSol = false ;
+        this->aun->estCledeSol = false ;
         int i = 0 ;
         for(auto cle = this->clesDebutLignes.begin() ; cle != this->clesDebutLignes.end() ; cle++){
             (*cle)->clear();
@@ -271,6 +272,11 @@ void MainWindow::ecrirePartition() {
 
         this->p->ajoutTemps(temps) ;
         this->p->ajoutNote(note) ;
+        // Affichage de la note tapée
+        this->aun->note = p->listeNotes.back() ;
+        this->aun->octave = p->listeOctave.back() ;
+        this->aun->i = (int) p->listeNotes.size() ;
+        this->aun->update();
     }
     else{
         this->p->ajoutTemps(temps) ;
