@@ -5,6 +5,7 @@
 #include <QSound>
 #include "partition.h"
 #include "affichernotes.h"
+#include "afficherunenote.h"
 #include <time.h>
 #include <math.h>
 #include <QLabel>
@@ -29,11 +30,6 @@ public:
 
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    Partition* p ;
-    QSound* lecture ;
-    Affichernotes* an;
-    QLabel* information ;
-    bool partitionAffichee ;
 
 protected slots:
 
@@ -68,13 +64,18 @@ signals:
 
 protected:
     std::vector<QLabel*> clesDebutLignes ;
-
-    int indicenoteachanger ;
-    std::vector<QLabel*> mesureDebutLignes ;
+    Partition* p ;
+    Affichernotes* an;
+    AfficherUneNote* aun ;
+    QLabel* information ;
+    bool partitionAffichee ;
 
 
 private:
     Ui::MainWindow *ui;
   //  void affichedo(position,ligne);
+    int indicenoteachanger ;
+    std::vector<QLabel*> mesureDebutLignes ;
+
 
 };

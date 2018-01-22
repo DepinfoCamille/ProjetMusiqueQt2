@@ -4,17 +4,19 @@
 #include <QWidget>
 #include <QPainter>
 
-class Affichernotes : public QWidget
+class AfficherNotes : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Affichernotes(QWidget *parent = nullptr);
+    explicit AfficherNotes(QWidget *parent = nullptr);
     void paint(QPainter *painter, QPaintEvent *event, int a);
     bool estCledeSol ;
     std::vector<std::string> listeNotes ;
     std::vector<std::string> listeTemps ;
     std::vector<int> listeOctaves ;
     float mesure;
+    int i  ;
+
 
 signals:
 

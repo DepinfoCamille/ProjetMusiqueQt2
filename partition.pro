@@ -30,13 +30,15 @@ SOURCES += \
         mainwindow.cpp \
     partition.cpp \
     affichernotes.cpp \
-    ecouterpartition.cpp
+    ecouterpartition.cpp \
+    afficherunenote.cpp
 
 HEADERS += \
         mainwindow.h \
     partition.h \
     affichernotes.h \
-    ecouterpartition.h
+    ecouterpartition.h \
+    afficherunenote.h
 
 FORMS += \
         mainwindow.ui

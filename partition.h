@@ -36,7 +36,7 @@ class Partition
         virtual ~Partition();
 
         void ajoutNote(char c) ;
-        float ajoutTemps(clock_t t) ;
+        void ajoutTemps(clock_t t) ;
         void creeRythme() ;
 
         // stocke toutes les notes tapées au clavier sous forme de notes "DO", "RE"...
@@ -53,9 +53,9 @@ class Partition
 
     protected:
 
-        int lectureClavier() ;  // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé sur entrée
-                                // c'est la fin de la partition
-        int frequence(int n) ;
+        // quand lectureClavier renvoie un 1, cela signifie que l'utilisateur a tapé sur entrée
+        // c'est la fin de la partition
+        int lectureClavier() ;
         void calculDuree() ;
 
         // Les dictionnaires sont les objets qui permettent de créer les listes
@@ -66,16 +66,15 @@ class Partition
         // dictionnaire qui à un nombre de doubles croches associe une string de la forme "CROCHE"
         std::unordered_map<float,std::string> dicco_rythme ;
         // "dictionnaire" rangeant les notes (tuple contenant son nom et son octave) par ordre croissant
-        std::vector<std::tuple<std::string,int>> dicco_notes2 ;
-        // "dictionnaire" rangeant les fréquences correspondant aux notes de dicco_notes2 par ordre croissant
-        std::vector<int> dicco_frequence ;
-        std::vector<char> dicco_clavier ; // pas utilisé
+
+        // Les listes contiennt différentes informations relatives à la partition
 
         // stocke toutes les notes tapées au clavier sous forme de caractères 'q', 's'...
         std::vector<char> listeClavier ;
         // stocke le moment où l'utilisateur appuie sur chaque touche
         std::vector<float> listeTemps ;
 
+        // Permet d'établir le tempo
         float listePulsations[4] = {0} ;
         float tempo ;
 

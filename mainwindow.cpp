@@ -103,6 +103,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 }
 
+/** Initialise la partition dès que l'utilsateur relance l'écriture d'une partition */
 void MainWindow::initialisation(){
 
     this->p->initPartition();
@@ -119,20 +120,6 @@ void MainWindow::initialisation(){
         this->clesDebutLignes.clear() ;
     }
 
-    // Affichage de la clé de sol
- /*       char *path=nullptr ;
-        size_t size = 0 ;
-        path=GetCurrentDir(path,size);
-        QLabel *cle= new QLabel(this);
-        char* repCleSol = (char*) malloc(sizeof(char)*(strlen(path)+31)) ;
-        strcpy(repCleSol,path) ;
-        strcat(repCleSol,"\\..\\ProjetMusiqueQt2\\cleSol.png") ;
-
-        cle-> setGeometry(27,38,55,65);
-        cle->setPixmap( QPixmap( repCleSol) );
-        cle->setScaledContents(true);
-        cle-> show();
-        this->clesDebutLignes.push_back(cle);*/
     if(!this->mesureDebutLignes.empty()){
         for(auto mesure = this->mesureDebutLignes.begin() ; mesure != this->mesureDebutLignes.end() ; mesure++){
             (*mesure)->clear() ;
@@ -150,11 +137,13 @@ void MainWindow::initialisation(){
     emit initFaite() ;
 
 }
+/** @brief Affiche la demande de choix de la mesure */
 void MainWindow::afficherboxmesure(){
     ui->dialogue->setVisible(TRUE);
     ui->dialogue->setCurrentIndex(0);
 
 }
+/** @brief Slot affichant la mesure demandée par l'utilisateur */
 void MainWindow::choixmesure(){
 
     int mesure = ui->MESURE->currentIndex();
@@ -176,20 +165,26 @@ void MainWindow::choixmesure(){
 }
 
 
-
+/** @brief Affiche la demande d'écriture de la partition */
 void MainWindow::afficherCreationPartition(){
+
     ui->dialogue->setCurrentIndex(2) ;
     ui->boxEcrirePartition->show() ;
-    ui->textEdit->setReadOnly(false);
     ui->textEdit->hide() ;
+
+    // Affichage de la note tapée
+    this->aun->note = p->listeNotes.back() ;
+    this->aun->octave = p->listeOctave.back() ;
+    this->aun->i = (int) p->listeNotes.size() ;
+    this->aun->update();
 
 }
 
+/** @brief Affiche la demande d'écoute, de visionnage et de modification de la partition */
 void MainWindow::afficherEcouterPartition(){
     this->p->creeRythme() ;
     ui->dialogue->setCurrentIndex(3) ;
     ui->boxPartitionEcrite->show() ;
-   // ui->textEdit->clear() ;
     ui->textEdit->show() ;
 
 }
@@ -208,6 +203,7 @@ void MainWindow::choisirTempo(){
         ui->page->hide() ;
     }
 }
+
 /** @brief affiche une clé de sol ou une clé de fa, au choix */
 void MainWindow::affichecle()
 {
@@ -287,12 +283,19 @@ void MainWindow::ecouterPartition(){
     std::cout << "Désolée, je n'ai pas réussi... pourtant j'y ai passé du temps !" << std::endl ;
 }
 
+/** @brief affiche la partition */
 void MainWindow::voirPartition(){
 
+    // Initialisation
     this->an->clearFocus();
     this->an->clearMask();
     this->an->show() ;
 
+    this->aun->clearFocus();
+    this->aun->clearMask();
+    this->aun->show() ;
+
+    // Remplissage des informations et affichage
     this->an->update();
     this->an->listeNotes =this->p->listeNotes ;
     this->an->listeTemps = this->p->listeRythme;
@@ -330,7 +333,6 @@ void MainWindow::voirPartition(){
                 cle ->setScaledContents(true);
                 cle -> show();
                 cle->setGeometry(27,50+91*i,55,65);
-//                cle -> setGeometry(27,50,55,65);
 
             }
             else if(indexCle==1){ //clé de fa
@@ -361,7 +363,7 @@ void MainWindow::voirPartition(){
     this->partitionAffichee=true;
 }
 
-
+/** Slot permettant à l'utilisateur de modifier la partition en cliquant sur les notes à changer*/
 void MainWindow::changerPartition(){
 
     for (unsigned int i = 0; i<this->an->listeNotes.size(); i++){
@@ -378,20 +380,22 @@ void MainWindow::changerPartition(){
     }
 }
 
+/** Slot affichant une fenêtre permettant à l'utilisateur de modifier la note */
 void MainWindow::affichercaracteristiquesnote(){
 
     emit modifPartitionfaite();
     int i=0;
     QObject *modif = QObject::sender();
-    while (this->p->listebuttons[i] != modif && i<10){
+    while (this->p->listebuttons[i] != modif && i<(int)p->listebuttons.size()){
        i =i+1;
     }
-    int j= i/15;
+    int j= i/15; // décalage selon les y au bout de 15 notes
     this->information  = new QLabel(this) ;
     QComboBox *note = new QComboBox(this->information);
     QComboBox *tempo = new QComboBox(this->information);
     this->information ->setScaledContents(true);
     this->information->setGeometry(150 +(i-15*j)*35,120 + j*90,130,120);
+
     this->information->setText("    Veuillez choisir \n    votre modification \n \n \n \n \n \n");
     this->information->setStyleSheet("background-color: rgb(240, 243, 244)");
     this->information->show();
@@ -433,6 +437,7 @@ void MainWindow::affichercaracteristiquesnote(){
                      SLOT(changertempo(int)));
 }
 
+/** Slot changeant la note en celle demandée par l'utilisateur */
 void MainWindow::changernote(int i){
     if (i == 1){
         this->p->listeNotes[indicenoteachanger] = "DO";
@@ -497,6 +502,8 @@ void MainWindow::changernote(int i){
     this->voirPartition();
     emit modifPartitionfaite();
 }
+
+/** Slot changeant le rythme en celui demandé par l'utilisateur */
 void MainWindow::changertempo(int i){
 
     if (i == 1){
@@ -523,6 +530,7 @@ void MainWindow::changertempo(int i){
 
 }
 
+/** Slot cachant la fenêtre de modification de note */
 void MainWindow::cacherDialoguemodif(){
     this->information->hide();
 }
